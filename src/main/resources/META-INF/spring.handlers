@@ -1,1 +1,1 @@
-http\://code.imadcn.com/schema/canal=com.imadcn.framework.canal.schema.CanalNamespaceHandler
+http\://code.imadcn.com/schema/snowflake=com.imadcn.framework.canal.schema.CanalNamespaceHandler
