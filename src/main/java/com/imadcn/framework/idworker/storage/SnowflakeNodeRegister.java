@@ -47,7 +47,7 @@ public class SnowflakeNodeRegister {
 	/**
 	 * 向zookeeper注册workerId
 	 * 
-	 * @return
+	 * @return workerId
 	 */
 	public long register() {
 		long registerWorkerId = -1L;
