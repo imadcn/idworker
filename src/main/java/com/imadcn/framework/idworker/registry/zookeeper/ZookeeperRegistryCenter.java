@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
-import com.imadcn.framework.idworker.config.ZookeeperConfigurarion;
+import com.imadcn.framework.idworker.config.ZookeeperConfiguration;
 import com.imadcn.framework.idworker.exception.RegExceptionHandler;
 import com.imadcn.framework.idworker.registry.CoordinatorRegistryCenter;
 
@@ -41,11 +41,11 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 
 	private final Map<String, TreeCache> caches = new HashMap<>();
 
-	private ZookeeperConfigurarion zkConfig;
+	private ZookeeperConfiguration zkConfig;
 
 	private CuratorFramework client;
 
-	public ZookeeperRegistryCenter(ZookeeperConfigurarion zookeeperConfigurarion) {
+	public ZookeeperRegistryCenter(ZookeeperConfiguration zookeeperConfigurarion) {
 		this.zkConfig = zookeeperConfigurarion;
 	}
 

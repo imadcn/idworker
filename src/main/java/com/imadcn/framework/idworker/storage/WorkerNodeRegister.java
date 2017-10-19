@@ -10,17 +10,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
+import com.imadcn.framework.idworker.config.ApplicationConfiguration;
+import com.imadcn.framework.idworker.exception.RegException;
 import com.imadcn.framework.idworker.registry.CoordinatorRegistryCenter;
 
 /**
- * 机器信息存储
+ * 机器信息注册
+ * 
  * @author yangchao
  * @since 2017-10-18
  */
-public class WorkerNodeStorage {
-	
+public class WorkerNodeRegister {
+
 	private final Logger logger = LoggerFactory.getLogger(getClass());
-	
+
 	/**
 	 * 最大机器数
 	 */
@@ -29,24 +32,30 @@ public class WorkerNodeStorage {
 	 * 加锁最大等待时间
 	 */
 	private static final int MAX_LOCK_WAIT_TIME_MS = 30 * 1000;
-	
+
 	private final CoordinatorRegistryCenter regCenter;
-//	private final String groupName;
+	/**
+	 * zk节点信息
+	 */
 	private final WorkerNodePath nodePath;
 
-	public WorkerNodeStorage(CoordinatorRegistryCenter regCenter, String groupName) {
+	public WorkerNodeRegister(CoordinatorRegistryCenter regCenter, ApplicationConfiguration applicationConfiguration) {
 		this.regCenter = regCenter;
-//		this.groupName = groupName;
-		this.nodePath = new WorkerNodePath(groupName);
+		this.nodePath = new WorkerNodePath(applicationConfiguration.getGroup());
 	}
-	
+
+	/**
+	 * 向zookeeper注册workerId
+	 * 
+	 * @return
+	 */
 	public long register() {
-		long registerWorkerId = 0L;
-		int numOfChildren = regCenter.getNumChildren(nodePath.getWorkerPath());
-		if (numOfChildren < MAX_WORKER_NUM) {
-			CuratorFramework client = (CuratorFramework) regCenter.getRawClient();
-			InterProcessMutex lock = new InterProcessMutex(client, nodePath.getGroupPath());
-			try {
+		long registerWorkerId = -1L;
+		CuratorFramework client = (CuratorFramework) regCenter.getRawClient();
+		InterProcessMutex lock = new InterProcessMutex(client, nodePath.getGroupPath());
+		try {
+			int numOfChildren = regCenter.getNumChildren(nodePath.getWorkerPath());
+			if (numOfChildren < MAX_WORKER_NUM) {
 				if (!lock.acquire(MAX_LOCK_WAIT_TIME_MS, TimeUnit.MILLISECONDS)) {
 					String message = String.format("acquire lock failed after %s ms.", MAX_LOCK_WAIT_TIME_MS);
 					throw new TimeoutException(message);
@@ -63,18 +72,18 @@ public class WorkerNodeStorage {
 						break;
 					}
 				}
-			} catch (Exception e) {
-				logger.error("", e);
-				throw new IllegalStateException(e.getMessage(), e);
-			} finally {
-				try {
-                    lock.release();
-                } catch (Exception ignored) {
-                	logger.error("", ignored);
-                }
+			} else {
+				throw new RegException("max worker num reached. register failed");
 			}
-		} else {
-			throw new RuntimeException("max worker num reached. register failed");
+		} catch (Exception e) {
+			logger.error("", e);
+			throw new IllegalStateException(e.getMessage(), e);
+		} finally {
+			try {
+				lock.release();
+			} catch (Exception ignored) {
+				logger.error("", ignored);
+			}
 		}
 		return registerWorkerId;
 	}

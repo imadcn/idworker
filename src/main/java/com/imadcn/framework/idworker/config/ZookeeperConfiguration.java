@@ -6,7 +6,7 @@ package com.imadcn.framework.idworker.config;
  * @author yangchao
  * @since 2017-10-17
  */
-public class ZookeeperConfigurarion {
+public class ZookeeperConfiguration {
 
 	/**
 	 * 连接Zookeeper服务器的列表. 包括IP地址和端口号. 多个地址用逗号分隔. 如: host1:2181,host2:2181
