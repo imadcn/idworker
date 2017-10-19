@@ -20,7 +20,7 @@ import com.imadcn.framework.idworker.registry.CoordinatorRegistryCenter;
  * @author yangchao
  * @since 2017-10-18
  */
-public class WorkerNodeRegister {
+public class SnowflakeNodeRegister {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -37,11 +37,11 @@ public class WorkerNodeRegister {
 	/**
 	 * zk节点信息
 	 */
-	private final WorkerNodePath nodePath;
+	private final SnowflakeNodePath nodePath;
 
-	public WorkerNodeRegister(CoordinatorRegistryCenter regCenter, ApplicationConfiguration applicationConfiguration) {
+	public SnowflakeNodeRegister(CoordinatorRegistryCenter regCenter, ApplicationConfiguration applicationConfiguration) {
 		this.regCenter = regCenter;
-		this.nodePath = new WorkerNodePath(applicationConfiguration.getGroup());
+		this.nodePath = new SnowflakeNodePath(applicationConfiguration.getGroup());
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class WorkerNodeRegister {
 					String workderIdStr = String.valueOf(workerId);
 					if (!children.contains(workderIdStr)) {
 						String key = nodePath.getWorkerPath() + "/" + workerId;
-						String value = JSON.toJSONString(new WorkerNodeInfo(workerId));
+						String value = JSON.toJSONString(new SnowflakeNodeInfo(workerId));
 						logger.info("snowflake worker register with : {}", value);
 						regCenter.persistEphemeral(key, value);
 						registerWorkerId = workerId;

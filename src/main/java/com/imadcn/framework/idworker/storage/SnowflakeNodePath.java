@@ -5,7 +5,7 @@ package com.imadcn.framework.idworker.storage;
  * @author yangchao
  * @since 2017-10-18
  */
-public class WorkerNodePath {
+public class SnowflakeNodePath {
 	
 	private static final String WORKER_NODE = "worker";
 	
@@ -13,11 +13,11 @@ public class WorkerNodePath {
 	
 	private long workderId; // 机器编号
 	
-	public WorkerNodePath(String groupName) {
+	public SnowflakeNodePath(String groupName) {
 		this.groupName = groupName;
 	}
 
-	public WorkerNodePath(long workderId) {
+	public SnowflakeNodePath(long workderId) {
 		this.workderId = workderId;
 	}
 		

@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
  * @author yangchao
  * @since 2017-10-18
  */
-public class WorkerNodeInfo {
+public class SnowflakeNodeInfo {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -21,7 +21,7 @@ public class WorkerNodeInfo {
 	private String hostName;
 	private String pid;
 
-	public WorkerNodeInfo(long workerId) {
+	public SnowflakeNodeInfo(long workerId) {
 		this.workerId = workerId;
 		init();
 	}

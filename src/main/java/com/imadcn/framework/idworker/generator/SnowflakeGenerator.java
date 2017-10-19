@@ -2,7 +2,7 @@ package com.imadcn.framework.idworker.generator;
 
 import com.imadcn.framework.idworker.algorithm.Snowflake;
 import com.imadcn.framework.idworker.exception.RegException;
-import com.imadcn.framework.idworker.storage.WorkerNodeRegister;
+import com.imadcn.framework.idworker.storage.SnowflakeNodeRegister;
 
 /**
  * Snowflake算法生成工具
@@ -12,9 +12,9 @@ import com.imadcn.framework.idworker.storage.WorkerNodeRegister;
 public class SnowflakeGenerator implements IdGenerator {
 
 	private Snowflake snowflake;
-	private WorkerNodeRegister storage;
+	private SnowflakeNodeRegister storage;
 	
-	public SnowflakeGenerator(WorkerNodeRegister storage) {
+	public SnowflakeGenerator(SnowflakeNodeRegister storage) {
 		this.storage = storage;
 	}
 
