@@ -20,8 +20,8 @@ idworker 是一个基于zookeeper和snowflake算法的分布式统一ID生成工
         http://code.imadcn.com/schema/idworker
         http://code.imadcn.com/schema/idworker/idworker.xsd">
         
-    <idworker:registry id="zkRegistryCenter" server-lists="ip1:port1,ip2:port2"/>
-    <idworker:generator id="snowflakeGenerator" group="groupName" registry-center-ref="zkRegistryCenter" />
+    <idworker:registry id="zkRegistryCenter" server-lists="host1:port1,host2:port2"/>
+    <idworker:generator id="snowflakeGenerator" registry-center-ref="zkRegistryCenter" />
 </beans>
 
 ```
