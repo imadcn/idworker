@@ -8,7 +8,7 @@ public class IdworkerNamespaceHandler extends NamespaceHandlerSupport {
 
 	@Override
 	public void init() {
-		registerBeanDefinitionParser("zookeeper", new ZookeeperBeanDefinitionParser());
+		registerBeanDefinitionParser("registry", new RegistryBeanDefinitionParser());
 		registerBeanDefinitionParser("generator", new GeneratorBeanDefinitionParser(SnowflakeGenerator.class));
 	}
 

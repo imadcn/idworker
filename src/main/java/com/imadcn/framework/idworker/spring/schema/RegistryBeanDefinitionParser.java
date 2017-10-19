@@ -10,11 +10,11 @@ import com.imadcn.framework.idworker.registry.zookeeper.ZookeeperRegistryCenter;
 import com.imadcn.framework.idworker.spring.common.ZookeeperBeanDefinitionTag;
 
 /**
- * idworker:zookeeper 标签解析
+ * idworker:registry 标签解析
  * @author yangchao
  * @since 2017-10-19
  */
-public class ZookeeperBeanDefinitionParser extends BaseBeanDefinitionParser {
+public class RegistryBeanDefinitionParser extends BaseBeanDefinitionParser {
 
 	@Override
     protected AbstractBeanDefinition parseInternal(final Element element, final ParserContext parserContext) {

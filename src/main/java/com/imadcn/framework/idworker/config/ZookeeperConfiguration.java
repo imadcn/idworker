@@ -16,7 +16,7 @@ public class ZookeeperConfiguration {
 	/**
 	 * 命名空间.
 	 */
-	private String namespace = "dw-snowflake";
+	private String namespace = "idworker";
 
 	/**
 	 * 等待重试的间隔时间的初始值. 单位毫秒.

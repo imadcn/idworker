@@ -8,7 +8,7 @@
 	
 	<xsd:import namespace="http://www.springframework.org/schema/beans" />
     
-    <xsd:element name="zookeeper">
+    <xsd:element name="registry">
     	<xsd:complexType>
     		<xsd:complexContent>
     			<xsd:extension base="beans:identifiedType">

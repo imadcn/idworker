@@ -8,7 +8,7 @@
 		http://code.imadcn.com/schema/idworker
 		http://code.imadcn.com/schema/idworker/idworker.xsd">
 		
-	<idworker:zookeeper id="zkRegistryCenter" server-lists="59.151.4.117:2181"/>
+	<idworker:registry id="zkRegistryCenter" server-lists="59.151.4.117:2181"/>
 	
 	<idworker:generator id="snowflakeGen" group="snowflake-group" registry-center-ref="zkRegistryCenter" />
 
