@@ -2,11 +2,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.imadcn.framework</groupId>
-	<artifactId>snowflake</artifactId>
+	<artifactId>idworker</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>zookeeper based snowflake tools</name>
-	<url>https://github.com/imadcn/snowflake</url>
+	<name>zookeeper/snowflake based id generator tools</name>
+	<url>https://github.com/imadcn/idworker</url>
 
 	<developers>
 		<developer>
@@ -25,14 +25,16 @@
 	</licenses>
 
 	<scm>
-		<url>https://github.com/imadcn/snowflake.git</url>
-		<connection>scm:https://github.com/imadcn/snowflake.git</connection>
-		<developerConnection>scm:https://github.com/imadcn/snowflake.git</developerConnection>
+		<url>https://github.com/imadcn/idworker.git</url>
+		<connection>scm:https://github.com/imadcn/idworker.git</connection>
+		<developerConnection>scm:https://github.com/imadcn/idworker.git</developerConnection>
 	</scm>
 
 	<properties>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
+		
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
 		<maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
 		<maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
@@ -176,7 +178,7 @@
 				<configuration>
 					<source>${maven.compiler.source}</source>
 					<target>${maven.compiler.target}</target>
-					<encoding>utf-8</encoding>
+					<encoding>${project.build.sourceEncoding}</encoding>
 					<showWarnings>true</showWarnings>
 				</configuration>
 			</plugin>
@@ -211,7 +213,7 @@
                 <version>${cobertura-maven-plugin.version}</version>
                 <configuration>
                     <aggregate>true</aggregate>
-                    <encoding>${maven.compiler.source}</encoding>
+                    <encoding>${project.build.sourceEncoding}</encoding>
                     <quiet>true</quiet>
                     <format>xml</format>
                     <instrumentation>
