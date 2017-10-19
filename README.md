@@ -40,5 +40,5 @@ idworker 是一个基于zookeeper和snowflake算法的分布式统一ID生成工
 |属性|类型|必填|缺省值|描述|
 |:------|:------|:------|:------|:------|
 |id|String|是| |Spring容器中的ID|
-|registry-center-ref|是|String| |注册中心SpringBeanRef|
+|registry-center-ref|String|是| |注册中心SpringBeanRef|
 |group|String|否|default|分组名，可以为不同业务分配分组，独立注册|
