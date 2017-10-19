@@ -5,6 +5,6 @@ idworker 是一个基于zookeeper和snowflake算法的分布式ID生成工具，
 ## 怎么用？
 
 ```xml
-    <idworker:zookeeper id="zkRegistryCenter" server-lists="ip:port,ip:port"/>
-    <idworker:generator id="snowflakeGen" group="snowflake-group" registry-center-ref="zkRegistryCenter" />
+<idworker:zookeeper id="zkRegistryCenter" server-lists="ip:port,ip:port"/>
+<idworker:generator id="snowflakeGen" group="snowflake-group" registry-center-ref="zkRegistryCenter" />
 ```
