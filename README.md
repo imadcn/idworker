@@ -15,19 +15,19 @@ idworker 是一个基于zookeeper和snowflake算法的分布式统一ID生成工
         http://code.imadcn.com/schema/idworker
         http://code.imadcn.com/schema/idworker/idworker.xsd">
         
-    <idworker:zookeeper id="zkRegistryCenter" server-lists="ip1:port1,ip2:port2"/>
+    <idworker:registry id="zkRegistryCenter" server-lists="ip1:port1,ip2:port2"/>
     <idworker:generator id="snowflakeGenerator" group="groupName" registry-center-ref="zkRegistryCenter" />
 </beans>
 
 ```
 ## 配置参考
-#### <idworker:zookeeper /> zookeeper注册中心配置
+#### <idworker:registry /> 注册中心配置，如zookeeper
 
 |属性|类型|必填|缺省值|描述|
 |:------|:------|:------|:------|:------|
 |id|String|是| |Spring容器中的ID|
 |server-lists|String|是| |连接Zookeeper服务器的列表<br/>包括IP地址和端口号<br/>多个地址用逗号分隔<br/>如: host1:2181,host2:2181|
-|namespace|String|否|dw-snowflake|Zookeeper的命名空间|
+|namespace|String|否|idworker|Zookeeper的命名空间|
 |base-sleep-time-milliseconds|int|否|1000|等待重试的间隔时间的初始值<br/>单位：毫秒|
 |max-sleep-time-milliseconds|int|否|3000|等待重试的间隔时间的最大值<br/>单位：毫秒|
 |max-retries|int|否|3|最大重试次数|
