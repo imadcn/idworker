@@ -4,7 +4,8 @@
 	<artifactId>idworker</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
-	<name>zookeeper/snowflake based id generator tools</name>
+	<name>idworker</name>
+	<description>zookeeper/snowflake based id generator tools</description>
 	<url>https://github.com/imadcn/idworker</url>
 
 	<developers>
