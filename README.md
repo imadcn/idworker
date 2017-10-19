@@ -21,8 +21,7 @@ idworker 是一个基于zookeeper和snowflake算法的分布式统一ID生成工
 
 ```
 ## 配置参考
-#### <idworker:zookeeper />
-zookeeper注册中心配置
+#### <idworker:zookeeper /> zookeeper注册中心配置
 
 |属性|类型|必填|缺省值|描述|
 |:------|:------|:------|:------|:------|
@@ -36,8 +35,7 @@ zookeeper注册中心配置
 |connection-timeout-milliseconds|int|否|15000|连接超时时间		单位：毫秒|
 |digest|String|否| |连接Zookeeper的权限令牌		缺省为不需要权限验证|
 
-#### <idworker:generator />
-ID生成策略配置
+#### <idworker:generator /> ID生成策略配置
 
 |属性|类型|必填|缺省值|描述|
 |:------|:------|:------|:------|:------|
