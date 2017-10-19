@@ -23,6 +23,7 @@ idworker 是一个基于zookeeper和snowflake算法的分布式统一ID生成工
 ## 配置参考
 #### <idworker:zookeeper />
 zookeeper注册中心配置
+
 |属性|类型|必填|缺省值|描述|
 |:------|:------|:------|:------|:------|
 |id|String|是| |Spring容器中的ID|
@@ -37,6 +38,7 @@ zookeeper注册中心配置
 
 #### <idworker:generator />
 ID生成策略配置
+
 |属性|类型|必填|缺省值|描述|
 |:------|:------|:------|:------|:------|
 |id|String|是| |Spring容器中的ID|
