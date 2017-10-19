@@ -1,8 +1,8 @@
-# idworker - 基于zookeeper，snowflake的分布式统一ID生成工具
-## 是什么？
+## idworker - 基于zookeeper，snowflake的分布式统一ID生成工具
+### 是什么？
 idworker 是一个基于zookeeper和snowflake算法的分布式统一ID生成工具，通过zookeeper自动注册机器（最多1024台），无需手动指定workerId和datacenterId
 
-## 怎么用？
+### 怎么用？
 #### XML配置 
 
 ```xml
@@ -35,7 +35,7 @@ public void id() {
 
 ```
 
-## 配置参考
+### 配置参考
 #### <idworker:registry /> 注册中心配置，如zookeeper
 
 |属性|类型|必填|缺省值|描述|
