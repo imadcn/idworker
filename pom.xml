@@ -217,7 +217,7 @@
                     <instrumentation>
                         <ignoreTrivial>true</ignoreTrivial>
                         <excludes>
-                            <exclude>com、imadcn/test/**/**.class</exclude>
+                            <exclude>com/imadcn/test/**/**Test.class</exclude>
                         </excludes>
                     </instrumentation>
                 </configuration>
