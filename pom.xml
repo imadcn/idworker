@@ -41,7 +41,7 @@
 		<maven-jar-plugin.version>3.0.2</maven-jar-plugin.version>
 		<maven-source-plugin.version>3.0.1</maven-source-plugin.version>
 		<maven-javadoc-plugin.version>2.10.3</maven-javadoc-plugin.version>
-		<maven-eclipse-plugin.version>2.9</maven-eclipse-plugin.version>
+		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 
 		<nexus-staging-maven-plugin.version>1.6.3</nexus-staging-maven-plugin.version>
 		<cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
@@ -216,14 +216,21 @@
                     <docencoding>${project.build.sourceEncoding}</docencoding>
                 </configuration>
             </plugin>
+            
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>${maven-eclipse-plugin.version}</version>
-				<configuration>
-					<downloadSources>true</downloadSources>
-				</configuration>
-			</plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>${maven-gpg-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
 			<!-- coveralls -->
 			<plugin>
