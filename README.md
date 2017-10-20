@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/imadcn/idworker.svg?branch=master)](https://travis-ci.org/imadcn/idworker)
 [![Coverage Status](https://coveralls.io/repos/github/imadcn/idworker/badge.svg?branch=master)](https://coveralls.io/github/imadcn/idworker?branch=master)
+[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 ### 是什么？
 idworker 是一个基于zookeeper和snowflake算法的分布式统一ID生成工具，通过zookeeper自动注册机器（最多1024台），无需手动指定workerId和datacenterId
