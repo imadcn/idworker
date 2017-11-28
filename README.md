@@ -5,17 +5,17 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.imadcn.framework/idworker/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.imadcn.framework/idworker)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
-### 是什么？
+### 是什么
 idworker 是一个基于zookeeper和snowflake算法的分布式统一ID生成工具，通过zookeeper自动注册机器（最多1024台），无需手动指定workerId和datacenterId
 
-### 怎么用？
+### 怎么用
 #### Maven
 
 ```xml
 <dependency>
   <groupId>com.imadcn.framework</groupId>
   <artifactId>idworker</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
 </dependency>
 ```
 
