@@ -49,6 +49,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 		this.zkConfig = zookeeperConfigurarion;
 	}
 
+	@Override
 	public void init() {
 		logger.debug("init zookeeper registry, connect to servers : {}", zkConfig.getServerLists());
 		CuratorFrameworkFactory.Builder builder = CuratorFrameworkFactory.builder().connectString(zkConfig.getServerLists()).retryPolicy(new ExponentialBackoffRetry(zkConfig.getBaseSleepTimeMilliseconds(), zkConfig.getMaxRetries(), zkConfig.getMaxSleepTimeMilliseconds())).namespace(zkConfig.getNamespace());
@@ -61,10 +62,12 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 		if (zkConfig.getDigest() != null && !zkConfig.getDigest().isEmpty()) {
 			builder.authorization("digest", zkConfig.getDigest().getBytes(StandardCharsets.UTF_8)).aclProvider(new ACLProvider() {
 
+				@Override
 				public List<ACL> getDefaultAcl() {
 					return ZooDefs.Ids.CREATOR_ALL_ACL;
 				}
 
+				@Override
 				public List<ACL> getAclForPath(final String path) {
 					return ZooDefs.Ids.CREATOR_ALL_ACL;
 				}
@@ -84,6 +87,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 		}
 	}
 
+	@Override
 	public void close() {
 		for (Entry<String, TreeCache> each : caches.entrySet()) {
 			each.getValue().close();
@@ -105,6 +109,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 		}
 	}
 
+	@Override
 	public String get(final String key) {
 		TreeCache cache = findTreeCache(key);
 		if (null == cache) {
@@ -126,6 +131,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 		return null;
 	}
 
+	@Override
 	public String getDirectly(final String key) {
 		try {
 			return new String(client.getData().forPath(key), StandardCharsets.UTF_8);
@@ -137,11 +143,12 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 		}
 	}
 
+	@Override
 	public List<String> getChildrenKeys(final String key) {
 		try {
 			List<String> result = client.getChildren().forPath(key);
 			Collections.sort(result, new Comparator<String>() {
-
+				@Override
 				public int compare(final String o1, final String o2) {
 					return o2.compareTo(o1);
 				}
@@ -155,6 +162,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 		}
 	}
 
+	@Override
 	public int getNumChildren(final String key) {
 		try {
 			Stat stat = client.checkExists().forPath(key);
@@ -169,6 +177,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 		return 0;
 	}
 
+	@Override
 	public boolean isExisted(final String key) {
 		try {
 			return null != client.checkExists().forPath(key);
@@ -180,6 +189,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 		}
 	}
 
+	@Override
 	public void persist(final String key, final String value) {
 		try {
 			if (!isExisted(key)) {
@@ -194,6 +204,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 		}
 	}
 
+	@Override
 	public void update(final String key, final String value) {
 		try {
 			client.inTransaction().check().forPath(key).and().setData().forPath(key, value.getBytes(StandardCharsets.UTF_8)).and().commit();
@@ -204,6 +215,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 		}
 	}
 
+	@Override
 	public void persistEphemeral(final String key, final String value) {
 		try {
 			if (isExisted(key)) {
@@ -217,6 +229,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 		}
 	}
 
+	@Override
 	public String persistSequential(final String key, final String value) {
 		try {
 			return client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT_SEQUENTIAL).forPath(key, value.getBytes(StandardCharsets.UTF_8));
@@ -228,6 +241,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 		return null;
 	}
 
+	@Override
 	public void persistEphemeralSequential(final String key) {
 		try {
 			client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL_SEQUENTIAL).forPath(key);
@@ -238,6 +252,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 		}
 	}
 
+	@Override
 	public void remove(final String key) {
 		try {
 			client.delete().deletingChildrenIfNeeded().forPath(key);
@@ -248,6 +263,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 		}
 	}
 
+	@Override
 	public long getRegistryCenterTime(final String key) {
 		long result = 0L;
 		try {
@@ -262,10 +278,12 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 		return result;
 	}
 
+	@Override
 	public Object getRawClient() {
 		return client;
 	}
 
+	@Override
 	public void addCacheData(final String cachePath) {
 		TreeCache cache = new TreeCache(client, cachePath);
 		try {
@@ -278,6 +296,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 		caches.put(cachePath + "/", cache);
 	}
 
+	@Override
 	public void evictCacheData(final String cachePath) {
 		TreeCache cache = caches.remove(cachePath + "/");
 		if (null != cache) {
@@ -285,6 +304,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 		}
 	}
 
+	@Override
 	public Object getRawCache(final String cachePath) {
 		return caches.get(cachePath + "/");
 	}
