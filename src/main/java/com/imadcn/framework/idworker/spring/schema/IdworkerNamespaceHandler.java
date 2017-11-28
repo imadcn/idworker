@@ -4,6 +4,11 @@ import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 import com.imadcn.framework.idworker.generator.SnowflakeGenerator;
 
+/**
+ * IdworkerNamespaceHandler
+ * @author yangchao
+ * @since 2017-11-14
+ */
 public class IdworkerNamespaceHandler extends NamespaceHandlerSupport {
 
 	@Override

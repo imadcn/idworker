@@ -11,7 +11,10 @@ public class SnowflakeNodePath {
 	
 	private String groupName;
 	
-	private long workderId; // 机器编号
+	/**
+	 * 机器编号
+	 */
+	private long workderId; 
 	
 	public SnowflakeNodePath(String groupName) {
 		this.groupName = groupName;
