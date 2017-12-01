@@ -31,8 +31,8 @@
 	</scm>
 
 	<properties>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -51,6 +51,9 @@
 		<dep.zookeeper.version>3.4.6</dep.zookeeper.version>
 		<dep.curator.version>2.10.0</dep.curator.version>
 		<dep.fastjson.version>1.2.30</dep.fastjson.version>
+		<dep.junit.version>4.12</dep.junit.version>
+		<dep.slf4j.version>1.7.9</dep.slf4j.version>
+		<dep.logback.version>1.1.8</dep.logback.version>
 	</properties>
 
 	<dependencies>
@@ -110,6 +113,45 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 			<version>${dep.fastjson.version}</version>
+		</dependency>
+		
+		<!-- test -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${dep.springframework.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${dep.junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- log -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${dep.slf4j.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${dep.slf4j.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>${dep.logback.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${dep.logback.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

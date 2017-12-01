@@ -6,8 +6,8 @@ import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
 
 import com.imadcn.framework.idworker.config.ApplicationConfiguration;
+import com.imadcn.framework.idworker.register.zookeeper.ZookeeperWorkerRegister;
 import com.imadcn.framework.idworker.spring.common.GeneratorBeanDefinitionTag;
-import com.imadcn.framework.idworker.storage.SnowflakeNodeRegister;
 
 /**
  * idworker:application 标签解析
@@ -31,7 +31,7 @@ public class GeneratorBeanDefinitionParser extends BaseBeanDefinitionParser {
     }
 	
 	private AbstractBeanDefinition buildWorkerNodeRegisterBeanDefinition(final Element element, final ParserContext parserContext) {
-		 BeanDefinitionBuilder result = BeanDefinitionBuilder.rootBeanDefinition(SnowflakeNodeRegister.class);
+		 BeanDefinitionBuilder result = BeanDefinitionBuilder.rootBeanDefinition(ZookeeperWorkerRegister.class);
 		 result.addConstructorArgReference(element.getAttribute(GeneratorBeanDefinitionTag.REGISTRY_CENTER_REF));
 		 result.addConstructorArgValue(buildApplicationConfigurationBeanDefinition(element, parserContext));
 		 return result.getBeanDefinition();

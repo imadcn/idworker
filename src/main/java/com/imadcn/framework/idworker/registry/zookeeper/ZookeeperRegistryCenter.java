@@ -80,9 +80,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 				client.close();
 				throw new KeeperException.OperationTimeoutException();
 			}
-			// CHECKSTYLE:OFF
 		} catch (final Exception ex) {
-			// CHECKSTYLE:ON
 			RegExceptionHandler.handleException(ex);
 		}
 	}

@@ -1,11 +1,23 @@
 package com.imadcn.framework.idworker.generator;
 
+import java.io.Closeable;
+
 /**
  * Id生成
  * @author yangchao
  * @since 2017-10-19
  */
-public interface IdGenerator {
+public interface IdGenerator extends Closeable {
+	
+	/**
+	 * 初始化数据
+	 */
+	void init();
+	
+	/**
+	 * 注册初始化
+	 */
+	void register();
 	
 	/**
 	 * 批量获取ID
@@ -19,4 +31,20 @@ public interface IdGenerator {
 	 * @return ID
 	 */
 	long nextId();
+	
+	/**
+	 * 挂起ID生产
+	 */
+	void suspend();
+	
+	/**
+	 * 恢复ID生产
+	 */
+	void recover();
+	
+	/**
+	 * 判断是否正在正常运行
+	 * @return 是返回<b> true </b>,否则返回<b> false </b>
+	 */
+	boolean isWorking();
 }

@@ -1,10 +1,12 @@
-package com.imadcn.framework.idworker.storage;
+package com.imadcn.framework.idworker.register.zookeeper;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
+import org.apache.curator.framework.state.ConnectionStateListener;
 import org.jboss.netty.handler.timeout.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +14,9 @@ import org.slf4j.LoggerFactory;
 import com.alibaba.fastjson.JSON;
 import com.imadcn.framework.idworker.config.ApplicationConfiguration;
 import com.imadcn.framework.idworker.exception.RegException;
+import com.imadcn.framework.idworker.register.NodeInfo;
+import com.imadcn.framework.idworker.register.NodePath;
+import com.imadcn.framework.idworker.register.WorkerRegister;
 import com.imadcn.framework.idworker.registry.CoordinatorRegistryCenter;
 
 /**
@@ -20,9 +25,9 @@ import com.imadcn.framework.idworker.registry.CoordinatorRegistryCenter;
  * @author yangchao
  * @since 2017-10-18
  */
-public class SnowflakeNodeRegister {
+public class ZookeeperWorkerRegister implements WorkerRegister {
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+	private static final Logger logger = LoggerFactory.getLogger(ZookeeperWorkerRegister.class);
 
 	/**
 	 * 最大机器数
@@ -37,11 +42,11 @@ public class SnowflakeNodeRegister {
 	/**
 	 * zk节点信息
 	 */
-	private final SnowflakeNodePath nodePath;
+	private final NodePath nodePath;
 
-	public SnowflakeNodeRegister(CoordinatorRegistryCenter regCenter, ApplicationConfiguration applicationConfiguration) {
+	public ZookeeperWorkerRegister(CoordinatorRegistryCenter regCenter, ApplicationConfiguration applicationConfiguration) {
 		this.regCenter = regCenter;
-		this.nodePath = new SnowflakeNodePath(applicationConfiguration.getGroup());
+		this.nodePath = new NodePath(applicationConfiguration.getGroup());
 	}
 
 	/**
@@ -65,10 +70,12 @@ public class SnowflakeNodeRegister {
 					String workderIdStr = String.valueOf(workerId);
 					if (!children.contains(workderIdStr)) {
 						String key = nodePath.getWorkerPath() + "/" + workerId;
-						String value = JSON.toJSONString(new SnowflakeNodeInfo(workerId));
+						String value = JSON.toJSONString(new NodeInfo(workerId));
 						logger.info("snowflake worker register with : {}", value);
 						regCenter.persistEphemeral(key, value);
 						registerWorkerId = workerId;
+						// 将workerId保存进nodePath
+						nodePath.setWorkerId(workerId);
 						break;
 					}
 				}
@@ -86,5 +93,29 @@ public class SnowflakeNodeRegister {
 			}
 		}
 		return registerWorkerId;
+	}
+	
+	/**
+	 * 添加连接监听
+	 * @param listener
+	 */
+	public void addConnectionLJistener(ConnectionStateListener listener) {
+		CuratorFramework client = (CuratorFramework) regCenter.getRawClient();
+		client.getConnectionStateListenable().addListener(listener);
+	}
+	
+	@Override
+	public void close() throws IOException {
+		logout();
+	}
+
+	/**
+	 * 关闭注册
+	 */
+	public void logout() {
+		// 移除注册节点
+		regCenter.remove(nodePath.getWorkerIdPath());
+		// 关闭连接
+		regCenter.close();
 	}
 }

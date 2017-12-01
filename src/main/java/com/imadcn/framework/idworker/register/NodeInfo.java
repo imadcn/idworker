@@ -1,4 +1,4 @@
-package com.imadcn.framework.idworker.storage;
+package com.imadcn.framework.idworker.register;
 
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
  * @author yangchao
  * @since 2017-10-18
  */
-public class SnowflakeNodeInfo {
+public class NodeInfo {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -21,7 +21,7 @@ public class SnowflakeNodeInfo {
 	private String hostName;
 	private String pid;
 
-	public SnowflakeNodeInfo(long workerId) {
+	public NodeInfo(long workerId) {
 		this.workerId = workerId;
 		init();
 	}
