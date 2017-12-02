@@ -27,16 +27,20 @@ public class ZookeeperConnectionStateListener implements ConnectionStateListener
 	public void stateChanged(CuratorFramework client, ConnectionState newState) {
 		switch (newState) {
 		case LOST:
-		case SUSPENDED:
-			logger.warn("zookeeper disconnected, try to re register");
-			generator.suspend();
-			generator.register();
+			logger.warn("zookeeper connection session lost, try to register new worker id.");
+			doReconnecting();
 			break;
-		case RECONNECTED:
-			logger.info("server reconnected, recover id generator");
-			generator.recover();
+		case SUSPENDED:
+			logger.warn("zookeeper suspended, try to register new worker id.");
+			doReconnecting();
+			break;
 		default:
 			break;
 		}
+	}
+	
+	protected void doReconnecting() {
+		generator.suspend();
+		generator.register();
 	}
 }

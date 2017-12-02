@@ -24,13 +24,12 @@ public class IdWorkerTest {
 				Object object = idGenerator.nextId();
 				print(object);
 			} catch (Exception e) {
-				print(e);
 			}
 		}
 	}
 	
 	public static void print(Object object) {
-		System.err.println(JSON.toJSONString(object));
+		System.out.println(JSON.toJSONString(object));
 	}
 
 }

@@ -19,6 +19,8 @@ public class NodePath {
 	 */
 	private long workerId; 
 	
+	private long sessionId = -1L;
+	
 	public NodePath(String groupName) {
 		this.groupName = groupName;
 	}
@@ -45,6 +47,45 @@ public class NodePath {
 
 	public void setWorkerId(long workerId) {
 		this.workerId = workerId;
+	}
+
+	public long getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(long sessionId) {
+		this.sessionId = sessionId;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((groupName == null) ? 0 : groupName.hashCode());
+		result = prime * result + (int) (sessionId ^ (sessionId >>> 32));
+		result = prime * result + (int) (workerId ^ (workerId >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		NodePath other = (NodePath) obj;
+		if (groupName == null) {
+			if (other.groupName != null)
+				return false;
+		} else if (!groupName.equals(other.groupName))
+			return false;
+		if (sessionId != other.sessionId)
+			return false;
+		if (workerId != other.workerId)
+			return false;
+		return true;
 	}
 	
 }

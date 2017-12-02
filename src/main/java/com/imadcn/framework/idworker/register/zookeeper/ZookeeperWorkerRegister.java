@@ -1,6 +1,7 @@
 package com.imadcn.framework.idworker.register.zookeeper;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.imadcn.framework.idworker.config.ApplicationConfiguration;
 import com.imadcn.framework.idworker.exception.RegException;
 import com.imadcn.framework.idworker.register.NodeInfo;
@@ -54,8 +56,7 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 	 * 
 	 * @return workerId
 	 */
-	public long register() {
-		long registerWorkerId = -1L;
+	public synchronized long register() {
 		CuratorFramework client = (CuratorFramework) regCenter.getRawClient();
 		InterProcessMutex lock = new InterProcessMutex(client, nodePath.getGroupPath());
 		try {
@@ -65,23 +66,35 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 					String message = String.format("acquire lock failed after %s ms.", MAX_LOCK_WAIT_TIME_MS);
 					throw new TimeoutException(message);
 				}
+				long sessionId = client.getZookeeperClient().getZooKeeper().getSessionId();
+				logger.debug("current session id is : {}", sessionId);
 				List<String> children = regCenter.getChildrenKeys(nodePath.getWorkerPath());
 				for (int workerId = 0; workerId < MAX_WORKER_NUM; workerId++) {
 					String workderIdStr = String.valueOf(workerId);
+					String key = nodePath.getWorkerPath() + "/" + workerId;
+					NodeInfo currentNode = new NodeInfo(sessionId, workerId);
+					currentNode.setCreateTime(new Date());
+					currentNode.setUpdateTime(new Date());
 					if (!children.contains(workderIdStr)) {
-						String key = nodePath.getWorkerPath() + "/" + workerId;
-						String value = JSON.toJSONString(new NodeInfo(workerId));
+						String value = jsonizeNodeInfo(currentNode);
 						logger.info("snowflake worker register with : {}", value);
 						regCenter.persistEphemeral(key, value);
-						registerWorkerId = workerId;
-						// 将workerId保存进nodePath
+						// 将workerId保存进nodePath 
 						nodePath.setWorkerId(workerId);
-						break;
+						return workerId;
+					} else {
+						String value = regCenter.get(key);
+						NodeInfo cacheNode = JSON.parseObject(value, NodeInfo.class);
+						if (currentNode.equals(cacheNode)) {
+							logger.info("use cached nodeinfo, {}", value);
+							cacheNode.setUpdateTime(new Date());
+							regCenter.persistEphemeral(key, jsonizeNodeInfo(cacheNode));
+							return cacheNode.getWorkerId();
+						}
 					}
 				}
-			} else {
-				throw new RegException("max worker num reached. register failed");
 			}
+			throw new RegException("max worker num reached. register failed");
 		} catch (Exception e) {
 			logger.error("", e);
 			throw new IllegalStateException(e.getMessage(), e);
@@ -92,7 +105,6 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 				logger.error("", ignored);
 			}
 		}
-		return registerWorkerId;
 	}
 	
 	/**
@@ -112,10 +124,15 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 	/**
 	 * 关闭注册
 	 */
-	public void logout() {
+	public synchronized void logout() {
 		// 移除注册节点
 		regCenter.remove(nodePath.getWorkerIdPath());
 		// 关闭连接
 		regCenter.close();
+	}
+	
+	private String jsonizeNodeInfo(NodeInfo nodeInfo) {
+		String dateFormat = "yyyy-MM-dd HH:mm:ss";
+		return JSON.toJSONStringWithDateFormat(nodeInfo, dateFormat, SerializerFeature.WriteDateUseDateFormat);
 	}
 }

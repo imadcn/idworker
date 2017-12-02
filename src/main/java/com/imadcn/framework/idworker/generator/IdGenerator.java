@@ -38,13 +38,14 @@ public interface IdGenerator extends Closeable {
 	void suspend();
 	
 	/**
-	 * 恢复ID生产
-	 */
-	void recover();
-	
-	/**
 	 * 判断是否正在正常运行
 	 * @return 是返回<b> true </b>,否则返回<b> false </b>
 	 */
 	boolean isWorking();
+	
+	/**
+	 * 是否正在连接
+	 * @return 是返回<b> true </b>,否则返回<b> false </b>
+	 */
+	boolean isConnecting();
 }

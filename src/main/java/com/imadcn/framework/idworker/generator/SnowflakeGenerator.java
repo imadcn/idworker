@@ -31,9 +31,11 @@ public class SnowflakeGenerator implements IdGenerator {
 	/**
 	 * 是否正在工作
 	 */
+	private volatile boolean initialized = false;
+
 	private volatile boolean working = false;
 	
-	private volatile boolean hookAdded = false;
+	private volatile boolean connecting = false;
 	
 	private ConnectionStateListener listener;
 	
@@ -42,14 +44,14 @@ public class SnowflakeGenerator implements IdGenerator {
 	}
 	
 	@Override
-	public void init() {
-		listener = new ZookeeperConnectionStateListener(this);
-		// 添加监听
-		register.addConnectionLJistener(listener);
-		// 注册workerId
-		register();
-		// 添加shutdown hook
-		if (!hookAdded) {
+	public synchronized void init() {
+		if (!initialized) {
+			listener = new ZookeeperConnectionStateListener(this);
+			// 添加监听
+			register.addConnectionLJistener(listener);
+			// 注册workerId
+			register();
+			// 添加shutdown hook
 			Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -63,8 +65,9 @@ public class SnowflakeGenerator implements IdGenerator {
 						logger.error("", e);
 					}
 			}}));
-			hookAdded = true;
+			initialized = true;
 		}
+		
 	}
 
 	/**
@@ -72,18 +75,25 @@ public class SnowflakeGenerator implements IdGenerator {
 	 */
 	@Override
 	public void register() {
-		long workerId = register.register();
-		if (workerId >= 0) {
-			snowflake = Snowflake.create(workerId);
-			working = true;
+		if (!isConnecting()) {
+			working = false;
+			connecting = true;
+			long workerId = register.register();
+			if (workerId >= 0) {
+				snowflake = Snowflake.create(workerId);
+				working = true;
+				connecting = false;
+			} else {
+				throw new RegException("failed to get worker id");
+			}
 		} else {
-			throw new RegException("failed to get worker id");
+			logger.info("worker is CONNECTING, skip this time of register.");
 		}
 	}
 	
 	@Override
 	public long[] nextId(int size) {
-		if (working) {
+		if (isWorking()) {
 			return snowflake.nextId(size);
 		}
 		throw new IllegalStateException("worker not working, reg center may shutdown");
@@ -91,7 +101,7 @@ public class SnowflakeGenerator implements IdGenerator {
 
 	@Override
 	public long nextId() {
-		if (working) {
+		if (isWorking()) {
 			return snowflake.nextId();
 		}
 		throw new IllegalStateException("worker not working, reg center may shutdown");
@@ -101,19 +111,20 @@ public class SnowflakeGenerator implements IdGenerator {
 	public void suspend() {
 		this.working = false;
 	}
-
+	
 	@Override
-	public void recover() {
-		this.working = true;
-	}
-
-	@Override
-	public void close() throws IOException {
+	public synchronized void close() throws IOException {
 		register.logout();
 	}
 
 	@Override
 	public boolean isWorking() {
-		return working;
+		return this.working;
 	}
+
+	@Override
+	public boolean isConnecting() {
+		return this.connecting;
+	}
+	
 }
