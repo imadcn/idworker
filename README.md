@@ -15,7 +15,7 @@ idworker 是一个基于zookeeper和snowflake算法的分布式统一ID生成工
 <dependency>
   <groupId>com.imadcn.framework</groupId>
   <artifactId>idworker</artifactId>
-  <version>1.0.2</version>
+  <version>1.1.0.M1</version>
 </dependency>
 ```
 
