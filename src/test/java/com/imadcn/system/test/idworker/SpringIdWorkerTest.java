@@ -1,17 +1,18 @@
 package com.imadcn.system.test.idworker;
 
+import javax.annotation.Resource;
+
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.alibaba.fastjson.JSON;
 import com.imadcn.framework.idworker.generator.IdGenerator;
 import com.imadcn.system.test.spring.AbstractZookeeperJUnit4SpringContextTests;
 
-@ContextConfiguration(locations = "classpath:spring/idworker-test.xml")
-public class IdWorkerTest extends AbstractZookeeperJUnit4SpringContextTests {
+@ContextConfiguration(locations = "classpath:META-INF/idworker-ctx.xml")
+public class SpringIdWorkerTest extends AbstractZookeeperJUnit4SpringContextTests {
 
-	@Autowired
+	@Resource
 	private IdGenerator idGenerator;
 
 	@Test
@@ -20,12 +21,13 @@ public class IdWorkerTest extends AbstractZookeeperJUnit4SpringContextTests {
 			Object object = idGenerator.nextId();
 			print(object);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("", e);
 		}
 	}
 
-	public static void print(Object object) {
-		System.out.println(JSON.toJSONString(object));
+	public void print(Object object) {
+		String json = JSON.toJSONString(object);
+		logger.info(json);
 	}
 
 }

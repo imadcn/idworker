@@ -2,7 +2,7 @@
 <configuration>
     <property name="log.context.name" value="idworker" />
     <property name="log.charset" value="UTF-8" />
-    <property name="log.pattern" value="[%-5level] %date --%thread-- [%logger] %msg %n" />
+    <property name="log.pattern" value="%-5level|%d{yyyy-MM-dd HH:mm:ss.SSS}|%thread|%logger{80}-%msg%n" />
     
     <contextName>${log.context.name}</contextName>
     
