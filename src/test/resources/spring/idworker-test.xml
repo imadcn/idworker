@@ -8,6 +8,8 @@
         http://code.imadcn.com/schema/idworker
         http://code.imadcn.com/schema/idworker/idworker.xsd">
         
-    <idworker:registry id="zkRegistryCenter" server-lists="127.0.0.1:2181"/>
-    <idworker:generator id="snowflakeGenerator" registry-center-ref="zkRegistryCenter" group="testGroup"/>
+    <import resource="base.xml"/>
+    
+    <idworker:registry id="zkRegistryCenter" server-lists="${zk.servers}"/>
+    <idworker:generator id="snowflakeGenerator" registry-center-ref="zkRegistryCenter" group="${idworker.group}"/>
 </beans>

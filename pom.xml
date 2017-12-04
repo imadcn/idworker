@@ -48,8 +48,7 @@
 		<coveralls-maven-plugin.version>4.1.0</coveralls-maven-plugin.version>
 
 		<dep.springframework.version>4.2.6.RELEASE</dep.springframework.version>
-		<dep.zookeeper.version>3.4.6</dep.zookeeper.version>
-		<dep.curator.version>2.10.0</dep.curator.version>
+		<dep.curator.version>2.12.0</dep.curator.version>
 		<dep.fastjson.version>1.2.30</dep.fastjson.version>
 		<dep.junit.version>4.12</dep.junit.version>
 		<dep.slf4j.version>1.7.9</dep.slf4j.version>
@@ -62,33 +61,37 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
 			<version>${dep.springframework.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${dep.springframework.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
 			<version>${dep.springframework.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 			<version>${dep.springframework.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
 			<version>${dep.springframework.version}</version>
+			<scope>provided</scope>
 		</dependency>
-
-		<!-- zookeeper -->
 		<dependency>
-			<groupId>org.apache.zookeeper</groupId>
-			<artifactId>zookeeper</artifactId>
-			<version>${dep.zookeeper.version}</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${dep.springframework.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- curator -->
@@ -107,6 +110,12 @@
 			<artifactId>curator-recipes</artifactId>
 			<version>${dep.curator.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-test</artifactId>
+			<version>${dep.curator.version}</version>
+			<scope>test</scope>
+		</dependency>
 
 		<!-- fastjson -->
 		<dependency>
@@ -114,45 +123,43 @@
 			<artifactId>fastjson</artifactId>
 			<version>${dep.fastjson.version}</version>
 		</dependency>
-		
-		<!-- test -->
+
+		<!-- log -->
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${dep.springframework.version}</version>
-			<scope>test</scope>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${dep.slf4j.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${dep.slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+			<version>${dep.slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${dep.logback.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- junit -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${dep.junit.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- log -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${dep.slf4j.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${dep.slf4j.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-			<version>${dep.logback.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>${dep.logback.version}</version>
-			<scope>test</scope>
-		</dependency>
+
 	</dependencies>
 
 	<distributionManagement>
