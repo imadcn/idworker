@@ -8,6 +8,6 @@ import com.imadcn.system.test.idworker.SpringIdWorkerTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ SpringIdWorkerTest.class })
-public class AllSpringTests {
+public final class AllSpringTests {
 
 }

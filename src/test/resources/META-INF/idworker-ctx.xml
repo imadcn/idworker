@@ -10,6 +10,6 @@
         
     <import resource="base.xml"/>
     
-    <idworker:registry id="zkRegistryCenter" server-lists="localhost:3181"/>
-    <idworker:generator id="snowflakeGenerator" registry-center-ref="zkRegistryCenter" group="testGroup"/>
+    <idworker:registry id="zkRegistryCenter" server-lists="${zk.servers}"/>
+    <idworker:generator id="snowflakeGenerator" registry-center-ref="zkRegistryCenter" group="${idworker.group}"/>
 </beans>

@@ -1,8 +1,7 @@
 package com.imadcn.system.test.idworker;
 
-import javax.annotation.Resource;
-
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.alibaba.fastjson.JSON;
@@ -10,9 +9,9 @@ import com.imadcn.framework.idworker.generator.IdGenerator;
 import com.imadcn.system.test.spring.AbstractZookeeperJUnit4SpringContextTests;
 
 @ContextConfiguration(locations = "classpath:META-INF/idworker-ctx.xml")
-public class SpringIdWorkerTest extends AbstractZookeeperJUnit4SpringContextTests {
+public final class SpringIdWorkerTest extends AbstractZookeeperJUnit4SpringContextTests {
 
-	@Resource
+	@Autowired
 	private IdGenerator idGenerator;
 
 	@Test
