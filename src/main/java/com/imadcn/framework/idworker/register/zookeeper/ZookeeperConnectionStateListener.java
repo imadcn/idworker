@@ -6,7 +6,7 @@ import org.apache.curator.framework.state.ConnectionStateListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.imadcn.framework.idworker.generator.IdGenerator;
+import com.imadcn.framework.idworker.register.GeneratorConnector;
 
 /**
  * Zk连接状态监听
@@ -17,10 +17,10 @@ public class ZookeeperConnectionStateListener implements ConnectionStateListener
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
-	private IdGenerator generator;
+	private GeneratorConnector connector;
 	
-	public ZookeeperConnectionStateListener(IdGenerator generator) {
-		this.generator = generator;
+	public ZookeeperConnectionStateListener(GeneratorConnector connector) {
+		this.connector = connector;
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class ZookeeperConnectionStateListener implements ConnectionStateListener
 	}
 	
 	protected void doReconnecting() {
-		generator.suspend();
-		generator.register();
+		connector.suspend();
+		connector.connect();
 	}
 }

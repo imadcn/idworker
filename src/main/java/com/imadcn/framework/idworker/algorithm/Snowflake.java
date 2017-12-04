@@ -66,7 +66,7 @@ public class Snowflake {
 	 */
 	private long lastTimestamp = -1L;
 	
-	private final int ONE_MILLION = 1_000_000;
+	private final int HUNDRED_K = 100_000;
 
 	/**
 	 * @param workerId 机器Id
@@ -90,12 +90,12 @@ public class Snowflake {
 	
 	/**
 	 * 批量获取ID
-	 * @param size 获取大小，最多100万个
+	 * @param size 获取大小，最多10万个
 	 * @return SnowflakeId
 	 */
 	public long[] nextId(int size) {
-		if (size <= 0 || size > ONE_MILLION) {
-			String message = String.format("Size can't be greater than %d or less than 0", ONE_MILLION);
+		if (size <= 0 || size > HUNDRED_K) {
+			String message = String.format("Size can't be greater than %d or less than 0", HUNDRED_K);
 			throw new IllegalArgumentException(message);
 		}
 		long[] ids = new long[size];

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.imadcn.framework.idworker.algorithm.Snowflake;
 import com.imadcn.framework.idworker.exception.RegException;
+import com.imadcn.framework.idworker.register.GeneratorConnector;
 import com.imadcn.framework.idworker.register.zookeeper.ZookeeperConnectionStateListener;
 import com.imadcn.framework.idworker.register.zookeeper.ZookeeperWorkerRegister;
 
@@ -16,7 +17,7 @@ import com.imadcn.framework.idworker.register.zookeeper.ZookeeperWorkerRegister;
  * @author yangchao
  * @since 2017-10-19
  */
-public class SnowflakeGenerator implements IdGenerator {
+public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -50,21 +51,21 @@ public class SnowflakeGenerator implements IdGenerator {
 			// 添加监听
 			register.addConnectionLJistener(listener);
 			// 注册workerId
-			register();
+			connect();
 			// 添加shutdown hook
-			Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						if (logger.isInfoEnabled()) {
-							logger.info("Run Shutdown Hook.");
-						}
-						suspend();
-						close();
-					} catch (Exception e) {
-						logger.error("", e);
-					}
-			}}));
+//			Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+//				@Override
+//				public void run() {
+//					try {
+//						if (logger.isInfoEnabled()) {
+//							logger.info("Run Shutdown Hook.");
+//						}
+//						suspend();
+//						close();
+//					} catch (Exception e) {
+//						logger.error("", e);
+//					}
+//			}}));
 			initialized = true;
 		}
 		
@@ -74,7 +75,7 @@ public class SnowflakeGenerator implements IdGenerator {
 	 * 初始化
 	 */
 	@Override
-	public void register() {
+	public void connect() {
 		if (!isConnecting()) {
 			working = false;
 			connecting = true;

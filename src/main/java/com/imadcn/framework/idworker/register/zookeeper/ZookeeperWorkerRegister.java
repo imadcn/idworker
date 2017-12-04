@@ -1,6 +1,5 @@
 package com.imadcn.framework.idworker.register.zookeeper;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -16,8 +15,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.imadcn.framework.idworker.config.ApplicationConfiguration;
 import com.imadcn.framework.idworker.exception.RegException;
-import com.imadcn.framework.idworker.register.NodeInfo;
-import com.imadcn.framework.idworker.register.NodePath;
 import com.imadcn.framework.idworker.register.WorkerRegister;
 import com.imadcn.framework.idworker.registry.CoordinatorRegistryCenter;
 
@@ -56,6 +53,7 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 	 * 
 	 * @return workerId
 	 */
+	@Override
 	public synchronized long register() {
 		CuratorFramework client = (CuratorFramework) regCenter.getRawClient();
 		InterProcessMutex lock = new InterProcessMutex(client, nodePath.getGroupPath());
@@ -116,14 +114,10 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 		client.getConnectionStateListenable().addListener(listener);
 	}
 	
-	@Override
-	public void close() throws IOException {
-		logout();
-	}
-
 	/**
 	 * 关闭注册
 	 */
+	@Override
 	public synchronized void logout() {
 		// 移除注册节点
 		regCenter.remove(nodePath.getWorkerIdPath());

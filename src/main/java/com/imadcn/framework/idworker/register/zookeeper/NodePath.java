@@ -1,4 +1,4 @@
-package com.imadcn.framework.idworker.register;
+package com.imadcn.framework.idworker.register.zookeeper;
 
 /**
  * 机器节点Path

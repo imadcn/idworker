@@ -1,4 +1,4 @@
-package com.imadcn.framework.idworker.register;
+package com.imadcn.framework.idworker.register.zookeeper;
 
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
