@@ -2,7 +2,6 @@ package com.imadcn.framework.idworker.spring.schema;
 
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractBeanDefinitionParser;
-import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
 
 /**
@@ -17,9 +16,9 @@ public abstract class BaseBeanDefinitionParser extends AbstractBeanDefinitionPar
 	 * @param result result
 	 * @param beanId beanId
 	 */
-	protected void setBeanId(BeanDefinitionBuilder result, String beanId) {
-		result.addPropertyValue("id", beanId);
-	}
+//	protected void setBeanId(BeanDefinitionBuilder result, String beanId) {
+//		result.addPropertyValue("id", beanId);
+//	}
 	
 	/**
 	 * 设置Bean Id
@@ -28,10 +27,10 @@ public abstract class BaseBeanDefinitionParser extends AbstractBeanDefinitionPar
 	 * @param parserContext parserContext
 	 * @param element element
 	 */
-	protected void setBeanId(BeanDefinitionBuilder result, Class<?> clazz, ParserContext parserContext, Element element) {
-		String beanId = getBeanId(clazz, parserContext, element);
-		setBeanId(result, beanId);
-	} 
+//	protected void setBeanId(BeanDefinitionBuilder result, Class<?> clazz, ParserContext parserContext, Element element) {
+//		String beanId = getBeanId(clazz, parserContext, element);
+//		setBeanId(result, beanId);
+//	} 
 
 	/**
 	 * 获取BeanId
@@ -40,26 +39,26 @@ public abstract class BaseBeanDefinitionParser extends AbstractBeanDefinitionPar
 	 * @param element element
 	 * @return BeanId
 	 */
-	protected String getBeanId(Class<?> clazz, ParserContext parserContext, Element element) {
-		String id = element.getAttribute("id");
-		if (id == null || id.isEmpty()) {
-            String generatedBeanName = element.getAttribute("name");
-            if (generatedBeanName == null || generatedBeanName.isEmpty()) {
-                generatedBeanName = clazz.getName();
-            }
-            id = generatedBeanName;
-            int counter = 2;
-            while (parserContext.getRegistry().containsBeanDefinition(id)) {
-                id = generatedBeanName + (counter++);
-            }
-        }
-		if (id != null && !id.isEmpty()) {
-            if (parserContext.getRegistry().containsBeanDefinition(id)) {
-                throw new IllegalStateException("Duplicate spring bean id " + id);
-            }
-        }
-		return id;
-	}
+//	protected String getBeanId(Class<?> clazz, ParserContext parserContext, Element element) {
+//		String id = element.getAttribute("id");
+//		if (id == null || id.isEmpty()) {
+//            String generatedBeanName = element.getAttribute("name");
+//            if (generatedBeanName == null || generatedBeanName.isEmpty()) {
+//                generatedBeanName = clazz.getName();
+//            }
+//            id = generatedBeanName;
+//            int counter = 2;
+//            while (parserContext.getRegistry().containsBeanDefinition(id)) {
+//                id = generatedBeanName + (counter++);
+//            }
+//        }
+//		if (id != null && !id.isEmpty()) {
+//            if (parserContext.getRegistry().containsBeanDefinition(id)) {
+//                throw new IllegalStateException("Duplicate spring bean id " + id);
+//            }
+//        }
+//		return id;
+//	}
 
 	/**
 	 * 设置Properties
