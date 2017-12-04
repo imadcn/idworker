@@ -1,13 +1,11 @@
 package com.imadcn.framework.idworker.generator;
 
-import java.io.Closeable;
-
 /**
  * Id生成
  * @author yangchao
  * @since 2017-10-19
  */
-public interface IdGenerator extends Closeable {
+public interface IdGenerator {
 	
 	/**
 	 * 批量获取ID

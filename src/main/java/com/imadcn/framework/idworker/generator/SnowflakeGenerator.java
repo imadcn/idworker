@@ -50,22 +50,8 @@ public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
 			listener = new ZookeeperConnectionStateListener(this);
 			// 添加监听
 			register.addConnectionLJistener(listener);
-			// 注册workerId
+			// 连接与注册workerId
 			connect();
-			// 添加shutdown hook
-//			Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-//				@Override
-//				public void run() {
-//					try {
-//						if (logger.isInfoEnabled()) {
-//							logger.info("Run Shutdown Hook.");
-//						}
-//						suspend();
-//						close();
-//					} catch (Exception e) {
-//						logger.error("", e);
-//					}
-//			}}));
 			initialized = true;
 		}
 		
@@ -88,7 +74,7 @@ public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
 				throw new RegException("failed to get worker id");
 			}
 		} else {
-			logger.info("worker is CONNECTING, skip this time of register.");
+			logger.info("worker is connecting, skip this time of register.");
 		}
 	}
 	
@@ -97,7 +83,7 @@ public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
 		if (isWorking()) {
 			return snowflake.nextId(size);
 		}
-		throw new IllegalStateException("worker not working, reg center may shutdown");
+		throw new IllegalStateException("worker isn't working, reg center may shutdown");
 	}
 
 	@Override
@@ -105,7 +91,7 @@ public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
 		if (isWorking()) {
 			return snowflake.nextId();
 		}
-		throw new IllegalStateException("worker not working, reg center may shutdown");
+		throw new IllegalStateException("worker isn't working, reg center may shutdown");
 	}
 
 	@Override

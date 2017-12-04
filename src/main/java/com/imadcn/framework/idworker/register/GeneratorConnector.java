@@ -1,11 +1,13 @@
 package com.imadcn.framework.idworker.register;
 
+import java.io.Closeable;
+
 /**
  * ID生成注册Connector
  * @author yangc
  * @since 2017-12-04
  */
-public interface GeneratorConnector {
+public interface GeneratorConnector extends Closeable {
 	
 	/**
 	 * 初始化数据
