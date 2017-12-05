@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.imadcn.framework</groupId>
 	<artifactId>idworker</artifactId>
-	<version>1.1.0.M1</version>
+	<version>1.1.0</version>
 	<packaging>jar</packaging>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>zookeeper/snowflake based id generator tools</description>
@@ -49,9 +49,9 @@
 
 		<dep.springframework.version>4.3.10.RELEASE</dep.springframework.version>
 		<dep.curator.version>2.12.0</dep.curator.version>
-		<dep.fastjson.version>1.2.30</dep.fastjson.version>
+		<dep.fastjson.version>1.2.41</dep.fastjson.version>
 		<dep.junit.version>4.12</dep.junit.version>
-		<dep.slf4j.version>1.7.9</dep.slf4j.version>
+		<dep.slf4j.version>1.7.25</dep.slf4j.version>
 		<dep.logback.version>1.1.8</dep.logback.version>
 	</properties>
 
