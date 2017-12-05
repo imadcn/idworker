@@ -16,16 +16,19 @@ public final class SpringIdWorkerTest extends AbstractZookeeperJUnit4SpringConte
 
 	@Test
 	public void testGetId() {
-		try {
-			Object object = idGenerator.nextId();
-			print(object);
-		} catch (Exception e) {
-			logger.error("", e);
-		}
+		Object object = idGenerator.nextId();
+		print(object);
+	}
+	
+	@Test
+	public void testBatchGetId() {
+		Object object = idGenerator.nextId(20);
+		print(object);
 	}
 
 	public void print(Object object) {
 		String json = JSON.toJSONString(object);
+		System.out.println(json);
 		logger.info(json);
 	}
 

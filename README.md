@@ -1,6 +1,7 @@
 ## idworker - 基于zookeeper，snowflake的分布式统一ID生成工具
 
 [![Build Status](https://travis-ci.org/imadcn/idworker.svg?branch=master)](https://travis-ci.org/imadcn/idworker)
+[![Coverage Status](https://coveralls.io/repos/imadcn/idworker/badge.svg?branch=master&service=github)](https://coveralls.io/github/imadcn/idworker?branch=master)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.imadcn.framework/idworker/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.imadcn.framework/idworker)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
@@ -14,7 +15,7 @@ idworker 是一个基于zookeeper和snowflake算法的分布式统一ID生成工
 <dependency>
   <groupId>com.imadcn.framework</groupId>
   <artifactId>idworker</artifactId>
-  <version>1.0.2</version>
+  <version>1.1.0.M1</version>
 </dependency>
 ```
 
