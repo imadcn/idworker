@@ -19,12 +19,12 @@ public class ZookeeperConfiguration {
 	private String namespace = "idworker";
 
 	/**
-	 * 等待重试的间隔时间的初始值. 单位毫秒.
+	 * 等待重试的间隔时间的初始值. 单位毫秒. 默认1s
 	 */
 	private int baseSleepTimeMilliseconds = 1000;
 
 	/**
-	 * 等待重试的间隔时间的最大值. 单位毫秒.
+	 * 等待重试的间隔时间的最大值. 单位毫秒. 默认3s
 	 */
 	private int maxSleepTimeMilliseconds = 3000;
 
@@ -34,12 +34,12 @@ public class ZookeeperConfiguration {
 	private int maxRetries = 3;
 
 	/**
-	 * 会话超时时间. 单位毫秒.
+	 * 会话超时时间. 单位毫秒. 默认60s
 	 */
 	private int sessionTimeoutMilliseconds;
 
 	/**
-	 * 连接超时时间. 单位毫秒.
+	 * 连接超时时间. 单位毫秒. 默认15s
 	 */
 	private int connectionTimeoutMilliseconds;
 

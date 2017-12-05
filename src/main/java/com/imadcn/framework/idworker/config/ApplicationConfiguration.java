@@ -9,7 +9,7 @@ package com.imadcn.framework.idworker.config;
 public class ApplicationConfiguration {
 
 	/**
-	 * 分组名字
+	 * 分组名字. 默认default
 	 */
 	private String group = "default";
 

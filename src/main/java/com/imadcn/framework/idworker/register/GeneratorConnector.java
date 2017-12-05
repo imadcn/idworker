@@ -25,7 +25,7 @@ public interface GeneratorConnector extends Closeable {
 	void suspend();
 	
 	/**
-	 * 判断是否正在正常运行
+	 * 是否正在正常运行
 	 * @return 是返回<b> true </b>,否则返回<b> false </b>
 	 */
 	boolean isWorking();

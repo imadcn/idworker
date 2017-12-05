@@ -51,7 +51,7 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 	/**
 	 * 向zookeeper注册workerId
 	 * 
-	 * @return workerId
+	 * @return workerId workerId
 	 */
 	@Override
 	public synchronized long register() {
@@ -107,7 +107,7 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 	
 	/**
 	 * 添加连接监听
-	 * @param listener
+	 * @param listener zk状态监听listener
 	 */
 	public void addConnectionLJistener(ConnectionStateListener listener) {
 		CuratorFramework client = (CuratorFramework) regCenter.getRawClient();
