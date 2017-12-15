@@ -65,7 +65,10 @@ public class Snowflake {
 	 * 上次生成ID的时间戳 
 	 */
 	private long lastTimestamp = -1L;
-	
+
+	/**
+	 * 10万
+	 */
 	private final int HUNDRED_K = 100_000;
 
 	/**
