@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory;
  * Snowflake的结构如下(每部分用-分开):
  * <br>0 - 0000000000 0000000000 0000000000 0000000000 0 - 00000 - 00000 - 000000000000
  * <br><b> · </b>1位标识，由于long基本类型在Java中是带符号的，最高位是符号位，正数是0，负数是1，所以id一般是正数，最高位是0
- * <br><b> · </b>41位时间截(毫秒级)，注意，41位时间截不是存储当前时间的时间截，而是存储时间截的差值（当前时间截 - 开始时间截)得到的值），这里的的开始时间截，一般是我们的id生成器开始使用的时间，由我们程序来指定的（如下下面程序epoch属性）。41位的时间截，可以使用69年
+ * <br><b> · </b>41位时间戳(毫秒级)，注意，41位时间戳不是存储当前时间的时间戳，而是存储时间戳的差值（当前时间戳 - 开始时间戳)得到的值），这里的的开始时间戳，一般是我们的id生成器开始使用的时间，由我们程序来指定的（如下下面程序epoch属性）。41位的时间戳，可以使用69年
  * <br><b> · </b>10位的数据机器位，可以部署在1024个节点，包括5位datacenterId和5位workerId
- * <br><b> · </b>12位序列，毫秒内的计数，12位的计数顺序号支持每个节点每毫秒(同一机器，同一时间截)产生4096个ID序号
+ * <br><b> · </b>12位序列，毫秒内的计数，12位的计数顺序号支持每个节点每毫秒(同一机器，同一时间戳)产生4096个ID序号
  * 加起来刚好64位，为一个Long型。
  * <p>
  * SnowFlake的优点是，整体上按照时间自增排序，并且整个分布式系统内不会产生ID碰撞(由数据中心ID和机器ID作区分)，并且效率较高，经测试，SnowFlake每秒能够产生26万ID左右。
@@ -46,7 +46,7 @@ public class Snowflake {
 	 */
 	private final long workerIdShift = this.sequenceBits;
 	/** 
-	 * 时间截向左移22位(5+5+12)
+	 * 时间戳向左移22位(5+5+12)
 	 */
 	private final long timestampLeftShift = this.sequenceBits + this.workerIdBits;
 	/** 
@@ -62,7 +62,7 @@ public class Snowflake {
 	 */
 	private long sequence = 0L;
 	/** 
-	 * 上次生成ID的时间截 
+	 * 上次生成ID的时间戳 
 	 */
 	private long lastTimestamp = -1L;
 	
@@ -140,7 +140,7 @@ public class Snowflake {
 
 	/**
 	 * 等待下一个毫秒的到来, 保证返回的毫秒数在参数lastTimestamp之后
-	 * @param lastTimestamp 上次生成ID的时间截 
+	 * @param lastTimestamp 上次生成ID的时间戳 
 	 * @return
 	 */
 	private long tilNextMillis(long lastTimestamp) {
