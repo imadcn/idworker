@@ -54,7 +54,7 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 	 * @return workerId workerId
 	 */
 	@Override
-	public synchronized long register() {
+	public long register() {
 		CuratorFramework client = (CuratorFramework) regCenter.getRawClient();
 		InterProcessMutex lock = new InterProcessMutex(client, nodePath.getGroupPath());
 		try {

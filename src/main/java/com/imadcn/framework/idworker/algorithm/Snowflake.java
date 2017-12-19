@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Snowflake {
 
-	private final static Logger logger = LoggerFactory.getLogger(Snowflake.class);
+	private static final Logger logger = LoggerFactory.getLogger(Snowflake.class);
 
 	/**
 	 * 机器ID
