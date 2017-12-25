@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.apache.curator.framework.state.ConnectionStateListener;
 import org.jboss.netty.handler.timeout.TimeoutException;
@@ -119,10 +120,13 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 	 */
 	@Override
 	public synchronized void logout() {
-		// 移除注册节点
-		regCenter.remove(nodePath.getWorkerIdPath());
-		// 关闭连接
-		regCenter.close();
+		CuratorFramework client = (CuratorFramework) regCenter.getRawClient();
+		if (client.getState() == CuratorFrameworkState.STARTED) {
+			// 移除注册节点
+			regCenter.remove(nodePath.getWorkerIdPath());
+			// 关闭连接
+			regCenter.close();
+		}
 	}
 	
 	private String jsonizeNodeInfo(NodeInfo nodeInfo) {
