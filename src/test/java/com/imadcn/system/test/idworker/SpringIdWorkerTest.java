@@ -5,14 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.alibaba.fastjson.JSON;
-import com.imadcn.framework.idworker.generator.IdGenerator;
+import com.imadcn.framework.idworker.generator.SnowflakeGenerator;
 import com.imadcn.system.test.spring.AbstractZookeeperJUnit4SpringContextTests;
 
 @ContextConfiguration(locations = "classpath:META-INF/idworker-ctx.xml")
 public final class SpringIdWorkerTest extends AbstractZookeeperJUnit4SpringContextTests {
 
 	@Autowired
-	private IdGenerator idGenerator;
+	private SnowflakeGenerator idGenerator;
 
 	@Test
 	public void testGetId() {
@@ -50,6 +50,13 @@ public final class SpringIdWorkerTest extends AbstractZookeeperJUnit4SpringConte
 			print(e);
 		}
 		
+	}
+	
+	@Test
+	public void testClose() throws Exception {
+		Object object = idGenerator.nextId();
+		print(object);
+		idGenerator.close();
 	}
 
 	public void print(Object object) {
