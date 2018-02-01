@@ -50,7 +50,11 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 	}
 
 	@Override
-	public void init() {
+	public synchronized void init() {
+		if (client != null) {
+			// client已经初始化，直接重置返回
+			return;
+		}
 		logger.debug("init zookeeper registry, connect to servers : {}", zkConfig.getServerLists());
 		CuratorFrameworkFactory.Builder builder = CuratorFrameworkFactory.builder().connectString(zkConfig.getServerLists()).retryPolicy(new ExponentialBackoffRetry(zkConfig.getBaseSleepTimeMilliseconds(), zkConfig.getMaxRetries(), zkConfig.getMaxSleepTimeMilliseconds())).namespace(zkConfig.getNamespace());
 		if (0 != zkConfig.getSessionTimeoutMilliseconds()) {
@@ -87,11 +91,16 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 
 	@Override
 	public void close() {
+		if (client == null) {
+			return;
+		}
 		for (Entry<String, TreeCache> each : caches.entrySet()) {
 			each.getValue().close();
 		}
 		waitForCacheClose();
 		CloseableUtils.closeQuietly(client);
+		// 重置client状态
+		client = null;
 	}
 
 	/**
@@ -278,6 +287,9 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 
 	@Override
 	public Object getRawClient() {
+		if (client == null) {
+			init();
+		}
 		return client;
 	}
 

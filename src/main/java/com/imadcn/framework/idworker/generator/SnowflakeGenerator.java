@@ -49,12 +49,11 @@ public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
 		if (!initialized) {
 			listener = new ZookeeperConnectionStateListener(this);
 			// 添加监听
-			register.addConnectionLJistener(listener);
+			register.addConnectionListener(listener);
 			// 连接与注册workerId
 			connect();
 			initialized = true;
 		}
-		
 	}
 
 	/**
@@ -101,6 +100,8 @@ public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
 	
 	@Override
 	public synchronized void close() throws IOException {
+		// 关闭，先重置状态(避免ZK删除 workerId，其他机器抢注，会导致workerID 重新生成的BUG)
+		reset();
 		register.logout();
 	}
 
@@ -112,6 +113,15 @@ public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
 	@Override
 	public boolean isConnecting() {
 		return this.connecting;
+	}
+	
+	/**
+	 * 重置连接状态
+	 */
+	protected void reset() {
+		initialized = false;
+		working = false;
+		connecting = false;
 	}
 	
 }

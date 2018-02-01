@@ -20,6 +20,7 @@ public class RegistryBeanDefinitionParser extends BaseBeanDefinitionParser {
     protected AbstractBeanDefinition parseInternal(final Element element, final ParserContext parserContext) {
         BeanDefinitionBuilder result = BeanDefinitionBuilder.rootBeanDefinition(ZookeeperRegistryCenter.class);
         result.addConstructorArgValue(buildZookeeperConfigurationBeanDefinition(element, parserContext));
+        // Spring 启动初始化ZK连接
         result.setInitMethodName("init");
         return result.getBeanDefinition();
     }

@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
-import com.alibaba.fastjson.JSON;
 import com.imadcn.framework.idworker.generator.SnowflakeGenerator;
 import com.imadcn.system.test.spring.AbstractZookeeperJUnit4SpringContextTests;
 
@@ -32,14 +31,14 @@ public final class SpringIdWorkerTest extends AbstractZookeeperJUnit4SpringConte
 			Object object = idGenerator.nextId(0);
 			print(object);
 		} catch (Exception e) {
-			print(e);
+			print(e.getMessage());
 		}
 		
 		try {
 			Object object = idGenerator.nextId(-1);
 			print(object);
 		} catch (Exception e) {
-			print(e);
+			print(e.getMessage());
 		}
 		
 		
@@ -47,22 +46,8 @@ public final class SpringIdWorkerTest extends AbstractZookeeperJUnit4SpringConte
 			Object object = idGenerator.nextId(100_001);
 			print(object);
 		} catch (Exception e) {
-			print(e);
+			print(e.getMessage());
 		}
 		
 	}
-	
-	@Test
-	public void testClose() throws Exception {
-		Object object = idGenerator.nextId();
-		print(object);
-		idGenerator.close();
-	}
-
-	public void print(Object object) {
-		String json = JSON.toJSONString(object);
-		System.out.println(json);
-		logger.info(json);
-	}
-
 }
