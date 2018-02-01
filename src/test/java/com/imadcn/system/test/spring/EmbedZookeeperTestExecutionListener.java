@@ -53,6 +53,7 @@ public final class EmbedZookeeperTestExecutionListener extends AbstractTestExecu
                     try {
                     	EmbedZookeeperTestExecutionListener.sleep(2000L);
                         testingServer.close();
+                        testingServer = null;
                     } catch (final IOException ex) {
                         RegExceptionHandler.handleException(ex);
                     }
