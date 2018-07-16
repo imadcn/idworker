@@ -45,7 +45,7 @@ idworker 是一个基于zookeeper和snowflake算法的分布式统一ID生成工
 public IdGenerator generator;
 
 public void id() {
-    long id = generator.nextId();
+    long id = generator.nextId(); // ID长度 18-19位
     long[] ids = generator.nextId(100_000);
 }
 
