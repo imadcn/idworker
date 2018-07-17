@@ -2,8 +2,8 @@ package com.imadcn.framework.idworker.generator;
 
 /**
  * Id生成
- * @author yangchao
- * @since 2017-10-19
+ * @author imadcn
+ * @since 1.0.0
  */
 public interface IdGenerator {
 	
@@ -19,5 +19,19 @@ public interface IdGenerator {
 	 * @return ID
 	 */
 	long nextId();
+	
+	/**
+	 * 字符串格式的ID
+	 * @since 1.2.0
+	 * @return ID
+	 */
+	String nextStringId();
+	
+	/**
+	 * 固定19位长度，字符串格式的ID
+	 * @since 1.2.0
+	 * @return
+	 */
+	String nextFixedStringId();
 	
 }

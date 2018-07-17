@@ -15,9 +15,11 @@ import com.imadcn.framework.idworker.register.zookeeper.ZookeeperWorkerRegister;
 /**
  * Snowflake算法生成工具
  * @author yangchao
- * @since 2017-10-19
+ * @since 1.0.0
  */
 public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
+	
+	static final String FIXED_STRING_FORMAT = "%019d";
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -91,6 +93,16 @@ public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
 			return snowflake.nextId();
 		}
 		throw new IllegalStateException("worker isn't working, reg center may shutdown");
+	}
+	
+	@Override
+	public String nextStringId() {
+		return String.valueOf(nextId());
+	}
+	
+	@Override
+	public String nextFixedStringId() {
+		return String.format(FIXED_STRING_FORMAT, nextId());
 	}
 
 	@Override
