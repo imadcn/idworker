@@ -12,5 +12,11 @@ public final class GeneratorBeanDefinitionTag extends BaseBeanDefinitionTag {
 	public static final String GROUOP = "group";
 	
 	public static final String REGISTRY_CENTER_REF = "registry-center-ref";
+	
+	/**
+	 * 生成策略
+	 * @since 1.2.0
+	 */
+	public static final String STRATEGY = "strategy";
 
 }

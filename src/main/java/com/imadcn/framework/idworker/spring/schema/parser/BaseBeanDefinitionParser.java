@@ -1,4 +1,4 @@
-package com.imadcn.framework.idworker.spring.schema;
+package com.imadcn.framework.idworker.spring.schema.parser;
 
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractBeanDefinitionParser;
@@ -73,5 +73,16 @@ public abstract class BaseBeanDefinitionParser extends AbstractBeanDefinitionPar
 			factory.addPropertyValue(propertyName, attributeValue);
 		}
 	}
-
+	
+	/**
+     * 获取attr 值
+     * @param element
+     * @param attributeName
+     * @since 1.2.0
+     * @return
+     */
+    protected String getAttributeValue(final Element element, final String attributeName) {
+    	String attributeValue = element.getAttribute(attributeName);
+    	return attributeValue;
+    }
 }

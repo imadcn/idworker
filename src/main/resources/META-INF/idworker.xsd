@@ -13,24 +13,25 @@
     		<xsd:complexContent>
     			<xsd:extension base="beans:identifiedType">
                     <xsd:attribute name="server-lists" type="xsd:string" use="required" />
-    				<xsd:attribute name="namespace" type="xsd:string" />
-    				<xsd:attribute name="base-sleep-time-milliseconds" type="xsd:string" />
-    				<xsd:attribute name="max-sleep-time-milliseconds" type="xsd:string" />
-    				<xsd:attribute name="max-retries" type="xsd:string" />
-    				<xsd:attribute name="session-timeout-milliseconds" type="xsd:string" />
-    				<xsd:attribute name="connection-timeout-milliseconds" type="xsd:string" />
+    				<xsd:attribute name="namespace" type="xsd:string" default="idworker" />
+    				<xsd:attribute name="base-sleep-time-milliseconds" type="xsd:string" default="1000" />
+    				<xsd:attribute name="max-sleep-time-milliseconds" type="xsd:string" default="3000" />
+    				<xsd:attribute name="max-retries" type="xsd:string" default="3" />
+    				<xsd:attribute name="session-timeout-milliseconds" type="xsd:string" default="60000" />
+    				<xsd:attribute name="connection-timeout-milliseconds" type="xsd:string" default="15000" />
     				<xsd:attribute name="digest" type="xsd:string" />
     			</xsd:extension>
     		</xsd:complexContent>
     	</xsd:complexType>
     </xsd:element>
 
-    <xsd:element name="generator">
+    <xsd:element name="generator" >
     	<xsd:complexType>
     		<xsd:complexContent>
     			<xsd:extension base="beans:identifiedType">
     				<xsd:attribute name="registry-center-ref" type="xsd:string" use="required" />
-    				<xsd:attribute name="group" type="xsd:string"/>
+    				<xsd:attribute name="strategy" type="xsd:string" default="snowflake" />
+    				<xsd:attribute name="group" type="xsd:string" default="default"/>
     			</xsd:extension>
     		</xsd:complexContent>
     	</xsd:complexType>

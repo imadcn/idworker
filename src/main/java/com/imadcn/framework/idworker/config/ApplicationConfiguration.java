@@ -9,9 +9,15 @@ package com.imadcn.framework.idworker.config;
 public class ApplicationConfiguration {
 
 	/**
-	 * 分组名字. 默认default
+	 * 分组名字，默认default
 	 */
 	private String group = "default";
+	/**
+	 * 生成策略，默认snowflake
+	 * 
+	 * @since 1.2.0
+	 */
+	private String strategy = "snowflake";
 
 	public String getGroup() {
 		return group;
@@ -21,4 +27,11 @@ public class ApplicationConfiguration {
 		this.group = group;
 	}
 
+	public String getStrategy() {
+		return strategy;
+	}
+
+	public void setStrategy(String strategy) {
+		this.strategy = strategy;
+	}
 }

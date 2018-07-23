@@ -1,1 +1,2 @@
-http\://code.imadcn.com/schema/idworker=com.imadcn.framework.idworker.spring.schema.IdworkerNamespaceHandler
+http\://code.imadcn.com/schema/idworker=com.imadcn.framework.idworker.spring.schema.handler.IdworkerNamespaceHandler
+http\://code.imadcn.com/schema/generator=com.imadcn.framework.idworker.spring.schema.handler.GeneratorNamespaceHandler

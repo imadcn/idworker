@@ -18,7 +18,7 @@ package com.imadcn.framework.idworker.algorithm;
 import java.util.UUID;
 
 /**
- * 64进制的UUID，取值范围 [a-zA-Z0-0_-]
+ * 64进制的UUID，取值范围 [a-zA-Z0-9_-]
  * 
  * @author yangc
  * @since 1.2.0

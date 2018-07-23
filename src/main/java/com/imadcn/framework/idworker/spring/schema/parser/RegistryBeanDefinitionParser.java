@@ -1,4 +1,4 @@
-package com.imadcn.framework.idworker.spring.schema;
+package com.imadcn.framework.idworker.spring.schema.parser;
 
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
