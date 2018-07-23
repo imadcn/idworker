@@ -3,7 +3,7 @@ package com.imadcn.framework.idworker.register;
 /**
  * Worker注册
  * @author yangc
- * @since 2017-12-01
+ * @since 1.1.0
  */
 public interface WorkerRegister {
 

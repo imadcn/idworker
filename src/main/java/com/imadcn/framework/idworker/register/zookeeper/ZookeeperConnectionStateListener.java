@@ -11,7 +11,7 @@ import com.imadcn.framework.idworker.register.GeneratorConnector;
 /**
  * Zk连接状态监听
  * @author yangc
- * @since 2017-12-01
+ * @since 1.1.0
  */
 public class ZookeeperConnectionStateListener implements ConnectionStateListener {
 

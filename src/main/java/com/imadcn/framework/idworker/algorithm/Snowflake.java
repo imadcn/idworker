@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * <br><b> · </b>对系统时间的依赖性非常强，需关闭ntp的时间同步功能。当检测到ntp时间调整后，将会拒绝分配id
  * 
  * @author yangchao
- * @since 2017-10-18
+ * @since 1.0.0
  */
 public class Snowflake {
 

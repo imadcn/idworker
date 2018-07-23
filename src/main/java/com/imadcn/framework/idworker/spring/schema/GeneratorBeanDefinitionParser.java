@@ -12,7 +12,7 @@ import com.imadcn.framework.idworker.spring.common.GeneratorBeanDefinitionTag;
 /**
  * idworker:application 标签解析
  * @author yangchao
- * @since 2017-10-19
+ * @since 1.0.0
  */
 public class GeneratorBeanDefinitionParser extends BaseBeanDefinitionParser {
 	

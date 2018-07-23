@@ -33,7 +33,7 @@ import com.imadcn.framework.idworker.registry.CoordinatorRegistryCenter;
  * Zookeeper注册中心
  * 
  * @author yangchao
- * @since 2017-10-18
+ * @since 1.0.0
  */
 public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 

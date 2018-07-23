@@ -3,7 +3,7 @@ package com.imadcn.framework.idworker.spring.common;
 /**
  * BaseBeanDefinitionTag
  * @author yangchao
- * @since 2017-11-14
+ * @since 1.0.5
  */
 public class BaseBeanDefinitionTag {
 	

@@ -3,7 +3,7 @@ package com.imadcn.framework.idworker.spring.common;
 /**
  * idworker:zookeeper 配置TAG
  * @author yangchao
- * @since 2017-10-19
+ * @since 1.0.0
  */
 public final class ZookeeperBeanDefinitionTag {
 	

@@ -7,7 +7,7 @@ import com.imadcn.framework.idworker.generator.SnowflakeGenerator;
 /**
  * IdworkerNamespaceHandler
  * @author yangchao
- * @since 2017-11-14
+ * @since 1.0.0
  */
 public class IdworkerNamespaceHandler extends NamespaceHandlerSupport {
 

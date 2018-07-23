@@ -23,7 +23,7 @@ import com.imadcn.framework.idworker.registry.CoordinatorRegistryCenter;
  * 机器信息注册
  * 
  * @author yangchao
- * @since 2017-10-18
+ * @since 1.0.0
  */
 public class ZookeeperWorkerRegister implements WorkerRegister {
 

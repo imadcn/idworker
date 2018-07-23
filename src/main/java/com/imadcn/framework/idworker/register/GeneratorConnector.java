@@ -5,7 +5,7 @@ import java.io.Closeable;
 /**
  * ID生成注册Connector
  * @author yangc
- * @since 2017-12-04
+ * @since 1.1.0
  */
 public interface GeneratorConnector extends Closeable {
 	

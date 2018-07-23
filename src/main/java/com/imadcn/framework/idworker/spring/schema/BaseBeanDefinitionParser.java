@@ -7,7 +7,7 @@ import org.w3c.dom.Element;
 /**
  * Spring Bean Definition Parser
  * @author yangchao
- * @since 2017-10-19
+ * @since 1.0.0
  */
 public abstract class BaseBeanDefinitionParser extends AbstractBeanDefinitionParser {
 	

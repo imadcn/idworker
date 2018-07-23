@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  * 机器节点信息
  * 
  * @author yangchao
- * @since 2017-10-18
+ * @since 1.0.0
  */
 public class NodeInfo {
 

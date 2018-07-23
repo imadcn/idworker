@@ -7,7 +7,7 @@ import org.junit.runners.Suite.SuiteClasses;
 import com.imadcn.system.test.idworker.SpringIdWorkerTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ SpringIdWorkerTest.class})
+@SuiteClasses({SpringIdWorkerTest.class})
 public final class AllSpringTests {
 
 }
