@@ -63,7 +63,7 @@ public class GeneratorBeanDefinitionParser extends BaseBeanDefinitionParser {
      * @return
      */
     private Class<?> getGeneratorClass(final Element element) {
-    	String strategyCode = getAttributeValue(element, "strategy");
+    	String strategyCode = getAttributeValue(element, GeneratorBeanDefinitionTag.STRATEGY);
     	GeneratorStrategy strategy = GeneratorStrategy.valueOf(strategyCode);
     	if (strategy == null) {
     		throw new IllegalArgumentException("unsupported generator strategy.");
