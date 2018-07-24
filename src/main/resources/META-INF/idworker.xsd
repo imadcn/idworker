@@ -29,8 +29,8 @@
     	<xsd:complexType>
     		<xsd:complexContent>
     			<xsd:extension base="beans:identifiedType">
-    				<xsd:attribute name="registry-center-ref" type="xsd:string" use="required" />
-    				<xsd:attribute name="strategy" type="xsd:string" default="SNOWFLAKE" />
+    				<xsd:attribute name="registry-center-ref" type="xsd:string" />
+    				<xsd:attribute name="strategy" type="xsd:string" default="snowflake"/>
     				<xsd:attribute name="group" type="xsd:string" default="default"/>
     			</xsd:extension>
     		</xsd:complexContent>

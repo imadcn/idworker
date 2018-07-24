@@ -19,22 +19,45 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
+import com.imadcn.framework.idworker.generator.CompressUUIDGenerator;
 import com.imadcn.framework.idworker.generator.SnowflakeGenerator;
 import com.imadcn.system.test.spring.AbstractZookeeperJUnit4SpringContextTests;
 
-@ContextConfiguration(locations = "classpath:META-INF/idworker-ctx.xml")
-public final class FormatIdTest extends AbstractZookeeperJUnit4SpringContextTests {
+@ContextConfiguration(locations = "classpath:META-INF/idworker-ctx-new-xsd.xml")
+public final class NewGeneratorDefinitionTest extends AbstractZookeeperJUnit4SpringContextTests {
 
 	@Autowired
-	private SnowflakeGenerator idGenerator;
+	private CompressUUIDGenerator compressUUIDGenerator;
+	@Autowired
+	private SnowflakeGenerator snowflakeGenerator;
 	
 	@Test
-	public void testStringId() {
-		print(idGenerator.nextStringId());
+	public void testCompressId() {
+		print(compressUUIDGenerator.nextStringId());
+		print(compressUUIDGenerator.nextFixedStringId());
 	}
 	
 	@Test
-	public void testFixedStringId() {
-		print(idGenerator.nextFixedStringId());
+	public void testSnowflakeId() {
+		print(snowflakeGenerator.nextStringId());
+		print(snowflakeGenerator.nextFixedStringId());
+	}
+	
+	@Test
+	public void testUnsupportedMethod1() {
+		try {
+			print(compressUUIDGenerator.nextId());
+		} catch (Exception e) {
+			print(e);
+		}
+	}
+	
+	@Test
+	public void testUnsupportedMethod2() {
+		try {
+			print(compressUUIDGenerator.nextId(2));
+		} catch (Exception e) {
+			print(e);
+		}
 	}
 }

@@ -3,7 +3,6 @@ package com.imadcn.framework.idworker.spring.schema.handler;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 import com.imadcn.framework.idworker.spring.schema.parser.GeneratorBeanDefinitionParser;
-import com.imadcn.framework.idworker.spring.schema.parser.RegistryBeanDefinitionParser;
 
 /**
  * IdworkerNamespaceHandler
@@ -14,8 +13,8 @@ public class GeneratorNamespaceHandler extends NamespaceHandlerSupport {
 
 	@Override
 	public void init() {
-		registerBeanDefinitionParser("registry", new RegistryBeanDefinitionParser());
-		registerBeanDefinitionParser("generator", new GeneratorBeanDefinitionParser());
+		registerBeanDefinitionParser("snowflake", new GeneratorBeanDefinitionParser("snowflake"));
+		registerBeanDefinitionParser("compress-uuid", new GeneratorBeanDefinitionParser("compress-uuid"));
 	}
 
 }

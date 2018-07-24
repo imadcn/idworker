@@ -50,11 +50,30 @@ public enum GeneratorStrategy {
 	 * @return
 	 */
 	public static boolean contains(String code) {
-		GeneratorStrategy strategy = valueOf(code);
-		return strategy != null;
+		if (code != null) {
+			GeneratorStrategy[] strategyValues = values();
+			if (strategyValues != null) {
+				for (GeneratorStrategy strategy : strategyValues) {
+					if (code.equals(strategy.getCode())) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 	
-	public static GeneratorStrategy getEnumByCode(String code) {
-		return valueOf(code);
+	public static GeneratorStrategy getByCode(String code) {
+		if (code != null) {
+			GeneratorStrategy[] strategyValues = values();
+			if (strategyValues != null) {
+				for (GeneratorStrategy strategy : strategyValues) {
+					if (code.equals(strategy.getCode())) {
+						return strategy;
+					}
+				}
+			}
+		}
+		return null;
 	}
 }

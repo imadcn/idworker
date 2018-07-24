@@ -67,7 +67,7 @@ public abstract class BaseBeanDefinitionParser extends AbstractBeanDefinitionPar
 	 * @param element element
 	 * @param factory factory
 	 */
-	protected void addPropertyValueIfNotEmpty(final String attributeName, final String propertyName, final Element element, final BeanDefinitionBuilder factory) {
+	protected static void addPropertyValueIfNotEmpty(final String attributeName, final String propertyName, final Element element, final BeanDefinitionBuilder factory) {
 		String attributeValue = element.getAttribute(attributeName);
 		if (attributeValue != null && !attributeValue.isEmpty()) {
 			factory.addPropertyValue(propertyName, attributeValue);
@@ -81,7 +81,7 @@ public abstract class BaseBeanDefinitionParser extends AbstractBeanDefinitionPar
      * @since 1.2.0
      * @return
      */
-    protected String getAttributeValue(final Element element, final String attributeName) {
+    protected static String getAttributeValue(final Element element, final String attributeName) {
     	String attributeValue = element.getAttribute(attributeName);
     	return attributeValue;
     }

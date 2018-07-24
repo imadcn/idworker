@@ -8,12 +8,12 @@
 	
 	<xsd:import namespace="http://www.springframework.org/schema/beans" />
     
-    <xsd:element name="snwoflake">
+    <xsd:element name="snowflake">
     	<xsd:complexType>
     		<xsd:complexContent>
     			<xsd:extension base="beans:identifiedType">
     				<xsd:attribute name="registry-center-ref" type="xsd:string" use="required" />
-    				<xsd:attribute name="group" type="xsd:string"/>
+    				<xsd:attribute name="group" type="xsd:string" default="default" />
     			</xsd:extension>
     		</xsd:complexContent>
     	</xsd:complexType>

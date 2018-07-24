@@ -26,12 +26,12 @@ public class CompressUUIDGenerator implements IdGenerator {
 
 	@Override
 	public long[] nextId(int size) {
-		throw new UnsupportedOperationException("unsupported in CompressUUIDGenerator");
+		throw new UnsupportedOperationException("unsupported operation[public long[] nextId(int size)] in CompressUUIDGenerator");
 	}
 
 	@Override
 	public long nextId() {
-		throw new UnsupportedOperationException("unsupported in CompressUUIDGenerator");
+		throw new UnsupportedOperationException("unsupported operation[public long nextId()] in CompressUUIDGenerator");
 	}
 
 	@Override
