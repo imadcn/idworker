@@ -37,7 +37,11 @@ public abstract class GeneratorRegisteryBuilder extends BaseBeanDefinitionParser
 	 */
 	public static AbstractBeanDefinition buildWorkerNodeRegisterBeanDefinition(final Element element, final ParserContext parserContext) {
 		 BeanDefinitionBuilder result = BeanDefinitionBuilder.rootBeanDefinition(ZookeeperWorkerRegister.class);
-		 result.addConstructorArgReference(element.getAttribute(GeneratorBeanDefinitionTag.REGISTRY_CENTER_REF));
+		 String registryCenterRef = element.getAttribute(GeneratorBeanDefinitionTag.REGISTRY_CENTER_REF);
+		 if (registryCenterRef == null || registryCenterRef.isEmpty()) {
+			 throw new IllegalArgumentException("no attribute [registry-center-ref] found");
+		 }
+		 result.addConstructorArgReference(registryCenterRef);
 		 result.addConstructorArgValue(buildApplicationConfigurationBeanDefinition(element, parserContext));
 		 return result.getBeanDefinition();
 	} 
