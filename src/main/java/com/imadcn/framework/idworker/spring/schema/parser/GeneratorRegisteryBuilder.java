@@ -38,7 +38,7 @@ public abstract class GeneratorRegisteryBuilder extends BaseBeanDefinitionParser
 	 * snowflake策略：zookeeper依赖配置
 	 * @param element element
 	 * @param parserContext parserContext
-	 * @return
+	 * @return AbstractBeanDefinition
 	 */
 	public static AbstractBeanDefinition buildWorkerNodeRegisterBeanDefinition(final Element element, final ParserContext parserContext) {
 		 BeanDefinitionBuilder result = BeanDefinitionBuilder.rootBeanDefinition(ZookeeperWorkerRegister.class);
@@ -55,7 +55,7 @@ public abstract class GeneratorRegisteryBuilder extends BaseBeanDefinitionParser
      * snowflake策略：app config 参数
      * @param element element
      * @param parserContext parserContext
-     * @return
+     * @return AbstractBeanDefinition
      */
     public static AbstractBeanDefinition buildApplicationConfigurationBeanDefinition(final Element element, final ParserContext parserContext) {
         BeanDefinitionBuilder configuration = BeanDefinitionBuilder.rootBeanDefinition(ApplicationConfiguration.class);
@@ -67,7 +67,7 @@ public abstract class GeneratorRegisteryBuilder extends BaseBeanDefinitionParser
     /**
      * 获取ID生成策略 Class 
      * @param element element
-     * @return
+     * @return ID生成策略 Class 
      */
     public static Class<?> getGeneratorClass(final Element element) {
     	String strategyCode = getAttributeValue(element, GeneratorBeanDefinitionTag.STRATEGY);

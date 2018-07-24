@@ -34,20 +34,27 @@ public enum GeneratorStrategy {
 	COMPRESS_UUID("compress_uuid"),
 	;
 
+	/**
+	 * 策略Code
+	 */
 	private String code;
 	
 	private GeneratorStrategy(String code) {
 		this.code = code;
 	}
 
+	/**
+	 * 获取策略CODE
+	 * @return 策略CODE
+	 */
 	public String getCode() {
 		return code;
 	}
 	
 	/**
 	 * 是否包含该ID生成策略
-	 * @param code
-	 * @return
+	 * @param code 策略Code
+	 * @return 是返回<b>true</b>, 否则返回<b>false</b>
 	 */
 	public static boolean contains(String code) {
 		if (code != null) {
@@ -63,6 +70,11 @@ public enum GeneratorStrategy {
 		return false;
 	}
 	
+	/**
+	 * 根据code获取生成策略enum
+	 * @param code 策略Code
+	 * @return 生成策略
+	 */
 	public static GeneratorStrategy getByCode(String code) {
 		if (code != null) {
 			GeneratorStrategy[] strategyValues = values();

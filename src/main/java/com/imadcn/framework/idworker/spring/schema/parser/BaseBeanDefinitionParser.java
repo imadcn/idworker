@@ -75,11 +75,11 @@ public abstract class BaseBeanDefinitionParser extends AbstractBeanDefinitionPar
 	}
 	
 	/**
-     * 获取attr 值
+     * 获取attribute值
      * @param element element
      * @param attributeName attributeName
      * @since 1.2.0
-     * @return
+     * @return attribute值
      */
     protected static String getAttributeValue(final Element element, final String attributeName) {
     	String attributeValue = element.getAttribute(attributeName);

@@ -18,7 +18,8 @@ public class GeneratorBeanDefinitionParser extends BaseBeanDefinitionParser {
 	private String generatorType;
 	
 	/**
-	 * @param generatorType
+	 * generator:xxx 标签解析
+	 * @param generatorType 解析类型
 	 */
 	public GeneratorBeanDefinitionParser(String generatorType) {
 		this.generatorType = generatorType;
