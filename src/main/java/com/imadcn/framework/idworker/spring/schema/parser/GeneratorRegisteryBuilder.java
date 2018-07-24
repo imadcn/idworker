@@ -27,12 +27,17 @@ import com.imadcn.framework.idworker.generator.SnowflakeGenerator;
 import com.imadcn.framework.idworker.register.zookeeper.ZookeeperWorkerRegister;
 import com.imadcn.framework.idworker.spring.common.GeneratorBeanDefinitionTag;
 
+/**
+ * Id生成策略解析
+ * @author yangc
+ * @since 1.2.0
+ */
 public abstract class GeneratorRegisteryBuilder extends BaseBeanDefinitionParser {
 
 	/**
 	 * snowflake策略：zookeeper依赖配置
-	 * @param element
-	 * @param parserContext
+	 * @param element element
+	 * @param parserContext parserContext
 	 * @return
 	 */
 	public static AbstractBeanDefinition buildWorkerNodeRegisterBeanDefinition(final Element element, final ParserContext parserContext) {
@@ -48,8 +53,8 @@ public abstract class GeneratorRegisteryBuilder extends BaseBeanDefinitionParser
     
     /**
      * snowflake策略：app config 参数
-     * @param element
-     * @param parserContext
+     * @param element element
+     * @param parserContext parserContext
      * @return
      */
     public static AbstractBeanDefinition buildApplicationConfigurationBeanDefinition(final Element element, final ParserContext parserContext) {
@@ -60,8 +65,8 @@ public abstract class GeneratorRegisteryBuilder extends BaseBeanDefinitionParser
     }
     
     /**
-     * 获取ID生成策略 Class
-     * @param strategyCode
+     * 获取ID生成策略 Class 
+     * @param element element
      * @return
      */
     public static Class<?> getGeneratorClass(final Element element) {

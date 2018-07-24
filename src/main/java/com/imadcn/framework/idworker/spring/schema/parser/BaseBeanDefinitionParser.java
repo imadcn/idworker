@@ -76,8 +76,8 @@ public abstract class BaseBeanDefinitionParser extends AbstractBeanDefinitionPar
 	
 	/**
      * 获取attr 值
-     * @param element
-     * @param attributeName
+     * @param element element
+     * @param attributeName attributeName
      * @since 1.2.0
      * @return
      */

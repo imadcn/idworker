@@ -30,7 +30,7 @@ public interface IdGenerator {
 	/**
 	 * 固定19位长度，字符串格式的ID
 	 * @since 1.2.0
-	 * @return
+	 * @return ID
 	 */
 	String nextFixedStringId();
 	

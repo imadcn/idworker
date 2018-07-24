@@ -9,14 +9,17 @@ import com.imadcn.framework.idworker.generator.CompressUUIDGenerator;
 import com.imadcn.framework.idworker.generator.SnowflakeGenerator;
 
 /**
- * idworker:application 标签解析
+ * generator:xxx 标签解析
  * @author yangchao
- * @since 1.0.0
+ * @since 1.2.0
  */
 public class GeneratorBeanDefinitionParser extends BaseBeanDefinitionParser {
 	
 	private String generatorType;
 	
+	/**
+	 * @param generatorType
+	 */
 	public GeneratorBeanDefinitionParser(String generatorType) {
 		this.generatorType = generatorType;
 	}

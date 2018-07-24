@@ -30,8 +30,7 @@ public class CompressUUID {
 	
 	/**
 	 * 不带"-"符号的UUID
-	 * 
-	 * @return
+	 * @return 不带"-"符号的UUID
 	 */
 	public static String noneDashUuid() {
 		return UUID.randomUUID().toString().replace("-", "");
@@ -39,8 +38,7 @@ public class CompressUUID {
 	
 	/**
 	 * 22位长度的 UUID
-	 * 
-	 * @return
+	 * @return 22位长度的 UUID
 	 */
 	public static String uuid22() {
 		StringBuffer r = new StringBuffer();
