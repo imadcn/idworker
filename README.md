@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/imadcn/idworker.svg?branch=master)](https://travis-ci.org/imadcn/idworker)
 [![Coverage Status](https://coveralls.io/repos/imadcn/idworker/badge.svg?branch=master&service=github)](https://coveralls.io/github/imadcn/idworker?branch=master)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.imadcn.framework/idworker/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.imadcn.framework/idworker)
+[![Maven Central](https://img.shields.io/maven-central/v/com.imadcn.framework/idworker.svg)](http://mvnrepository.com/artifact/com.imadcn.framework/idworker)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 ### 是什么
@@ -26,7 +26,7 @@ idworker 是一个基于zookeeper和snowflake算法的分布式统一ID生成工
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:idworker="http://code.imadcn.com/schema/idworker"
-	xsi:schemaLocation="
+    xsi:schemaLocation="
         http://www.springframework.org/schema/beans 
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://code.imadcn.com/schema/idworker
@@ -45,16 +45,17 @@ idworker 是一个基于zookeeper和snowflake算法的分布式统一ID生成工
 public IdGenerator generator;
 
 public void id() {
-    long id = generator.nextId(); // Long型，随着时间推移，ID长度为7-19位
-    long[] ids = generator.nextId(100_000); // 批量ID，最多10w个
-	String strId = generator.nextStringId(); // 字符串格式ID
-	String fixedId = generator.nextFixedStringId(); // 固定19位长度字符串Id
+    long id = generator.nextId(); // Long型ID(64进制UUID不支持)，随着时间推移，ID长度为7-19位
+    long[] ids = generator.nextId(100_000); // 批量Long型ID(64进制UUID不支持)，最多10w个
+	
+    String strId = generator.nextStringId(); // 字符串格式ID
+    String fixedId = generator.nextFixedStringId(); // 固定19位长度字符串Id
 }
 
 ```
 
 ### 配置参考
-#### <idworker:registry /> 注册中心配置，如zookeeper
+#### <idworker:registry /> 注册中心配置，如zookeeper（64进制UUID策略可不配置注册中心）
 
 |属性|类型|必填|缺省值|描述|
 |:------|:------|:------|:------|:------|
@@ -73,5 +74,20 @@ public void id() {
 |属性|类型|必填|缺省值|描述|
 |:------|:------|:------|:------|:------|
 |id|String|是| |Spring容器中的ID|
+|strategy|String|否|snowflake|ID生成[snowflake, compress_uuid]，当策略为64进制uuid时，registry-center-ref可不用配置|
+|registry-center-ref|String|是| |注册中心SpringBeanRef，当生成策略为snowflake时，必填|
+|group|String|否|default|分组名，可以为不同业务分配分组，独立注册|
+
+#### <generator:snowflake /> 生成策略 : snowflake模式
+
+|属性|类型|必填|缺省值|描述|
+|:------|:------|:------|:------|:------|
+|id|String|是| |Spring容器中的ID|
 |registry-center-ref|String|是| |注册中心SpringBeanRef|
 |group|String|否|default|分组名，可以为不同业务分配分组，独立注册|
+
+#### <generator:compress-uuid /> 生成策略 : 64进制UUID模式
+
+|属性|类型|必填|缺省值|描述|
+|:------|:------|:------|:------|:------|
+|id|String|是| |Spring容器中的ID|
