@@ -20,40 +20,43 @@ import com.imadcn.framework.idworker.algorithm.Snowflake;
 
 /**
  * ID生成策略
+ * 
  * @author yangc
  * @since 1.2.0
  */
 public enum GeneratorStrategy {
 	/**
-	 * snowflake算法  {@link Snowflake}
+	 * snowflake算法 {@link Snowflake}
 	 */
 	SNOWFLAKE("snowflake"),
 	/**
 	 * 64进制UUID算法 {@link CompressUUID}
 	 */
-	COMPRESS_UUID("compress_uuid"),
-	;
+	COMPRESS_UUID("compress_uuid"),;
 
 	/**
 	 * 策略Code
 	 */
 	private String code;
-	
+
 	private GeneratorStrategy(String code) {
 		this.code = code;
 	}
 
 	/**
 	 * 获取策略CODE
+	 * 
 	 * @return 策略CODE
 	 */
 	public String getCode() {
 		return code;
 	}
-	
+
 	/**
 	 * 是否包含该ID生成策略
-	 * @param code 策略Code
+	 * 
+	 * @param code
+	 *            策略Code
 	 * @return 是返回<b>true</b>, 否则返回<b>false</b>
 	 */
 	public static boolean contains(String code) {
@@ -69,10 +72,12 @@ public enum GeneratorStrategy {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 根据code获取生成策略enum
-	 * @param code 策略Code
+	 * 
+	 * @param code
+	 *            策略Code
 	 * @return 生成策略
 	 */
 	public static GeneratorStrategy getByCode(String code) {

@@ -14,13 +14,14 @@ import com.imadcn.framework.idworker.register.zookeeper.ZookeeperWorkerRegister;
 
 /**
  * Snowflake算法生成工具
+ * 
  * @author yangchao
  * @since 1.0.0
  */
 public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
-	
+
 	static final String FIXED_STRING_FORMAT = "%019d";
-	
+
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
@@ -37,15 +38,15 @@ public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
 	private volatile boolean initialized = false;
 
 	private volatile boolean working = false;
-	
+
 	private volatile boolean connecting = false;
-	
+
 	private ConnectionStateListener listener;
-	
+
 	public SnowflakeGenerator(ZookeeperWorkerRegister register) {
 		this.register = register;
 	}
-	
+
 	@Override
 	public synchronized void init() {
 		if (!initialized) {
@@ -78,7 +79,7 @@ public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
 			logger.info("worker is connecting, skip this time of register.");
 		}
 	}
-	
+
 	@Override
 	public long[] nextId(int size) {
 		if (isWorking()) {
@@ -94,12 +95,12 @@ public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
 		}
 		throw new IllegalStateException("worker isn't working, reg center may shutdown");
 	}
-	
+
 	@Override
 	public String nextStringId() {
 		return String.valueOf(nextId());
 	}
-	
+
 	@Override
 	public String nextFixedStringId() {
 		return String.format(FIXED_STRING_FORMAT, nextId());
@@ -109,7 +110,7 @@ public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
 	public void suspend() {
 		this.working = false;
 	}
-	
+
 	@Override
 	public synchronized void close() throws IOException {
 		// 关闭，先重置状态(避免ZK删除 workerId，其他机器抢注，会导致workerID 重新生成的BUG)
@@ -126,7 +127,7 @@ public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
 	public boolean isConnecting() {
 		return this.connecting;
 	}
-	
+
 	/**
 	 * 重置连接状态
 	 */
@@ -135,5 +136,5 @@ public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
 		working = false;
 		connecting = false;
 	}
-	
+
 }

@@ -10,15 +10,16 @@ import com.imadcn.framework.idworker.register.GeneratorConnector;
 
 /**
  * Zk连接状态监听
+ * 
  * @author yangc
  * @since 1.1.0
  */
 public class ZookeeperConnectionStateListener implements ConnectionStateListener {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
-	
+
 	private GeneratorConnector connector;
-	
+
 	public ZookeeperConnectionStateListener(GeneratorConnector connector) {
 		this.connector = connector;
 	}
@@ -38,7 +39,7 @@ public class ZookeeperConnectionStateListener implements ConnectionStateListener
 			break;
 		}
 	}
-	
+
 	protected void doReconnecting() {
 		connector.suspend();
 		connector.connect();

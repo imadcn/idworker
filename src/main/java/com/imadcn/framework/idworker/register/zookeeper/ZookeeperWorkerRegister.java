@@ -94,6 +94,8 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 				}
 			}
 			throw new RegException("max worker num reached. register failed");
+		} catch (RegException e) {
+			throw e;
 		} catch (Exception e) {
 			logger.error("", e);
 			throw new IllegalStateException(e.getMessage(), e);

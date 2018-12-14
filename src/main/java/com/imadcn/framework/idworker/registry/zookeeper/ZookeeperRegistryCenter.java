@@ -56,7 +56,8 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 			return;
 		}
 		logger.debug("init zookeeper registry, connect to servers : {}", zkConfig.getServerLists());
-		CuratorFrameworkFactory.Builder builder = CuratorFrameworkFactory.builder().connectString(zkConfig.getServerLists()).retryPolicy(new ExponentialBackoffRetry(zkConfig.getBaseSleepTimeMilliseconds(), zkConfig.getMaxRetries(), zkConfig.getMaxSleepTimeMilliseconds())).namespace(zkConfig.getNamespace());
+		CuratorFrameworkFactory.Builder builder = CuratorFrameworkFactory.builder().connectString(zkConfig.getServerLists())
+				.retryPolicy(new ExponentialBackoffRetry(zkConfig.getBaseSleepTimeMilliseconds(), zkConfig.getMaxRetries(), zkConfig.getMaxSleepTimeMilliseconds())).namespace(zkConfig.getNamespace());
 		if (0 != zkConfig.getSessionTimeoutMilliseconds()) {
 			builder.sessionTimeoutMs(zkConfig.getSessionTimeoutMilliseconds());
 		}
@@ -104,9 +105,8 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 	}
 
 	/**
-	 * TODO 等待500ms, cache先关闭再关闭client, 否则会抛异常 因为异步处理,
-	 * 可能会导致client先关闭而cache还未关闭结束. 等待Curator新版本解决这个bug.
-	 * BUG地址：https://issues.apache.org/jira/browse/CURATOR-157
+	 * TODO 等待500ms, cache先关闭再关闭client, 否则会抛异常 因为异步处理, 可能会导致client先关闭而cache还未关闭结束.
+	 * 等待Curator新版本解决这个bug. BUG地址：https://issues.apache.org/jira/browse/CURATOR-157
 	 */
 	private void waitForCacheClose() {
 		try {

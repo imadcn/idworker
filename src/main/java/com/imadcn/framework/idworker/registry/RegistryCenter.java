@@ -21,7 +21,8 @@ public interface RegistryCenter {
 	/**
 	 * 获取注册数据.
 	 * 
-	 * @param key 键
+	 * @param key
+	 *            键
 	 * @return 值
 	 */
 	String get(String key);
@@ -29,7 +30,8 @@ public interface RegistryCenter {
 	/**
 	 * 获取数据是否存在.
 	 * 
-	 * @param key 键
+	 * @param key
+	 *            键
 	 * @return 数据是否存在
 	 */
 	boolean isExisted(String key);
@@ -37,30 +39,36 @@ public interface RegistryCenter {
 	/**
 	 * 持久化注册数据.
 	 * 
-	 * @param key 键
-	 * @param value 值
+	 * @param key
+	 *            键
+	 * @param value
+	 *            值
 	 */
 	void persist(String key, String value);
 
 	/**
 	 * 更新注册数据.
 	 * 
-	 * @param key 键
-	 * @param value 值
+	 * @param key
+	 *            键
+	 * @param value
+	 *            值
 	 */
 	void update(String key, String value);
 
 	/**
 	 * 删除注册数据.
 	 * 
-	 * @param key 键
+	 * @param key
+	 *            键
 	 */
 	void remove(String key);
 
 	/**
 	 * 获取注册中心当前时间.
 	 * 
-	 * @param key 用于获取时间的键
+	 * @param key
+	 *            用于获取时间的键
 	 * @return 注册中心当前时间
 	 */
 	long getRegistryCenterTime(String key);

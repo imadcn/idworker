@@ -10,23 +10,26 @@ import com.imadcn.framework.idworker.generator.SnowflakeGenerator;
 
 /**
  * generator:xxx 标签解析
+ * 
  * @author yangchao
  * @since 1.2.0
  */
 public class GeneratorBeanDefinitionParser extends BaseBeanDefinitionParser {
-	
+
 	private String generatorType;
-	
+
 	/**
 	 * generator:xxx 标签解析
-	 * @param generatorType 解析类型
+	 * 
+	 * @param generatorType
+	 *            解析类型
 	 */
 	public GeneratorBeanDefinitionParser(String generatorType) {
 		this.generatorType = generatorType;
 	}
-	
+
 	@Override
-    protected AbstractBeanDefinition parseInternal(final Element element, final ParserContext parserContext) {
+	protected AbstractBeanDefinition parseInternal(final Element element, final ParserContext parserContext) {
 		Class<?> generatorClass = null;
 		if ("snowflake".equals(generatorType)) {
 			generatorClass = SnowflakeGenerator.class;
@@ -36,12 +39,12 @@ public class GeneratorBeanDefinitionParser extends BaseBeanDefinitionParser {
 			throw new IllegalArgumentException("unknown registryType");
 		}
 		BeanDefinitionBuilder result = BeanDefinitionBuilder.rootBeanDefinition(generatorClass);
-        // snowflake 生成策略
-        if (generatorClass.isAssignableFrom(SnowflakeGenerator.class)) {
-        	result.addConstructorArgValue(GeneratorRegisteryBuilder.buildWorkerNodeRegisterBeanDefinition(element, parserContext));
-        	result.setInitMethodName("init");
-        }
-        return result.getBeanDefinition();
-    }
+		// snowflake 生成策略
+		if (generatorClass.isAssignableFrom(SnowflakeGenerator.class)) {
+			result.addConstructorArgValue(GeneratorRegisteryBuilder.buildWorkerNodeRegisterBeanDefinition(element, parserContext));
+			result.setInitMethodName("init");
+		}
+		return result.getBeanDefinition();
+	}
 
 }

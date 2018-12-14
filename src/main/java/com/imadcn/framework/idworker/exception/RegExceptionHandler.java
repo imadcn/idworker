@@ -22,7 +22,7 @@ public final class RegExceptionHandler {
      * 
      * @param cause 待处理异常.
      */
-    public static void handleException(final Exception cause) {
+	public static void handleException(final Exception cause) {
         if (null == cause) {
             return;
         }
