@@ -5,8 +5,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Snowflake的结构如下(每部分用-分开): <br>
- * 0 - 0000000000 0000000000 0000000000 0000000000 0 - 00000 - 00000 -
- * 000000000000 <br>
+ * 0 - 0000000000 0000000000 0000000000 0000000000 0 - 00000 - 00000 - 000000000000 <br>
  * <b> · </b>1位标识，由于long基本类型在Java中是带符号的，最高位是符号位，正数是0，负数是1，所以id一般是正数，最高位是0 <br>
  * <b> · </b>41位时间戳(毫秒级)，注意，41位时间戳不是存储当前时间的时间戳，而是存储时间戳的差值（当前时间戳 -
  * 开始时间戳)得到的值），这里的的开始时间戳，一般是我们的id生成器开始使用的时间，由我们程序来指定的（如下下面程序epoch属性）。41位的时间戳，可以使用69年
@@ -172,7 +171,7 @@ public class Snowflake {
 
 	/**
 	 * 低并发模式
-	 * <p>雪花算法默认实现在调用频次低的情况下，都是垮毫秒生成，导致sequence全是0，最终数据都是偶数，奇偶不平均。此模式下sequence全局自增，溢出后，等待下1ms，而不是每次都置零。
+	 * <p>雪花算法默认实现在调用频次低的情况下，都是垮毫秒生成，导致sequence全是0，最终数据都是偶数，奇偶不平均。此模式下sequence全局自增，同ms内溢出后，等待下1ms，而不是每次都置零。
 	 * @return SnowflakeId
 	 * @since 1.2.5
 	 */
@@ -187,7 +186,7 @@ public class Snowflake {
 		// 全局递增
 		this.sequence = this.sequence + 1 & this.sequenceMask;
 		// 溢出后，等待下一窗口
-		if (this.sequence == 0) {
+		if (this.sequence == 0 && this.lastTimestamp == timestamp) {
 			// 阻塞到下一个毫秒,获得新的时间戳
 			timestamp = this.tilNextMillis(this.lastTimestamp);
 		}
