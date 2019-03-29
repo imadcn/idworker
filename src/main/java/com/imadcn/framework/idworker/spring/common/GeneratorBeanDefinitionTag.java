@@ -17,9 +17,13 @@ public final class GeneratorBeanDefinitionTag extends BaseBeanDefinitionTag {
 
 	/**
 	 * 生成策略
-	 * 
 	 * @since 1.2.0
 	 */
 	public static final String STRATEGY = "strategy";
-
+	
+	/**
+	 * 低并发模式
+	 * @since 1.2.5
+	 */
+	public static final String LOW_CONCURRENCY = "low-concurrency";
 }

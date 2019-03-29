@@ -35,7 +35,7 @@ import com.imadcn.framework.idworker.spring.common.GeneratorBeanDefinitionTag;
 public abstract class GeneratorRegisteryBuilder extends BaseBeanDefinitionParser {
 
 	/**
-	 * snowflake策略：zookeeper依赖配置
+	 * snowflake策略：zookeeper配置(idworker:registry)
 	 * @param element element
 	 * @param parserContext parserContext
 	 * @return AbstractBeanDefinition
@@ -52,7 +52,7 @@ public abstract class GeneratorRegisteryBuilder extends BaseBeanDefinitionParser
 	} 
     
     /**
-     * snowflake策略：app config 参数
+     * snowflake策略：参数(idworker:generator / generator:snowflake)
      * @param element element
      * @param parserContext parserContext
      * @return AbstractBeanDefinition
@@ -61,6 +61,7 @@ public abstract class GeneratorRegisteryBuilder extends BaseBeanDefinitionParser
 		BeanDefinitionBuilder configuration = BeanDefinitionBuilder.rootBeanDefinition(ApplicationConfiguration.class);
         addPropertyValueIfNotEmpty(GeneratorBeanDefinitionTag.GROUOP, "group", element, configuration);
         addPropertyValueIfNotEmpty(GeneratorBeanDefinitionTag.STRATEGY, "strategy", element, configuration);
+        addPropertyValueIfNotEmpty(GeneratorBeanDefinitionTag.LOW_CONCURRENCY, "lowConcurrency", element, configuration);
         return configuration.getBeanDefinition();
     }
     

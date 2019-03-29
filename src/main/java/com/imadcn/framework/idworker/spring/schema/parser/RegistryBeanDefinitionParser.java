@@ -8,6 +8,7 @@ import org.w3c.dom.Element;
 import com.imadcn.framework.idworker.config.ZookeeperConfiguration;
 import com.imadcn.framework.idworker.generator.SnowflakeGenerator;
 import com.imadcn.framework.idworker.registry.zookeeper.ZookeeperRegistryCenter;
+import com.imadcn.framework.idworker.spring.common.GeneratorBeanDefinitionTag;
 import com.imadcn.framework.idworker.spring.common.ZookeeperBeanDefinitionTag;
 
 /**
@@ -38,6 +39,7 @@ public class RegistryBeanDefinitionParser extends BaseBeanDefinitionParser {
 			// snowflake 生成策略
 			if (generatorClass.isAssignableFrom(SnowflakeGenerator.class)) {
 				result.addConstructorArgValue(GeneratorRegisteryBuilder.buildWorkerNodeRegisterBeanDefinition(element, parserContext));
+				result.addPropertyValue("lowConcurrency", getAttributeValue(element, GeneratorBeanDefinitionTag.LOW_CONCURRENCY));
 				result.setInitMethodName("init");
 			}
 			return result.getBeanDefinition();
@@ -48,10 +50,8 @@ public class RegistryBeanDefinitionParser extends BaseBeanDefinitionParser {
 	/**
 	 * zookeeper 链接喷纸解析
 	 * 
-	 * @param element
-	 *            element
-	 * @param parserContext
-	 *            parserContext
+	 * @param element element
+	 * @param parserContext parserContext
 	 * @return
 	 */
 	private AbstractBeanDefinition buildZookeeperConfigurationBeanDefinition(final Element element, final ParserContext parserContext) {

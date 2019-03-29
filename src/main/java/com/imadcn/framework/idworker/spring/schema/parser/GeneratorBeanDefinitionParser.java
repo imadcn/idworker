@@ -7,6 +7,7 @@ import org.w3c.dom.Element;
 
 import com.imadcn.framework.idworker.generator.CompressUUIDGenerator;
 import com.imadcn.framework.idworker.generator.SnowflakeGenerator;
+import com.imadcn.framework.idworker.spring.common.GeneratorBeanDefinitionTag;
 
 /**
  * generator:xxx 标签解析
@@ -20,9 +21,7 @@ public class GeneratorBeanDefinitionParser extends BaseBeanDefinitionParser {
 
 	/**
 	 * generator:xxx 标签解析
-	 * 
-	 * @param generatorType
-	 *            解析类型
+	 * @param generatorType 解析类型
 	 */
 	public GeneratorBeanDefinitionParser(String generatorType) {
 		this.generatorType = generatorType;
@@ -42,6 +41,7 @@ public class GeneratorBeanDefinitionParser extends BaseBeanDefinitionParser {
 		// snowflake 生成策略
 		if (generatorClass.isAssignableFrom(SnowflakeGenerator.class)) {
 			result.addConstructorArgValue(GeneratorRegisteryBuilder.buildWorkerNodeRegisterBeanDefinition(element, parserContext));
+			result.addPropertyValue("lowConcurrency", getAttributeValue(element, GeneratorBeanDefinitionTag.LOW_CONCURRENCY));
 			result.setInitMethodName("init");
 		}
 		return result.getBeanDefinition();

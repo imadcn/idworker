@@ -42,6 +42,12 @@ public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
 	private volatile boolean connecting = false;
 
 	private ConnectionStateListener listener;
+	
+	/**
+	 * 低并发模式
+	 * @since 1.2.5
+	 */
+	private boolean lowConcurrency = false;
 
 	public SnowflakeGenerator(ZookeeperWorkerRegister register) {
 		this.register = register;
@@ -69,7 +75,7 @@ public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
 			connecting = true;
 			long workerId = register.register();
 			if (workerId >= 0) {
-				snowflake = Snowflake.create(workerId);
+				snowflake = Snowflake.create(workerId, lowConcurrency);
 				working = true;
 				connecting = false;
 			} else {
@@ -135,6 +141,14 @@ public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
 		initialized = false;
 		working = false;
 		connecting = false;
+	}
+
+	/**
+	 * 低并发模式
+	 * @param lowConcurrency 低并发模式 ? true : false
+	 */
+	public void setLowConcurrency(boolean lowConcurrency) {
+		this.lowConcurrency = lowConcurrency;
 	}
 
 }

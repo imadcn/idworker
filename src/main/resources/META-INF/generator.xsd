@@ -14,6 +14,7 @@
     			<xsd:extension base="beans:identifiedType">
     				<xsd:attribute name="registry-center-ref" type="xsd:string" use="required" />
     				<xsd:attribute name="group" type="xsd:string" default="default" />
+    				<xsd:attribute name="low-concurrency" type="xsd:boolean" default="false"/>
     			</xsd:extension>
     		</xsd:complexContent>
     	</xsd:complexType>

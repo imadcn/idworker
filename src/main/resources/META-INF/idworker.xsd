@@ -30,8 +30,9 @@
     		<xsd:complexContent>
     			<xsd:extension base="beans:identifiedType">
     				<xsd:attribute name="registry-center-ref" type="xsd:string" />
-    				<xsd:attribute name="strategy" type="xsd:string" default="snowflake"/>
     				<xsd:attribute name="group" type="xsd:string" default="default"/>
+    				<xsd:attribute name="strategy" type="xsd:string" default="snowflake"/>
+    				<xsd:attribute name="low-concurrency" type="xsd:boolean" default="false"/>
     			</xsd:extension>
     		</xsd:complexContent>
     	</xsd:complexType>

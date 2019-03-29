@@ -18,6 +18,12 @@ public class ApplicationConfiguration {
 	 * @since 1.2.0
 	 */
 	private String strategy = "snowflake";
+	/**
+	 * 低并发模式（snowflake策略生效）
+	 * 
+	 * @since 1.2.5
+	 */
+	private boolean lowConcurrency = false;
 
 	public String getGroup() {
 		return group;
@@ -34,4 +40,13 @@ public class ApplicationConfiguration {
 	public void setStrategy(String strategy) {
 		this.strategy = strategy;
 	}
+
+	public boolean isLowConcurrency() {
+		return lowConcurrency;
+	}
+
+	public void setLowConcurrency(boolean lowConcurrency) {
+		this.lowConcurrency = lowConcurrency;
+	}
+
 }

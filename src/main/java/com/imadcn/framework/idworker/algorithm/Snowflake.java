@@ -72,15 +72,21 @@ public class Snowflake {
 	private final int HUNDRED_K = 100_000;
 
 	/**
+	 * 低并发模式
+	 */
+	private boolean lowConcurrency = false;
+
+	/**
 	 * @param workerId
 	 *            机器Id
 	 */
-	private Snowflake(long workerId) {
+	private Snowflake(long workerId, boolean lowConcurrency) {
 		if (workerId > this.maxWorkerId || workerId < 0) {
 			String message = String.format("worker Id can't be greater than %d or less than 0", this.maxWorkerId);
 			throw new IllegalArgumentException(message);
 		}
 		this.workerId = workerId;
+		this.lowConcurrency = lowConcurrency;
 	}
 
 	/**
@@ -91,7 +97,18 @@ public class Snowflake {
 	 * @return Snowflake Instance
 	 */
 	public static Snowflake create(long workerId) {
-		return new Snowflake(workerId);
+		return create(workerId, false);
+	}
+
+	/**
+	 * Snowflake Builder
+	 * 
+	 * @param workerId
+	 *            workerId
+	 * @return Snowflake Instance
+	 */
+	public static Snowflake create(long workerId, boolean lowConcurrency) {
+		return new Snowflake(workerId, lowConcurrency);
 	}
 
 	/**
@@ -115,12 +132,20 @@ public class Snowflake {
 
 	/**
 	 * 获得ID
-	 * 
 	 * @return SnowflakeId
 	 */
 	public synchronized long nextId() {
+		return lowConcurrency ? nextIdOnLowConcurrency() : nextIdOnHighConcurrency();
+	}
+	
+	/**
+	 * 高并发模式
+	 * <p> 官方标准算法
+	 * @return SnowflakeId
+	 * @since 1.2.5
+	 */
+	private long nextIdOnHighConcurrency() {
 		long timestamp = timeGen();
-
 		// 如果上一个timestamp与新产生的相等，则sequence加一(0-4095循环);
 		if (this.lastTimestamp == timestamp) {
 			// 对新的timestamp，sequence从0开始
@@ -134,12 +159,37 @@ public class Snowflake {
 			// 时间戳改变，毫秒内序列重置
 			this.sequence = 0;
 		}
-
 		// 如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过这个时候应当抛出异常
 		if (timestamp < this.lastTimestamp) {
 			String message = String.format("Clock moved backwards. Refusing to generate id for %d milliseconds.", (this.lastTimestamp - timestamp));
 			logger.error(message);
 			throw new RuntimeException(message);
+		}
+		this.lastTimestamp = timestamp;
+		// 移位并通过或运算拼到一起组成64位的ID
+		return timestamp - this.epoch << this.timestampLeftShift | this.workerId << this.workerIdShift | this.sequence;
+	}
+
+	/**
+	 * 低并发模式
+	 * <p>雪花算法默认实现在调用频次低的情况下，都是垮毫秒生成，导致sequence全是0，最终数据都是偶数，奇偶不平均。此模式下sequence全局自增，溢出后，等待下1ms，而不是每次都置零。
+	 * @return SnowflakeId
+	 * @since 1.2.5
+	 */
+	private long nextIdOnLowConcurrency() {
+		long timestamp = timeGen();
+		// 如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过这个时候应当抛出异常
+		if (timestamp < this.lastTimestamp) {
+			String message = String.format("Clock moved backwards. Refusing to generate id for %d milliseconds.", (this.lastTimestamp - timestamp));
+			logger.error(message);
+			throw new RuntimeException(message);
+		}
+		// 全局递增
+		this.sequence = this.sequence + 1 & this.sequenceMask;
+		// 溢出后，等待下一窗口
+		if (this.sequence == 0) {
+			// 阻塞到下一个毫秒,获得新的时间戳
+			timestamp = this.tilNextMillis(this.lastTimestamp);
 		}
 
 		this.lastTimestamp = timestamp;
@@ -149,10 +199,8 @@ public class Snowflake {
 
 	/**
 	 * 等待下一个毫秒的到来, 保证返回的毫秒数在参数lastTimestamp之后
-	 * 
-	 * @param lastTimestamp
-	 *            上次生成ID的时间戳
-	 * @return
+	 * @param lastTimestamp 上次生成ID的时间戳
+	 * @return 下一个毫秒
 	 */
 	private long tilNextMillis(long lastTimestamp) {
 		long timestamp = timeGen();
@@ -164,6 +212,7 @@ public class Snowflake {
 
 	/**
 	 * 获得系统当前毫秒数
+	 * @return 获得系统当前毫秒数
 	 */
 	private long timeGen() {
 		return System.currentTimeMillis();
