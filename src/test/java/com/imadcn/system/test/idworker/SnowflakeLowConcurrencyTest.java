@@ -32,7 +32,6 @@ public final class SnowflakeLowConcurrencyTest extends AbstractZookeeperJUnit4Sp
 	@Test
 	public void testSnowflakeId() throws InterruptedException {
 		for (int i = 0; i < 100; i++) {
-			Thread.sleep(100);
 			print(snowflakeGenerator.nextFixedStringId());
 		}
 	}
