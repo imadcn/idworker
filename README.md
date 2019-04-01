@@ -58,7 +58,7 @@ public void id() {
 #### <idworker:registry /> 注册中心配置，如zookeeper（64进制UUID策略可不配置注册中心）
 
 |属性|类型|必填|缺省值|兼容版本|描述|
-|:------|:------|:------|:------|:------|
+|:------|:------|:------|:------|:------|:------|
 |id|String|是| |1.0.0+|Spring容器中的ID|
 |server-lists|String|是| |1.0.0+|连接Zookeeper服务器的列表<br/>包括IP地址和端口号<br/>多个地址用逗号分隔<br/>如: host1:2181,host2:2181|
 |namespace|String|否|idworker|1.0.0+|Zookeeper的命名空间|
@@ -72,7 +72,7 @@ public void id() {
 #### <idworker:generator /> ID生成策略配置
 
 |属性|类型|必填|缺省值|兼容版本|描述|
-|:------|:------|:------|:------|:------|
+|:------|:------|:------|:------|:------|:------|
 |id|String|是| |1.0.0+|Spring容器中的ID|
 |strategy|String|是|snowflake|1.2.0+|ID生成[snowflake, compress_uuid]，当策略为64进制uuid时，registry-center-ref可不用配置|
 |registry-center-ref|String|否| |1.0.0+|注册中心SpringBeanRef，当生成策略为snowflake时，必填|
@@ -82,7 +82,7 @@ public void id() {
 #### <generator:snowflake /> 生成策略 : snowflake模式
 
 |属性|类型|必填|缺省值|兼容版本|描述|
-|:------|:------|:------|:------|:------|
+|:------|:------|:------|:------|:------|:------|
 |id|String|是| |1.2.0+|Spring容器中的ID|
 |registry-center-ref|String|是| |1.2.0+|注册中心SpringBeanRef|
 |group|String|否|default|1.2.0+|分组名，可以为不同业务分配分组，独立注册|
@@ -91,5 +91,5 @@ public void id() {
 #### <generator:compress-uuid /> 生成策略 : 64进制UUID模式
 
 |属性|类型|必填|缺省值|兼容版本|描述|
-|:------|:------|:------|:------|:------|
+|:------|:------|:------|:------|:------|:------|
 |id|String|是| |1.2.0+|Spring容器中的ID|
