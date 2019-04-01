@@ -57,39 +57,39 @@ public void id() {
 ### 配置参考
 #### <idworker:registry /> 注册中心配置，如zookeeper（64进制UUID策略可不配置注册中心）
 
-|属性|类型|必填|缺省值|描述|
+|属性|类型|必填|缺省值|兼容版本|描述|
 |:------|:------|:------|:------|:------|
-|id|String|是| |Spring容器中的ID|
-|server-lists|String|是| |连接Zookeeper服务器的列表<br/>包括IP地址和端口号<br/>多个地址用逗号分隔<br/>如: host1:2181,host2:2181|
-|namespace|String|否|idworker|Zookeeper的命名空间|
-|base-sleep-time-milliseconds|int|否|1000|等待重试的间隔时间的初始值<br/>单位：毫秒|
-|max-sleep-time-milliseconds|int|否|3000|等待重试的间隔时间的最大值<br/>单位：毫秒|
-|max-retries|int|否|3|最大重试次数|
-|session-timeout-milliseconds|int|否|60000|会话超时时间<br/>单位：毫秒|
-|connection-timeout-milliseconds|int|否|15000|连接超时时间<br/>单位：毫秒|
-|digest|String|否| |连接Zookeeper的权限令牌<br/>缺省为不需要权限验证|
+|id|String|是| |1.0.0+|Spring容器中的ID|
+|server-lists|String|是| |1.0.0+|连接Zookeeper服务器的列表<br/>包括IP地址和端口号<br/>多个地址用逗号分隔<br/>如: host1:2181,host2:2181|
+|namespace|String|否|idworker|1.0.0+|Zookeeper的命名空间|
+|base-sleep-time-milliseconds|int|否|1000|1.0.0+|等待重试的间隔时间的初始值<br/>单位：毫秒|
+|max-sleep-time-milliseconds|int|否|3000|1.0.0+|等待重试的间隔时间的最大值<br/>单位：毫秒|
+|max-retries|int|否|3|1.0.0+|最大重试次数|
+|session-timeout-milliseconds|int|否|60000|1.0.0+|会话超时时间<br/>单位：毫秒|
+|connection-timeout-milliseconds|int|否|15000|1.0.0+|连接超时时间<br/>单位：毫秒|
+|digest|String|否| |1.0.0+|连接Zookeeper的权限令牌<br/>缺省为不需要权限验证|
 
 #### <idworker:generator /> ID生成策略配置
 
-|属性|类型|必填|缺省值|描述|
+|属性|类型|必填|缺省值|兼容版本|描述|
 |:------|:------|:------|:------|:------|
-|id|String|是| |Spring容器中的ID|
-|strategy|String|是|snowflake|ID生成[snowflake, compress_uuid]，当策略为64进制uuid时，registry-center-ref可不用配置|
-|registry-center-ref|String|否| |注册中心SpringBeanRef，当生成策略为snowflake时，必填|
-|group|String|否|default|分组名，可以为不同业务分配分组，独立注册|
-|low-concurrency|Boolean|否|false|低并发模式(此模式下snowflake算法sequence全局递增，不再每秒清零)|
+|id|String|是| |1.0.0+|Spring容器中的ID|
+|strategy|String|是|snowflake|1.2.0+|ID生成[snowflake, compress_uuid]，当策略为64进制uuid时，registry-center-ref可不用配置|
+|registry-center-ref|String|否| |1.0.0+|注册中心SpringBeanRef，当生成策略为snowflake时，必填|
+|group|String|否|default|1.0.0+|分组名，可以为不同业务分配分组，独立注册|
+|low-concurrency|Boolean|否|false|1.2.5+|低并发模式(此模式下snowflake算法sequence全局递增，不再每秒清零)|
 
 #### <generator:snowflake /> 生成策略 : snowflake模式
 
-|属性|类型|必填|缺省值|描述|
+|属性|类型|必填|缺省值|兼容版本|描述|
 |:------|:------|:------|:------|:------|
-|id|String|是| |Spring容器中的ID|
-|registry-center-ref|String|是| |注册中心SpringBeanRef|
-|group|String|否|default|分组名，可以为不同业务分配分组，独立注册|
-|low-concurrency|Boolean|否|false|低并发模式(此模式下snowflake算法sequence全局递增，不再每秒清零)|
+|id|String|是| |1.2.0+|Spring容器中的ID|
+|registry-center-ref|String|是| |1.2.0+|注册中心SpringBeanRef|
+|group|String|否|default|1.2.0+|分组名，可以为不同业务分配分组，独立注册|
+|low-concurrency|Boolean|否|false|1.2.5+|低并发模式(此模式下snowflake算法sequence全局递增，不再每秒清零)|
 
 #### <generator:compress-uuid /> 生成策略 : 64进制UUID模式
 
-|属性|类型|必填|缺省值|描述|
+|属性|类型|必填|缺省值|兼容版本|描述|
 |:------|:------|:------|:------|:------|
-|id|String|是| |Spring容器中的ID|
+|id|String|是| |1.2.0+|Spring容器中的ID|
