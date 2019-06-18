@@ -2,6 +2,7 @@ package com.imadcn.framework.idworker.spring.schema.handler;
 
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
+import com.imadcn.framework.idworker.common.ConfigConstants;
 import com.imadcn.framework.idworker.spring.schema.parser.GeneratorBeanDefinitionParser;
 
 /**
@@ -14,8 +15,8 @@ public class GeneratorNamespaceHandler extends NamespaceHandlerSupport {
 
 	@Override
 	public void init() {
-		registerBeanDefinitionParser("snowflake", new GeneratorBeanDefinitionParser("snowflake"));
-		registerBeanDefinitionParser("compress-uuid", new GeneratorBeanDefinitionParser("compress-uuid"));
+		registerBeanDefinitionParser(ConfigConstants.SNOWFLAKE, new GeneratorBeanDefinitionParser(ConfigConstants.SNOWFLAKE));
+		registerBeanDefinitionParser(ConfigConstants.COMPRESS_UUID, new GeneratorBeanDefinitionParser(ConfigConstants.COMPRESS_UUID));
 	}
 
 }

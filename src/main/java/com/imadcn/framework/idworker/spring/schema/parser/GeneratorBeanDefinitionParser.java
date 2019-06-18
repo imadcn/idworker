@@ -5,6 +5,8 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
 
+import com.imadcn.framework.idworker.common.ConfigConstants;
+import com.imadcn.framework.idworker.common.PropertyConstants;
 import com.imadcn.framework.idworker.generator.CompressUUIDGenerator;
 import com.imadcn.framework.idworker.generator.SnowflakeGenerator;
 import com.imadcn.framework.idworker.spring.common.GeneratorBeanDefinitionTag;
@@ -30,9 +32,9 @@ public class GeneratorBeanDefinitionParser extends BaseBeanDefinitionParser {
 	@Override
 	protected AbstractBeanDefinition parseInternal(final Element element, final ParserContext parserContext) {
 		Class<?> generatorClass = null;
-		if ("snowflake".equals(generatorType)) {
+		if (ConfigConstants.SNOWFLAKE.equals(generatorType)) {
 			generatorClass = SnowflakeGenerator.class;
-		} else if ("compress-uuid".equals(generatorType)) {
+		} else if (ConfigConstants.COMPRESS_UUID.equals(generatorType)) {
 			generatorClass = CompressUUIDGenerator.class;
 		} else {
 			throw new IllegalArgumentException("unknown registryType");
@@ -41,8 +43,8 @@ public class GeneratorBeanDefinitionParser extends BaseBeanDefinitionParser {
 		// snowflake 生成策略
 		if (generatorClass.isAssignableFrom(SnowflakeGenerator.class)) {
 			result.addConstructorArgValue(GeneratorRegisteryBuilder.buildWorkerNodeRegisterBeanDefinition(element, parserContext));
-			result.addPropertyValue("lowConcurrency", getAttributeValue(element, GeneratorBeanDefinitionTag.LOW_CONCURRENCY));
-			result.setInitMethodName("init");
+			result.addPropertyValue(PropertyConstants.LOW_CONCURRENCY, getAttributeValue(element, GeneratorBeanDefinitionTag.LOW_CONCURRENCY));
+			result.setInitMethodName(PropertyConstants.INIT);
 		}
 		return result.getBeanDefinition();
 	}
