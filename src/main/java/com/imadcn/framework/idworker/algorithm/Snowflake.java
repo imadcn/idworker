@@ -1,5 +1,7 @@
 package com.imadcn.framework.idworker.algorithm;
 
+import java.util.Random;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,15 +44,7 @@ public class Snowflake {
 	/**
 	 * 机器ID最大值: 1023 (从0开始)
 	 */
-	private final long maxWorkerId = -1L ^ -1L << this.workerIdBits;
-	/**
-	 * 机器ID向左移12位
-	 */
-	private final long workerIdShift = this.sequenceBits;
-	/**
-	 * 时间戳向左移22位(5+5+12)
-	 */
-	private final long timestampLeftShift = this.sequenceBits + this.workerIdBits;
+	private final long maxWorkerId = -1L ^ -1L << workerIdBits;
 	/**
 	 * 序列在id中占的位数
 	 */
@@ -58,7 +52,15 @@ public class Snowflake {
 	/**
 	 * 生成序列的掩码，这里为4095 (0b111111111111=0xfff=4095)，12位
 	 */
-	private final long sequenceMask = -1L ^ -1L << this.sequenceBits;
+	private final long sequenceMask = -1L ^ -1L << sequenceBits;
+	/**
+	 * 机器ID向左移12位
+	 */
+	private final long workerIdShift = sequenceBits;
+	/**
+	 * 时间戳向左移22位(5+5+12)
+	 */
+	private final long timestampLeftShift = sequenceBits + workerIdBits;
 	/**
 	 * 并发控制，毫秒内序列(0~4095)
 	 */
@@ -67,47 +69,46 @@ public class Snowflake {
 	 * 上次生成ID的时间戳
 	 */
 	private long lastTimestamp = -1L;
-
+	/**
+	 * 100,000
+	 */
 	private final int HUNDRED_K = 100_000;
+	/**
+	 * sequence随机种子（兼容低并发下，sequence均为0的情况）
+	 */
+	private static final Random RANDOM = new Random();
 
 	/**
-	 * 低并发模式
+	 * @param workerId 机器Id
 	 */
-	private boolean lowConcurrency = false;
-
-	/**
-	 * @param workerId
-	 *            机器Id
-	 */
-	private Snowflake(long workerId, boolean lowConcurrency) {
-		if (workerId > this.maxWorkerId || workerId < 0) {
-			String message = String.format("worker Id can't be greater than %d or less than 0", this.maxWorkerId);
+	private Snowflake(long workerId) {
+		if (workerId > maxWorkerId || workerId < 0) {
+			String message = String.format("worker Id can't be greater than %d or less than 0", maxWorkerId);
 			throw new IllegalArgumentException(message);
 		}
 		this.workerId = workerId;
-		this.lowConcurrency = lowConcurrency;
 	}
 
 	/**
 	 * Snowflake Builder
 	 * 
-	 * @param workerId
-	 *            workerId
+	 * @param workerId 机器Id
 	 * @return Snowflake Instance
 	 */
 	public static Snowflake create(long workerId) {
-		return create(workerId, false);
+		return new Snowflake(workerId);
 	}
 
 	/**
 	 * Snowflake Builder
 	 * 
-	 * @param workerId
-	 *            workerId
+	 * @param workerId 机器Id
+	 * @param lowConcurrency 是否低并发模式
 	 * @return Snowflake Instance
 	 */
+	@Deprecated
 	public static Snowflake create(long workerId, boolean lowConcurrency) {
-		return new Snowflake(workerId, lowConcurrency);
+		return create(workerId);
 	}
 
 	/**
@@ -134,66 +135,30 @@ public class Snowflake {
 	 * @return SnowflakeId
 	 */
 	public synchronized long nextId() {
-		return lowConcurrency ? nextIdOnLowConcurrency() : nextIdOnHighConcurrency();
-	}
-	
-	/**
-	 * 高并发模式
-	 * <p> 官方标准算法
-	 * @return SnowflakeId
-	 * @since 1.2.5
-	 */
-	private long nextIdOnHighConcurrency() {
 		long timestamp = timeGen();
 		// 如果上一个timestamp与新产生的相等，则sequence加一(0-4095循环);
-		if (this.lastTimestamp == timestamp) {
+		if (lastTimestamp == timestamp) {
 			// 对新的timestamp，sequence从0开始
-			this.sequence = this.sequence + 1 & this.sequenceMask;
+			sequence = sequence + 1 & sequenceMask;
 			// 毫秒内序列溢出
-			if (this.sequence == 0) {
+			if (sequence == 0) {
 				// 阻塞到下一个毫秒,获得新的时间戳
-				timestamp = this.tilNextMillis(this.lastTimestamp);
+				sequence = RANDOM.nextInt(100);
+				timestamp = tilNextMillis(lastTimestamp);
 			}
 		} else {
 			// 时间戳改变，毫秒内序列重置
-			this.sequence = 0;
+			sequence = RANDOM.nextInt(100);
 		}
 		// 如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过这个时候应当抛出异常
-		if (timestamp < this.lastTimestamp) {
-			String message = String.format("Clock moved backwards. Refusing to generate id for %d milliseconds.", (this.lastTimestamp - timestamp));
+		if (timestamp < lastTimestamp) {
+			String message = String.format("Clock moved backwards. Refusing to generate id for %d milliseconds.", (lastTimestamp - timestamp));
 			logger.error(message);
 			throw new RuntimeException(message);
 		}
-		this.lastTimestamp = timestamp;
+		lastTimestamp = timestamp;
 		// 移位并通过或运算拼到一起组成64位的ID
-		return timestamp - this.epoch << this.timestampLeftShift | this.workerId << this.workerIdShift | this.sequence;
-	}
-
-	/**
-	 * 低并发模式
-	 * <p>雪花算法默认实现在调用频次低的情况下，都是垮毫秒生成，导致sequence全是0，最终数据都是偶数，奇偶不平均。此模式下sequence全局自增，同ms内溢出后，等待下1ms，而不是每次都置零。
-	 * @return SnowflakeId
-	 * @since 1.2.5
-	 */
-	private long nextIdOnLowConcurrency() {
-		long timestamp = timeGen();
-		// 如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过这个时候应当抛出异常
-		if (timestamp < this.lastTimestamp) {
-			String message = String.format("Clock moved backwards. Refusing to generate id for %d milliseconds.", (this.lastTimestamp - timestamp));
-			logger.error(message);
-			throw new RuntimeException(message);
-		}
-		// 全局递增
-		this.sequence = this.sequence + 1 & this.sequenceMask;
-		// 溢出后，等待下一窗口
-		if (this.sequence == 0 && this.lastTimestamp == timestamp) {
-			// 阻塞到下一个毫秒,获得新的时间戳
-			timestamp = this.tilNextMillis(this.lastTimestamp);
-		}
-
-		this.lastTimestamp = timestamp;
-		// 移位并通过或运算拼到一起组成64位的ID
-		return timestamp - this.epoch << this.timestampLeftShift | this.workerId << this.workerIdShift | this.sequence;
+		return timestamp - epoch << timestampLeftShift | workerId << workerIdShift | sequence;
 	}
 
 	/**

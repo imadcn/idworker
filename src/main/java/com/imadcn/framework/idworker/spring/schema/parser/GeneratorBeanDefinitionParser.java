@@ -9,7 +9,6 @@ import com.imadcn.framework.idworker.common.ConfigConstants;
 import com.imadcn.framework.idworker.common.PropertyConstants;
 import com.imadcn.framework.idworker.generator.CompressUUIDGenerator;
 import com.imadcn.framework.idworker.generator.SnowflakeGenerator;
-import com.imadcn.framework.idworker.spring.common.GeneratorBeanDefinitionTag;
 
 /**
  * generator:xxx 标签解析
@@ -43,7 +42,8 @@ public class GeneratorBeanDefinitionParser extends BaseBeanDefinitionParser {
 		// snowflake 生成策略
 		if (generatorClass.isAssignableFrom(SnowflakeGenerator.class)) {
 			result.addConstructorArgValue(GeneratorRegisteryBuilder.buildWorkerNodeRegisterBeanDefinition(element, parserContext));
-			result.addPropertyValue(PropertyConstants.LOW_CONCURRENCY, getAttributeValue(element, GeneratorBeanDefinitionTag.LOW_CONCURRENCY));
+			// 去掉低并发模式配置解析
+			// result.addPropertyValue(PropertyConstants.LOW_CONCURRENCY, getAttributeValue(element, GeneratorBeanDefinitionTag.LOW_CONCURRENCY));
 			result.setInitMethodName(PropertyConstants.INIT);
 		}
 		return result.getBeanDefinition();
