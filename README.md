@@ -77,7 +77,7 @@ public void id() {
 |strategy|String|是|snowflake|1.2.0+|ID生成[snowflake, compress_uuid]，当策略为64进制uuid时，registry-center-ref可不用配置|
 |registry-center-ref|String|否| |1.0.0+|注册中心SpringBeanRef，当生成策略为snowflake时，必填|
 |group|String|否|default|1.0.0+|分组名，可以为不同业务分配分组，独立注册|
-|low-concurrency|Boolean|否|false|1.2.5+|低并发模式(此模式下snowflake算法sequence全局递增，不再每秒清零)|
+|registry-file|String|否|false|1.3.0+|注册信息缓存文件地址，默认在程序所在目录 ./tmp/idworker/GROUPNAME.cache|
 
 #### <generator:snowflake /> 生成策略 : snowflake模式
 
@@ -86,7 +86,7 @@ public void id() {
 |id|String|是| |1.2.0+|Spring容器中的ID|
 |registry-center-ref|String|是| |1.2.0+|注册中心SpringBeanRef|
 |group|String|否|default|1.2.0+|分组名，可以为不同业务分配分组，独立注册|
-|low-concurrency|Boolean|否|false|1.2.5+|低并发模式(此模式下snowflake算法sequence全局递增，不再每秒清零)|
+|registry-file|String|否|false|1.3.0+|注册信息缓存文件地址，默认在程序所在目录 ./tmp/idworker/GROUPNAME.cache|
 
 #### <generator:compress-uuid /> 生成策略 : 64进制UUID模式
 
