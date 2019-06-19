@@ -16,5 +16,5 @@
     <idworker:registry id="zkRegistryCenter" server-lists="${zk.servers}" base-sleep-time-milliseconds="${zk.baseSleepTimeMilliseconds}" 
     	max-sleep-time-milliseconds="${zk.maxSleepTimeMilliseconds}" max-retries="${zk.maxRetries}" session-timeout-milliseconds="${zk.sessionTimeoutMilliseconds}" 
     	connection-timeout-milliseconds="${zk.connectionTimeoutMilliseconds}" namespace="${zk.namespace}"/>
-    <idworker:generator id="snowflake-id-gen" group="sfw" registry-center-ref="zkRegistryCenter" strategy="snowflake" registry-file=".\\registry\\file.cache"/>
+    <idworker:generator id="snowflake-id-gen" group="test_group" registry-center-ref="zkRegistryCenter" strategy="snowflake" registry-file=".\\tmp\\registry\\custom-tg.cache"/>
 </beans>
