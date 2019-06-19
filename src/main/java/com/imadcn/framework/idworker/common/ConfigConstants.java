@@ -15,6 +15,11 @@
  */
 package com.imadcn.framework.idworker.common;
 
+/**
+ * 配置常量
+ * @author yangc
+ * @since 1.3.0
+ */
 public class ConfigConstants {
 
 	public static final String SNOWFLAKE = "snowflake";

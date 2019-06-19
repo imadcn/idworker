@@ -18,6 +18,11 @@ package com.imadcn.framework.idworker.util;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+/**
+ * Host Utils
+ * @author yangc
+ * @since 1.3.0
+ */
 public class HostUtils {
 
 	/**
