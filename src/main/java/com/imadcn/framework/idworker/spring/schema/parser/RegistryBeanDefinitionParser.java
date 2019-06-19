@@ -5,10 +5,10 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
 
+import com.imadcn.framework.idworker.common.ConfigConstants;
 import com.imadcn.framework.idworker.config.ZookeeperConfiguration;
 import com.imadcn.framework.idworker.generator.SnowflakeGenerator;
 import com.imadcn.framework.idworker.registry.zookeeper.ZookeeperRegistryCenter;
-import com.imadcn.framework.idworker.spring.common.GeneratorBeanDefinitionTag;
 import com.imadcn.framework.idworker.spring.common.ZookeeperBeanDefinitionTag;
 
 /**
@@ -27,19 +27,19 @@ public class RegistryBeanDefinitionParser extends BaseBeanDefinitionParser {
 
 	@Override
 	protected AbstractBeanDefinition parseInternal(final Element element, final ParserContext parserContext) {
-		if ("registry".equals(registryType)) {
+		if (ConfigConstants.REGISTRY.equals(registryType)) {
 			BeanDefinitionBuilder result = BeanDefinitionBuilder.rootBeanDefinition(ZookeeperRegistryCenter.class);
 			result.addConstructorArgValue(buildZookeeperConfigurationBeanDefinition(element, parserContext));
 			// Spring 启动初始化ZK连接
 			result.setInitMethodName("init");
 			return result.getBeanDefinition();
-		} else if ("generator".equals(registryType)) {
+		} else if (ConfigConstants.GENERATOR.equals(registryType)) {
 			Class<?> generatorClass = GeneratorRegisteryBuilder.getGeneratorClass(element);
 			BeanDefinitionBuilder result = BeanDefinitionBuilder.rootBeanDefinition(generatorClass);
 			// snowflake 生成策略
 			if (generatorClass.isAssignableFrom(SnowflakeGenerator.class)) {
 				result.addConstructorArgValue(GeneratorRegisteryBuilder.buildWorkerNodeRegisterBeanDefinition(element, parserContext));
-				result.addPropertyValue("lowConcurrency", getAttributeValue(element, GeneratorBeanDefinitionTag.LOW_CONCURRENCY));
+				// result.addPropertyValue("lowConcurrency", getAttributeValue(element, GeneratorBeanDefinitionTag.LOW_CONCURRENCY));
 				result.setInitMethodName("init");
 			}
 			return result.getBeanDefinition();

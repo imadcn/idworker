@@ -61,7 +61,8 @@ public abstract class GeneratorRegisteryBuilder extends BaseBeanDefinitionParser
 		BeanDefinitionBuilder configuration = BeanDefinitionBuilder.rootBeanDefinition(ApplicationConfiguration.class);
         addPropertyValueIfNotEmpty(GeneratorBeanDefinitionTag.GROUOP, "group", element, configuration);
         addPropertyValueIfNotEmpty(GeneratorBeanDefinitionTag.STRATEGY, "strategy", element, configuration);
-        addPropertyValueIfNotEmpty(GeneratorBeanDefinitionTag.LOW_CONCURRENCY, "lowConcurrency", element, configuration);
+        addPropertyValueIfNotEmpty(GeneratorBeanDefinitionTag.REGISTRY_FILE, "registryFile", element, configuration);
+        // addPropertyValueIfNotEmpty(GeneratorBeanDefinitionTag.LOW_CONCURRENCY, "lowConcurrency", element, configuration);
         return configuration.getBeanDefinition();
     }
     

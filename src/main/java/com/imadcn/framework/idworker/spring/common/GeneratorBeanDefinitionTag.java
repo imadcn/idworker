@@ -25,5 +25,12 @@ public final class GeneratorBeanDefinitionTag extends BaseBeanDefinitionTag {
 	 * 低并发模式
 	 * @since 1.2.5
 	 */
+	@Deprecated
 	public static final String LOW_CONCURRENCY = "low-concurrency";
+	
+	/**
+	 * 注册信息本地缓存文件地址
+	 * @since 1.3.0
+	 */
+	public static final String REGISTRY_FILE = "registry-file";
 }

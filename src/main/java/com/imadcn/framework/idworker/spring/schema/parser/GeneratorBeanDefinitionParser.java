@@ -6,7 +6,6 @@ import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
 
 import com.imadcn.framework.idworker.common.ConfigConstants;
-import com.imadcn.framework.idworker.common.PropertyConstants;
 import com.imadcn.framework.idworker.generator.CompressUUIDGenerator;
 import com.imadcn.framework.idworker.generator.SnowflakeGenerator;
 
@@ -44,7 +43,7 @@ public class GeneratorBeanDefinitionParser extends BaseBeanDefinitionParser {
 			result.addConstructorArgValue(GeneratorRegisteryBuilder.buildWorkerNodeRegisterBeanDefinition(element, parserContext));
 			// 去掉低并发模式配置解析
 			// result.addPropertyValue(PropertyConstants.LOW_CONCURRENCY, getAttributeValue(element, GeneratorBeanDefinitionTag.LOW_CONCURRENCY));
-			result.setInitMethodName(PropertyConstants.INIT);
+			result.setInitMethodName("init");
 		}
 		return result.getBeanDefinition();
 	}

@@ -13,11 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.imadcn.framework.idworker.common;
+package com.imadcn.framework.idworker.util;
 
-public class PropertyConstants {
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+public class HostUtils {
+
+	/**
+	 * 获取本地IP
+	 * @return 本地IP
+	 * @throws UnknownHostException
+	 */
+	public static String getLocalIP() throws UnknownHostException {
+		return InetAddress.getLocalHost().getHostAddress();
+	}
 	
-	public static final String LOW_CONCURRENCY = "lowConcurrency";
-	
-	public static final String INIT = "init";
+	/**
+	 * 获取本地主机名
+	 * @return 本地主机名
+	 * @throws UnknownHostException
+	 */
+	public static String getLocalHostName() throws UnknownHostException {
+		return InetAddress.getLocalHost().getHostName();
+	}
 }

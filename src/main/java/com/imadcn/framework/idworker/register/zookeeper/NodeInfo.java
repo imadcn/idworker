@@ -1,12 +1,7 @@
 package com.imadcn.framework.idworker.register.zookeeper;
 
 import java.io.Serializable;
-import java.lang.management.ManagementFactory;
-import java.net.InetAddress;
 import java.util.Date;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 机器节点信息
@@ -18,34 +13,37 @@ public class NodeInfo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
-
-	private Long sessionId;
+	private String groupName;
 	private Integer workerId;
 	private String ip;
 	private String hostName;
-	private String pid;
 	private Date updateTime;
 	private Date createTime;
+	@Deprecated
+	private String pid;
+	@Deprecated
+	private Long sessionId;
 
 	public NodeInfo() {
-		this(null, null);
 	}
 
+	@Deprecated
 	public NodeInfo(Long sessionId, Integer workerId) {
 		this.sessionId = sessionId;
 		this.workerId = workerId;
-		init();
+	}
+	
+	public NodeInfo(String ip, String hostName, String groupName) {
+		this.ip = ip;
+		this.hostName = hostName;
+		this.groupName = groupName;
 	}
 
-	private void init() {
-		try {
-			this.ip = InetAddress.getLocalHost().getHostAddress();
-			this.hostName = InetAddress.getLocalHost().getHostName();
-			this.pid = ManagementFactory.getRuntimeMXBean().getName().split("@")[0];
-		} catch (Exception e) {
-			logger.error("", e);
-		}
+	public NodeInfo(String ip, String hostName, String groupName, Integer workerId) {
+		this.ip = ip;
+		this.hostName = hostName;
+		this.groupName = groupName;
+		this.workerId = workerId;
 	}
 
 	public Long getSessionId() {
@@ -103,19 +101,27 @@ public class NodeInfo implements Serializable {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+	
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
 
 	@Override
 	public String toString() {
-		return "NodeInfo [sessionId=" + sessionId + ", workerId=" + workerId + ", ip=" + ip + ", hostName=" + hostName + ", pid=" + pid + ", updateTime=" + updateTime + ", createTime=" + createTime + "]";
+		return "NodeInfo [sessionId=" + sessionId + ", workerId=" + workerId + ", ip=" + ip + ", hostName=" + hostName + ", pid=" + pid + ", updateTime=" + updateTime + ", createTime=" + createTime + ", groupName=" + groupName + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((pid == null) ? 0 : pid.hashCode());
-		result = prime * result + ((sessionId == null) ? 0 : sessionId.hashCode());
-		result = prime * result + ((workerId == null) ? 0 : workerId.hashCode());
+		result = prime * result + ((groupName == null) ? 0 : groupName.hashCode());
+		result = prime * result + ((hostName == null) ? 0 : hostName.hashCode());
+		result = prime * result + ((ip == null) ? 0 : ip.hashCode());
 		return result;
 	}
 
@@ -128,22 +134,21 @@ public class NodeInfo implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		NodeInfo other = (NodeInfo) obj;
-		if (pid == null) {
-			if (other.pid != null)
+		if (groupName == null) {
+			if (other.groupName != null)
 				return false;
-		} else if (!pid.equals(other.pid))
+		} else if (!groupName.equals(other.groupName))
 			return false;
-		if (sessionId == null) {
-			if (other.sessionId != null)
+		if (hostName == null) {
+			if (other.hostName != null)
 				return false;
-		} else if (!sessionId.equals(other.sessionId))
+		} else if (!hostName.equals(other.hostName))
 			return false;
-		if (workerId == null) {
-			if (other.workerId != null)
+		if (ip == null) {
+			if (other.ip != null)
 				return false;
-		} else if (!workerId.equals(other.workerId))
+		} else if (!ip.equals(other.ip))
 			return false;
 		return true;
 	}
-
 }

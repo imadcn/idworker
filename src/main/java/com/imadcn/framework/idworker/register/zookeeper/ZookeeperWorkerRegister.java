@@ -1,9 +1,16 @@
 package com.imadcn.framework.idworker.register.zookeeper;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.UnknownHostException;
+import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
@@ -11,6 +18,7 @@ import org.apache.curator.framework.state.ConnectionStateListener;
 import org.jboss.netty.handler.timeout.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
@@ -18,6 +26,7 @@ import com.imadcn.framework.idworker.config.ApplicationConfiguration;
 import com.imadcn.framework.idworker.exception.RegException;
 import com.imadcn.framework.idworker.register.WorkerRegister;
 import com.imadcn.framework.idworker.registry.CoordinatorRegistryCenter;
+import com.imadcn.framework.idworker.util.HostUtils;
 
 /**
  * 机器信息注册
@@ -28,7 +37,6 @@ import com.imadcn.framework.idworker.registry.CoordinatorRegistryCenter;
 public class ZookeeperWorkerRegister implements WorkerRegister {
 
 	private static final Logger logger = LoggerFactory.getLogger(ZookeeperWorkerRegister.class);
-
 	/**
 	 * 最大机器数
 	 */
@@ -37,8 +45,14 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 	 * 加锁最大等待时间
 	 */
 	private static final int MAX_LOCK_WAIT_TIME_MS = 30 * 1000;
-
+	/**
+	 * 注册中心工具
+	 */
 	private final CoordinatorRegistryCenter regCenter;
+	/**
+	 * 注册文件
+	 */
+	private String registryFile;
 	/**
 	 * zk节点信息
 	 */
@@ -47,6 +61,11 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 	public ZookeeperWorkerRegister(CoordinatorRegistryCenter regCenter, ApplicationConfiguration applicationConfiguration) {
 		this.regCenter = regCenter;
 		this.nodePath = new NodePath(applicationConfiguration.getGroup());
+		if (StringUtils.isEmpty(applicationConfiguration.getRegistryFile())) {
+			this.registryFile = getDefaultFilePath(nodePath.getGroupName());
+		} else {
+			this.registryFile = applicationConfiguration.getRegistryFile();
+		}
 	}
 
 	/**
@@ -56,9 +75,10 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 	 */
 	@Override
 	public long register() {
-		CuratorFramework client = (CuratorFramework) regCenter.getRawClient();
-		InterProcessMutex lock = new InterProcessMutex(client, nodePath.getGroupPath());
+		InterProcessMutex lock = null;
 		try {
+			CuratorFramework client = (CuratorFramework) regCenter.getRawClient();
+			lock = new InterProcessMutex(client, nodePath.getGroupPath());
 			int numOfChildren = regCenter.getNumChildren(nodePath.getWorkerPath());
 			if (numOfChildren < MAX_WORKER_NUM) {
 				if (!lock.acquire(MAX_LOCK_WAIT_TIME_MS, TimeUnit.MILLISECONDS)) {
@@ -67,28 +87,32 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 				}
 				long sessionId = client.getZookeeperClient().getZooKeeper().getSessionId();
 				logger.debug("current session id is : {}", sessionId);
+				
+				NodeInfo localNodeInfo = getLocalNodeInfo();
 				List<String> children = regCenter.getChildrenKeys(nodePath.getWorkerPath());
-				for (int workerId = 0; workerId < MAX_WORKER_NUM; workerId++) {
-					String workderIdStr = String.valueOf(workerId);
-					String key = nodePath.getWorkerPath() + "/" + workerId;
-					NodeInfo currentNode = new NodeInfo(sessionId, workerId);
-					currentNode.setCreateTime(new Date());
-					currentNode.setUpdateTime(new Date());
-					if (!children.contains(workderIdStr)) {
-						String value = jsonizeNodeInfo(currentNode);
-						logger.info("snowflake worker register with : {}", value);
-						regCenter.persistEphemeral(key, value);
-						// 将workerId保存进nodePath 
-						nodePath.setWorkerId(workerId);
-						return workerId;
-					} else {
-						String value = regCenter.get(key);
-						NodeInfo cacheNode = JSON.parseObject(value, NodeInfo.class);
-						if (currentNode.equals(cacheNode)) {
-							logger.info("use cached nodeinfo, {}", value);
-							cacheNode.setUpdateTime(new Date());
-							regCenter.persistEphemeral(key, jsonizeNodeInfo(cacheNode));
-							return cacheNode.getWorkerId();
+				// 有本地缓存的节点信息，同时ZK也有这条数据
+				if (localNodeInfo != null && children.contains(String.valueOf(localNodeInfo.getWorkerId()))) {
+					String key = nodePath.getWorkerPath() + "/" + localNodeInfo.getWorkerId();
+					String zkNodeInfoJson = regCenter.get(key);
+					NodeInfo zkNodeInfo = createNodeInfoFromJsonStr(zkNodeInfoJson);
+					if (checkWorkerId(localNodeInfo, zkNodeInfo)) {
+						// 更新ZK节点信息，保存本地缓存，开启定时上报任务
+						updateZookeeperNodeInfo(key, zkNodeInfo);
+						saveLocalNodeInfo(zkNodeInfo);
+						executeUploadNodeInfoTask(key, zkNodeInfo);
+						return zkNodeInfo.getWorkerId();
+					}
+				} else { // 无本地信息，开始向ZK申请节点机器ID
+					for (int workerId = 0; workerId < MAX_WORKER_NUM; workerId++) {
+						String workerIdStr = String.valueOf(workerId);
+						if (!children.contains(workerIdStr)) { // 申请成功
+							String key = nodePath.getWorkerPath() + "/" + workerId;
+							NodeInfo applyNodeInfo = createNodeInfo(nodePath.getGroupName(), workerId);
+							// 保存ZK节点信息，保存本地缓存，开启定时上报任务
+							saveZookeeperNodeInfo(key, applyNodeInfo);
+							saveLocalNodeInfo(applyNodeInfo);
+							executeUploadNodeInfoTask(key, applyNodeInfo);
+							return applyNodeInfo.getWorkerId();
 						}
 					}
 				}
@@ -101,7 +125,9 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 			throw new IllegalStateException(e.getMessage(), e);
 		} finally {
 			try {
-				lock.release();
+				if (lock != null) {
+					lock.release();
+				}
 			} catch (Exception ignored) {
 				logger.error("", ignored);
 			}
@@ -116,7 +142,7 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 		CuratorFramework client = (CuratorFramework) regCenter.getRawClient();
 		client.getConnectionStateListenable().addListener(listener);
 	}
-	
+
 	/**
 	 * 关闭注册
 	 */
@@ -133,9 +159,144 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 			regCenter.close();
 		}
 	}
+
+	/**
+	 * 检查节点信息
+	 * @param localNodeInfo 本地缓存节点信息
+	 * @param zkNodeInfo zookeeper节点信息
+	 * @return
+	 */
+	private boolean checkWorkerId(NodeInfo localNodeInfo, NodeInfo zkNodeInfo) {
+		// IP、HostName（本地缓存==ZK数据）
+		if (zkNodeInfo.getIp().equals(localNodeInfo.getIp()) && zkNodeInfo.getHostName().equals(localNodeInfo.getHostName())) {
+			// groupName相等，ZK节点信息缓存时间不得晚于本地缓存时间
+			if (zkNodeInfo.getGroupName().equals(localNodeInfo.getGroupName()) && !zkNodeInfo.getUpdateTime().after(localNodeInfo.getUpdateTime())) {
+				return true;
+			}
+		} 
+		return false;
+	}
 	
+	/**
+	 * 更新节点信息Task
+	 * @param key zk path
+	 * @param nodeInfo 节点信息
+	 */
+	private void executeUploadNodeInfoTask(final String key, final NodeInfo nodeInfo) {
+		Executors.newSingleThreadScheduledExecutor(new ThreadFactory() {
+			@Override
+			public Thread newThread(Runnable r) {
+				Thread thread = new Thread(r, "upload node info task thread");
+                thread.setDaemon(true);
+                return thread;
+			}
+		}).scheduleWithFixedDelay(new Runnable() {
+			@Override
+			public void run() {
+				updateZookeeperNodeInfo(key, nodeInfo);
+			}
+		}, 3L, 3L, TimeUnit.SECONDS);
+	}
+	
+	/**
+	 * 保存ZK节点信息
+	 * @param key
+	 * @param nodeInfo
+	 */
+	private void saveZookeeperNodeInfo(String key, NodeInfo nodeInfo) {
+		regCenter.persistEphemeral(key, jsonizeNodeInfo(nodeInfo));
+	}
+	
+	/**
+	 * 刷新ZK节点信息（修改updateTime）
+	 * @param key
+	 * @param nodeInfo
+	 */
+	private void updateZookeeperNodeInfo(String key, NodeInfo nodeInfo) {
+		nodeInfo.setUpdateTime(new Date());
+		regCenter.persistEphemeral(key, jsonizeNodeInfo(nodeInfo));
+	}
+	
+	/**
+	 * 缓存机器节点信息至本地
+	 * @param nodeInfo 机器节点信息
+	 */
+	private void saveLocalNodeInfo(NodeInfo nodeInfo) {
+		try {
+			File nodeInfoFile = new File(registryFile);
+			String nodeInfoJson = jsonizeNodeInfo(nodeInfo);
+			FileUtils.writeStringToFile(nodeInfoFile, nodeInfoJson, Charset.defaultCharset());
+		} catch (IOException e) {
+			logger.error("save node info cache error, {}", e);
+		}
+	}
+	
+	/**
+	 * 读取本地缓存机器节点
+	 * @return 机器节点信息
+	 */
+	private NodeInfo getLocalNodeInfo() {
+		try {
+			File nodeInfoFile = new File(registryFile);
+			if (nodeInfoFile.exists()) {
+				String nodeInfoJson = FileUtils.readFileToString(nodeInfoFile, Charset.defaultCharset());
+				NodeInfo nodeInfo = createNodeInfoFromJsonStr(nodeInfoJson);
+				return nodeInfo;
+			}
+		} catch (Exception e) {
+			logger.error("read node info cache error", e);
+		}
+		return null;
+	}
+	
+	/**
+	 * 初始化节点信息
+	 * @param groupName 分组名
+	 * @param workerId 机器号
+	 * @return 节点信息
+	 * @throws UnknownHostException
+	 */
+	private NodeInfo createNodeInfo(String groupName, Integer workerId) throws UnknownHostException {
+		NodeInfo nodeInfo = new NodeInfo();
+		nodeInfo.setGroupName(groupName);
+		nodeInfo.setWorkerId(workerId);
+		nodeInfo.setIp(HostUtils.getLocalIP());
+		nodeInfo.setHostName(HostUtils.getLocalHostName());
+		nodeInfo.setCreateTime(new Date());
+		nodeInfo.setUpdateTime(new Date());
+		return nodeInfo;
+	}
+	
+	/**
+	 * 通过节点信息JSON字符串反序列化节点信息
+	 * @param jsonStr 节点信息JSON字符串
+	 * @return 节点信息
+	 */
+	private NodeInfo createNodeInfoFromJsonStr(String jsonStr) {
+		NodeInfo nodeInfo = JSON.parseObject(jsonStr, NodeInfo.class);
+		return nodeInfo;
+	}
+	
+	/**
+	 * 节点信息转json字符串
+	 * @param nodeInfo 节点信息
+	 * @return json字符串
+	 */
 	private String jsonizeNodeInfo(NodeInfo nodeInfo) {
 		String dateFormat = "yyyy-MM-dd HH:mm:ss";
 		return JSON.toJSONStringWithDateFormat(nodeInfo, dateFormat, SerializerFeature.WriteDateUseDateFormat);
+	}
+	
+	/**
+	 * 获取本地节点缓存文件路径
+	 * @param groupName 分组名
+	 * @return 文件路径
+	 */
+	private String getDefaultFilePath(String groupName) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(".").append(File.separator).append("tmp");
+		builder.append(File.separator).append("idworker");
+		builder.append(File.separator).append(groupName).append(".cache");
+		return builder.toString();
 	}
 }

@@ -22,8 +22,8 @@ import org.springframework.test.context.ContextConfiguration;
 import com.imadcn.framework.idworker.generator.SnowflakeGenerator;
 import com.imadcn.system.test.spring.AbstractZookeeperJUnit4SpringContextTests;
 
-@ContextConfiguration(locations = "classpath:META-INF/idworker-ctx-low-concurrency.xml")
-public final class SnowflakeLowConcurrencyTest extends AbstractZookeeperJUnit4SpringContextTests {
+@ContextConfiguration(locations = "classpath:META-INF/idworker-ctx-registry-file.xml")
+public final class RegistryFileTest extends AbstractZookeeperJUnit4SpringContextTests {
 
 	@Autowired
 	private SnowflakeGenerator snowflakeGenerator;
