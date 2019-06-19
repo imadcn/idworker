@@ -28,7 +28,7 @@ public class ZookeeperConnectionStateListener implements ConnectionStateListener
 	public void stateChanged(CuratorFramework client, ConnectionState newState) {
 		if (!ConnectionState.CONNECTED.equals(newState)) {
 			logger.warn("zookeeper connection session {}, try to register new worker id.", newState.name());
-			doReconnecting();
+//			doReconnecting();
 		}
 	}
 
