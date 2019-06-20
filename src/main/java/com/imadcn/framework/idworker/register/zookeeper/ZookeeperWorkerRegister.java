@@ -97,6 +97,7 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 					if (checkNodeInfo(localNodeInfo, zkNodeInfo)) {
 						// 更新ZK节点信息，保存本地缓存，开启定时上报任务
 						nodePath.setWorkerId(zkNodeInfo.getWorkerId());
+						zkNodeInfo.setUpdateTime(new Date());
 						updateZookeeperNodeInfo(key, zkNodeInfo);
 						saveLocalNodeInfo(zkNodeInfo);
 						executeUploadNodeInfoTask(key, zkNodeInfo);
@@ -116,7 +117,6 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 						return applyNodeInfo.getWorkerId();
 					}
 				}
-				
 			}
 			throw new RegException("max worker num reached. register failed");
 		} catch (RegException e) {
