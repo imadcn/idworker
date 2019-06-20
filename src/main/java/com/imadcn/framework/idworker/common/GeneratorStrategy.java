@@ -53,27 +53,6 @@ public enum GeneratorStrategy {
 	}
 
 	/**
-	 * 是否包含该ID生成策略
-	 * 
-	 * @param code
-	 *            策略Code
-	 * @return 是返回<b>true</b>, 否则返回<b>false</b>
-	 */
-	public static boolean contains(String code) {
-		if (code != null) {
-			GeneratorStrategy[] strategyValues = values();
-			if (strategyValues != null) {
-				for (GeneratorStrategy strategy : strategyValues) {
-					if (code.equals(strategy.getCode())) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
-
-	/**
 	 * 根据code获取生成策略enum
 	 * 
 	 * @param code
