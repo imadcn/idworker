@@ -171,13 +171,20 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 	 */
 	private boolean checkWorkerId(NodeInfo localNodeInfo, NodeInfo zkNodeInfo) {
 		// IP、HostName（本地缓存==ZK数据）
-		if (zkNodeInfo.getIp().equals(localNodeInfo.getIp()) && zkNodeInfo.getHostName().equals(localNodeInfo.getHostName())) {
-			// groupName相等，ZK节点信息缓存时间不得晚于本地缓存时间
-			if (zkNodeInfo.getGroupName().equals(localNodeInfo.getGroupName()) && !zkNodeInfo.getUpdateTime().after(localNodeInfo.getUpdateTime())) {
-				return true;
-			}
+		if (!zkNodeInfo.getIp().equals(localNodeInfo.getIp())) {
+			return false;
+		}
+		if (!zkNodeInfo.getHostName().equals(localNodeInfo.getHostName())) {
+			return false;
+		}
+		// groupName相等，ZK节点信息缓存时间不得晚于本地缓存时间
+		if (!zkNodeInfo.getGroupName().equals(localNodeInfo.getGroupName())) {
+			return false;
+		}
+		if (zkNodeInfo.getUpdateTime().after(localNodeInfo.getUpdateTime())) {
+			return false;
 		} 
-		return false;
+		return true;
 	}
 	
 	/**
