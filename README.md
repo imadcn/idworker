@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/imadcn/idworker.svg?branch=master)](https://travis-ci.org/imadcn/idworker)
 [![Coverage Status](https://coveralls.io/repos/imadcn/idworker/badge.svg?branch=master&service=github)](https://coveralls.io/github/imadcn/idworker?branch=master)
-[![Maven Central](https://img.shields.io/maven-central/v/com.imadcn.framework/idworker.svg)](http://mvnrepository.com/artifact/com.imadcn.framework/idworker)
+[![Maven Central](https://img.shields.io/maven-central/v/com.imadcn.framework/idworker.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.imadcn.framework%22%20AND%20a:%22idworker%22)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 ### 是什么
