@@ -6,6 +6,7 @@ import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
@@ -85,8 +86,6 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 					String message = String.format("acquire lock failed after %s ms.", MAX_LOCK_WAIT_TIME_MS);
 					throw new TimeoutException(message);
 				}
-				long sessionId = client.getZookeeperClient().getZooKeeper().getSessionId();
-				logger.debug("current session id is : {}", sessionId);
 				
 				NodeInfo localNodeInfo = getLocalNodeInfo();
 				List<String> children = regCenter.getChildrenKeys(nodePath.getWorkerPath());
@@ -95,7 +94,7 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 					String key = getNodePathKey(nodePath, localNodeInfo.getWorkerId());
 					String zkNodeInfoJson = regCenter.get(key);
 					NodeInfo zkNodeInfo = createNodeInfoFromJsonStr(zkNodeInfoJson);
-					if (checkWorkerId(localNodeInfo, zkNodeInfo)) {
+					if (checkNodeInfo(localNodeInfo, zkNodeInfo)) {
 						// 更新ZK节点信息，保存本地缓存，开启定时上报任务
 						nodePath.setWorkerId(zkNodeInfo.getWorkerId());
 						updateZookeeperNodeInfo(key, zkNodeInfo);
@@ -169,22 +168,27 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 	 * @param zkNodeInfo zookeeper节点信息
 	 * @return
 	 */
-	private boolean checkWorkerId(NodeInfo localNodeInfo, NodeInfo zkNodeInfo) {
-		// IP、HostName（本地缓存==ZK数据）
-		if (!zkNodeInfo.getIp().equals(localNodeInfo.getIp())) {
+	private boolean checkNodeInfo(NodeInfo localNodeInfo, NodeInfo zkNodeInfo) {
+		try {
+			// NodeId、IP、HostName、GroupName 相等（本地缓存==ZK数据）
+			if (!zkNodeInfo.getNodeId().equals(localNodeInfo.getNodeId())) {
+				return false;
+			}
+			if (!zkNodeInfo.getIp().equals(localNodeInfo.getIp())) {
+				return false;
+			}
+			if (!zkNodeInfo.getHostName().equals(localNodeInfo.getHostName())) {
+				return false;
+			}
+			if (!zkNodeInfo.getGroupName().equals(localNodeInfo.getGroupName())) {
+				return false;
+			}
+			return true;
+		} catch (Exception e) {
+			logger.error("check node info error, {}", e);
 			return false;
 		}
-		if (!zkNodeInfo.getHostName().equals(localNodeInfo.getHostName())) {
-			return false;
-		}
-		// groupName相等，ZK节点信息缓存时间不得晚于本地缓存时间
-		if (!zkNodeInfo.getGroupName().equals(localNodeInfo.getGroupName())) {
-			return false;
-		}
-		if (zkNodeInfo.getUpdateTime().after(localNodeInfo.getUpdateTime())) {
-			return false;
-		} 
-		return true;
+		
 	}
 	
 	/**
@@ -272,7 +276,7 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 				return nodeInfo;
 			}
 		} catch (Exception e) {
-			logger.error("read node info cache error", e);
+			logger.error("read node info cache error, {}", e);
 		}
 		return null;
 	}
@@ -286,6 +290,7 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 	 */
 	private NodeInfo createNodeInfo(String groupName, Integer workerId) throws UnknownHostException {
 		NodeInfo nodeInfo = new NodeInfo();
+		nodeInfo.setNodeId(genNodeId());
 		nodeInfo.setGroupName(groupName);
 		nodeInfo.setWorkerId(workerId);
 		nodeInfo.setIp(HostUtils.getLocalIP());
@@ -326,5 +331,13 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 		builder.append(File.separator).append("idworker");
 		builder.append(File.separator).append(groupName).append(".cache");
 		return builder.toString();
+	}
+	
+	/**
+	 * 获取节点唯一ID （基于UUID）
+	 * @return 节点唯一ID
+	 */
+	private String genNodeId() {
+		return UUID.randomUUID().toString().replace("-", "").toLowerCase();
 	}
 }

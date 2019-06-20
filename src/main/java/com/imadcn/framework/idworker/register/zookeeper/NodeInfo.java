@@ -13,6 +13,7 @@ public class NodeInfo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private String nodeId;
 	private String groupName;
 	private Integer workerId;
 	private String ip;
@@ -24,34 +25,20 @@ public class NodeInfo implements Serializable {
 	@Deprecated
 	private Long sessionId;
 
-	public NodeInfo() {
+	public String getNodeId() {
+		return nodeId;
 	}
 
-	@Deprecated
-	public NodeInfo(Long sessionId, Integer workerId) {
-		this.sessionId = sessionId;
-		this.workerId = workerId;
+	public void setNodeId(String nodeId) {
+		this.nodeId = nodeId;
 	}
-	
-	public NodeInfo(String ip, String hostName, String groupName) {
-		this.ip = ip;
-		this.hostName = hostName;
+
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
 		this.groupName = groupName;
-	}
-
-	public NodeInfo(String ip, String hostName, String groupName, Integer workerId) {
-		this.ip = ip;
-		this.hostName = hostName;
-		this.groupName = groupName;
-		this.workerId = workerId;
-	}
-
-	public Long getSessionId() {
-		return sessionId;
-	}
-
-	public void setSessionId(Long sessionId) {
-		this.sessionId = sessionId;
 	}
 
 	public Integer getWorkerId() {
@@ -78,14 +65,6 @@ public class NodeInfo implements Serializable {
 		this.hostName = hostName;
 	}
 
-	public String getPid() {
-		return pid;
-	}
-
-	public void setPid(String pid) {
-		this.pid = pid;
-	}
-
 	public Date getUpdateTime() {
 		return updateTime;
 	}
@@ -101,54 +80,30 @@ public class NodeInfo implements Serializable {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	
-	public String getGroupName() {
-		return groupName;
+
+	@Deprecated
+	public String getPid() {
+		return pid;
 	}
 
-	public void setGroupName(String groupName) {
-		this.groupName = groupName;
+	@Deprecated
+	public void setPid(String pid) {
+		this.pid = pid;
+	}
+
+	@Deprecated
+	public Long getSessionId() {
+		return sessionId;
+	}
+
+	@Deprecated
+	public void setSessionId(Long sessionId) {
+		this.sessionId = sessionId;
 	}
 
 	@Override
 	public String toString() {
-		return "NodeInfo [sessionId=" + sessionId + ", workerId=" + workerId + ", ip=" + ip + ", hostName=" + hostName + ", pid=" + pid + ", updateTime=" + updateTime + ", createTime=" + createTime + ", groupName=" + groupName + "]";
+		return "NodeInfo [nodeId=" + nodeId + ", groupName=" + groupName + ", workerId=" + workerId + ", ip=" + ip + ", hostName=" + hostName + ", updateTime=" + updateTime + ", createTime=" + createTime + "]";
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((groupName == null) ? 0 : groupName.hashCode());
-		result = prime * result + ((hostName == null) ? 0 : hostName.hashCode());
-		result = prime * result + ((ip == null) ? 0 : ip.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		NodeInfo other = (NodeInfo) obj;
-		if (groupName == null) {
-			if (other.groupName != null)
-				return false;
-		} else if (!groupName.equals(other.groupName))
-			return false;
-		if (hostName == null) {
-			if (other.hostName != null)
-				return false;
-		} else if (!hostName.equals(other.hostName))
-			return false;
-		if (ip == null) {
-			if (other.ip != null)
-				return false;
-		} else if (!ip.equals(other.ip))
-			return false;
-		return true;
-	}
 }
