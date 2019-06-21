@@ -140,8 +140,8 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 	 */
 	@Deprecated
 	public void addConnectionListener(ConnectionStateListener listener) {
-		CuratorFramework client = (CuratorFramework) regCenter.getRawClient();
-		client.getConnectionStateListenable().addListener(listener);
+//		CuratorFramework client = (CuratorFramework) regCenter.getRawClient();
+//		client.getConnectionStateListenable().addListener(listener);
 	}
 
 	/**
@@ -150,12 +150,9 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 	@Override
 	public synchronized void logout() {
 		CuratorFramework client = (CuratorFramework) regCenter.getRawClient();
-		if (client == null) {
-			return;
-		}
-		if (client.getState() == CuratorFrameworkState.STARTED) {
+		if (client != null && client.getState() == CuratorFrameworkState.STARTED) {
 			// 移除注册节点（最大程度的自动释放资源）
-			regCenter.remove(nodePath.getWorkerIdPath()); 
+			regCenter.remove(nodePath.getWorkerIdPath());
 			// 关闭连接
 			regCenter.close();
 		}
