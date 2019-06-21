@@ -86,7 +86,6 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 					String message = String.format("acquire lock failed after %s ms.", MAX_LOCK_WAIT_TIME_MS);
 					throw new TimeoutException(message);
 				}
-				
 				NodeInfo localNodeInfo = getLocalNodeInfo();
 				List<String> children = regCenter.getChildrenKeys(nodePath.getWorkerPath());
 				// 有本地缓存的节点信息，同时ZK也有这条数据
@@ -139,6 +138,7 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 	 * 添加连接监听
 	 * @param listener zk状态监听listener
 	 */
+	@Deprecated
 	public void addConnectionListener(ConnectionStateListener listener) {
 		CuratorFramework client = (CuratorFramework) regCenter.getRawClient();
 		client.getConnectionStateListenable().addListener(listener);
@@ -154,9 +154,8 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 			return;
 		}
 		if (client.getState() == CuratorFrameworkState.STARTED) {
-			// 移除注册节点
-			// @since 1.3.0 持久化注册节点，不在删除
-			// regCenter.remove(nodePath.getWorkerIdPath()); 
+			// 移除注册节点（最大程度的自动释放资源）
+			regCenter.remove(nodePath.getWorkerIdPath()); 
 			// 关闭连接
 			regCenter.close();
 		}

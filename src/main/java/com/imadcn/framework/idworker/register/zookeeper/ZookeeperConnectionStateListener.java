@@ -14,6 +14,7 @@ import com.imadcn.framework.idworker.register.GeneratorConnector;
  * @author yangc
  * @since 1.1.0
  */
+@Deprecated
 public class ZookeeperConnectionStateListener implements ConnectionStateListener {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());

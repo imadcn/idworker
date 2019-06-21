@@ -28,7 +28,7 @@ public class HostUtils {
 	/**
 	 * 获取本地IP
 	 * @return 本地IP
-	 * @throws UnknownHostException
+	 * @throws UnknownHostException UnknownHostException
 	 */
 	public static String getLocalIP() throws UnknownHostException {
 		return InetAddress.getLocalHost().getHostAddress();
@@ -37,7 +37,7 @@ public class HostUtils {
 	/**
 	 * 获取本地主机名
 	 * @return 本地主机名
-	 * @throws UnknownHostException
+	 * @throws UnknownHostException UnknownHostException
 	 */
 	public static String getLocalHostName() throws UnknownHostException {
 		return InetAddress.getLocalHost().getHostName();

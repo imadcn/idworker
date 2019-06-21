@@ -2,14 +2,12 @@ package com.imadcn.framework.idworker.generator;
 
 import java.io.IOException;
 
-import org.apache.curator.framework.state.ConnectionStateListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.imadcn.framework.idworker.algorithm.Snowflake;
 import com.imadcn.framework.idworker.exception.RegException;
 import com.imadcn.framework.idworker.register.GeneratorConnector;
-import com.imadcn.framework.idworker.register.zookeeper.ZookeeperConnectionStateListener;
 import com.imadcn.framework.idworker.register.zookeeper.ZookeeperWorkerRegister;
 
 /**
@@ -41,8 +39,6 @@ public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
 
 	private volatile boolean connecting = false;
 
-	private ConnectionStateListener listener;
-
 	public SnowflakeGenerator(ZookeeperWorkerRegister register) {
 		this.register = register;
 	}
@@ -50,9 +46,10 @@ public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
 	@Override
 	public synchronized void init() {
 		if (!initialized) {
-			listener = new ZookeeperConnectionStateListener(this);
-			// 添加监听
-			register.addConnectionListener(listener);
+			// 持久化节点+本地缓存，不再使用状态监听
+//			listener = new ZookeeperConnectionStateListener(this);
+//			// 添加监听
+//			register.addConnectionListener(listener);
 			// 连接与注册workerId
 			connect();
 			initialized = true;

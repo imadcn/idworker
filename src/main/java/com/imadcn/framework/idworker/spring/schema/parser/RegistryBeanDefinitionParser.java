@@ -48,7 +48,7 @@ public class RegistryBeanDefinitionParser extends BaseBeanDefinitionParser {
 	}
 
 	/**
-	 * zookeeper 链接喷纸解析
+	 * zookeeper 配置解析
 	 * 
 	 * @param element element
 	 * @param parserContext parserContext
