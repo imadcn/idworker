@@ -102,7 +102,7 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 						executeUploadNodeInfoTask(key, zkNodeInfo);
 						return zkNodeInfo.getWorkerId();
 					}
-				} 
+				}
 				// 无本地信息或者缓存数据不匹配，开始向ZK申请节点机器ID
 				for (int workerId = 0; workerId < MAX_WORKER_NUM; workerId++) {
 					String workerIdStr = String.valueOf(workerId);
@@ -133,15 +133,17 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 			}
 		}
 	}
-	
+
 	/**
 	 * 添加连接监听
-	 * @param listener zk状态监听listener
+	 * 
+	 * @param listener
+	 *            zk状态监听listener
 	 */
 	@Deprecated
 	public void addConnectionListener(ConnectionStateListener listener) {
-//		CuratorFramework client = (CuratorFramework) regCenter.getRawClient();
-//		client.getConnectionStateListenable().addListener(listener);
+		// CuratorFramework client = (CuratorFramework) regCenter.getRawClient();
+		// client.getConnectionStateListenable().addListener(listener);
 	}
 
 	/**
@@ -160,8 +162,11 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 
 	/**
 	 * 检查节点信息
-	 * @param localNodeInfo 本地缓存节点信息
-	 * @param zkNodeInfo zookeeper节点信息
+	 * 
+	 * @param localNodeInfo
+	 *            本地缓存节点信息
+	 * @param zkNodeInfo
+	 *            zookeeper节点信息
 	 * @return
 	 */
 	private boolean checkNodeInfo(NodeInfo localNodeInfo, NodeInfo zkNodeInfo) {
@@ -184,21 +189,24 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 			logger.error("check node info error, {}", e);
 			return false;
 		}
-		
+
 	}
-	
+
 	/**
 	 * 更新节点信息Task
-	 * @param key zk path
-	 * @param nodeInfo 节点信息
+	 * 
+	 * @param key
+	 *            zk path
+	 * @param nodeInfo
+	 *            节点信息
 	 */
 	private void executeUploadNodeInfoTask(final String key, final NodeInfo nodeInfo) {
 		Executors.newSingleThreadScheduledExecutor(new ThreadFactory() {
 			@Override
 			public Thread newThread(Runnable r) {
 				Thread thread = new Thread(r, "upload node info task thread");
-                thread.setDaemon(true);
-                return thread;
+				thread.setDaemon(true);
+				return thread;
 			}
 		}).scheduleWithFixedDelay(new Runnable() {
 			@Override
@@ -207,11 +215,14 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 			}
 		}, 3L, 3L, TimeUnit.SECONDS);
 	}
-	
+
 	/**
 	 * 获取节点ZK Path KEy
-	 * @param nodePath 节点路径信息
-	 * @param workerId 节点机器ID
+	 * 
+	 * @param nodePath
+	 *            节点路径信息
+	 * @param workerId
+	 *            节点机器ID
 	 * @return
 	 */
 	private String getNodePathKey(NodePath nodePath, Integer workerId) {
@@ -220,18 +231,20 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 		builder.append(workerId);
 		return builder.toString();
 	}
-	
+
 	/**
 	 * 保存ZK节点信息
+	 * 
 	 * @param key
 	 * @param nodeInfo
 	 */
 	private void saveZookeeperNodeInfo(String key, NodeInfo nodeInfo) {
 		regCenter.persist(key, jsonizeNodeInfo(nodeInfo));
 	}
-	
+
 	/**
 	 * 刷新ZK节点信息（修改updateTime）
+	 * 
 	 * @param key
 	 * @param nodeInfo
 	 */
@@ -242,12 +255,14 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 		} catch (Exception e) {
 			logger.debug("update zookeeper node info error, {}", e);
 		}
-		
+
 	}
-	
+
 	/**
 	 * 缓存机器节点信息至本地
-	 * @param nodeInfo 机器节点信息
+	 * 
+	 * @param nodeInfo
+	 *            机器节点信息
 	 */
 	private void saveLocalNodeInfo(NodeInfo nodeInfo) {
 		try {
@@ -258,9 +273,10 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 			logger.error("save node info cache error, {}", e);
 		}
 	}
-	
+
 	/**
 	 * 读取本地缓存机器节点
+	 * 
 	 * @return 机器节点信息
 	 */
 	private NodeInfo getLocalNodeInfo() {
@@ -276,11 +292,14 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 初始化节点信息
-	 * @param groupName 分组名
-	 * @param workerId 机器号
+	 * 
+	 * @param groupName
+	 *            分组名
+	 * @param workerId
+	 *            机器号
 	 * @return 节点信息
 	 * @throws UnknownHostException
 	 */
@@ -295,30 +314,36 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 		nodeInfo.setUpdateTime(new Date());
 		return nodeInfo;
 	}
-	
+
 	/**
 	 * 通过节点信息JSON字符串反序列化节点信息
-	 * @param jsonStr 节点信息JSON字符串
+	 * 
+	 * @param jsonStr
+	 *            节点信息JSON字符串
 	 * @return 节点信息
 	 */
 	private NodeInfo createNodeInfoFromJsonStr(String jsonStr) {
 		NodeInfo nodeInfo = JSON.parseObject(jsonStr, NodeInfo.class);
 		return nodeInfo;
 	}
-	
+
 	/**
 	 * 节点信息转json字符串
-	 * @param nodeInfo 节点信息
+	 * 
+	 * @param nodeInfo
+	 *            节点信息
 	 * @return json字符串
 	 */
 	private String jsonizeNodeInfo(NodeInfo nodeInfo) {
 		String dateFormat = "yyyy-MM-dd HH:mm:ss";
 		return JSON.toJSONStringWithDateFormat(nodeInfo, dateFormat, SerializerFeature.WriteDateUseDateFormat);
 	}
-	
+
 	/**
 	 * 获取本地节点缓存文件路径
-	 * @param groupName 分组名
+	 * 
+	 * @param groupName
+	 *            分组名
 	 * @return 文件路径
 	 */
 	private String getDefaultFilePath(String groupName) {
@@ -328,9 +353,10 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 		builder.append(File.separator).append(groupName).append(".cache");
 		return builder.toString();
 	}
-	
+
 	/**
 	 * 获取节点唯一ID （基于UUID）
+	 * 
 	 * @return 节点唯一ID
 	 */
 	private String genNodeId() {
