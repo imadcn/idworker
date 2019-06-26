@@ -3,7 +3,7 @@ package com.imadcn.framework.idworker.registry;
 /**
  * 注册中心
  * 
- * @author yangchao
+ * @author imadcn
  * @since 1.0.0
  */
 public interface RegistryCenter {

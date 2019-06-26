@@ -11,7 +11,7 @@ import com.imadcn.framework.idworker.register.GeneratorConnector;
 /**
  * Zk连接状态监听
  * 
- * @author yangc
+ * @author imadcn
  * @since 1.1.0
  */
 @Deprecated

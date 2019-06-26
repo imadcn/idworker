@@ -3,7 +3,7 @@ package com.imadcn.framework.idworker.config;
 /**
  * Application 配置
  * 
- * @author yangchao
+ * @author imadcn
  * @since 1.0.0
  */
 public class ApplicationConfiguration {

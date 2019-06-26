@@ -29,7 +29,7 @@ import com.imadcn.framework.idworker.spring.common.GeneratorBeanDefinitionTag;
 
 /**
  * Id生成策略解析
- * @author yangc
+ * @author imadcn
  * @since 1.2.0
  */
 public abstract class GeneratorRegisteryBuilder extends BaseBeanDefinitionParser {

@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * 用于协调分布式服务的注册中心.
  * 
- * @author yangchao
+ * @author imadcn
  * @since 1.0.0
  */
 public interface CoordinatorRegistryCenter extends RegistryCenter {

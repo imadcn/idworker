@@ -14,7 +14,7 @@ import com.imadcn.framework.idworker.spring.common.ZookeeperBeanDefinitionTag;
 /**
  * idworker:registry 标签解析
  * 
- * @author yangchao
+ * @author imadcn
  * @since 1.0.0
  */
 public class RegistryBeanDefinitionParser extends BaseBeanDefinitionParser {

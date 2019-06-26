@@ -21,7 +21,7 @@ import com.imadcn.framework.idworker.algorithm.Snowflake;
 /**
  * ID生成策略
  * 
- * @author yangc
+ * @author imadcn
  * @since 1.2.0
  */
 public enum GeneratorStrategy {

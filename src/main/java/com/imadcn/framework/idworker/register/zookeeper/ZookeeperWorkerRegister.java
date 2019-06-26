@@ -32,7 +32,7 @@ import com.imadcn.framework.idworker.util.HostUtils;
 /**
  * 机器信息注册
  * 
- * @author yangchao
+ * @author imadcn
  * @since 1.0.0
  */
 public class ZookeeperWorkerRegister implements WorkerRegister {

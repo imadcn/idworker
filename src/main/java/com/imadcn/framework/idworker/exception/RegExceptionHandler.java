@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * 注册中心异常处理类.
- * @author yangchao
+ * @author imadcn
  * @since 1.0.0
  */
 public final class RegExceptionHandler {

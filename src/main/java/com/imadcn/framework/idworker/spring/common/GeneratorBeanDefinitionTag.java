@@ -3,7 +3,7 @@ package com.imadcn.framework.idworker.spring.common;
 /**
  * idworker:application 配置TAF
  * 
- * @author yangchao
+ * @author imadcn
  * @since 1.0.0
  */
 public final class GeneratorBeanDefinitionTag extends BaseBeanDefinitionTag {

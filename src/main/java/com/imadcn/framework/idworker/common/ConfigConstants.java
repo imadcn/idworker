@@ -17,7 +17,7 @@ package com.imadcn.framework.idworker.common;
 
 /**
  * 配置常量
- * @author yangc
+ * @author imadcn
  * @since 1.3.0
  */
 public class ConfigConstants {

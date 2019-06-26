@@ -20,7 +20,7 @@ import java.net.UnknownHostException;
 
 /**
  * Host Utils
- * @author yangc
+ * @author imadcn
  * @since 1.3.0
  */
 public class HostUtils {

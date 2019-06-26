@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
  * <b> · </b>Snowflake是5位的datacenter加5位的机器id; 这里变成使用10位的机器id (b) <br>
  * <b> · </b>对系统时间的依赖性非常强，需关闭ntp的时间同步功能。当检测到ntp时间调整后，将会拒绝分配id
  * 
- * @author yangchao
+ * @author imadcn
  * @since 1.0.0
  */
 public class Snowflake {

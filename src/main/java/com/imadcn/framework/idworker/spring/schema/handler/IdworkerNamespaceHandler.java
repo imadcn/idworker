@@ -8,7 +8,7 @@ import com.imadcn.framework.idworker.spring.schema.parser.RegistryBeanDefinition
 /**
  * IdworkerNamespaceHandler
  * 
- * @author yangchao
+ * @author imadcn
  * @since 1.0.0
  */
 public class IdworkerNamespaceHandler extends NamespaceHandlerSupport {

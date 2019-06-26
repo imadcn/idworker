@@ -12,7 +12,7 @@ import com.imadcn.framework.idworker.generator.SnowflakeGenerator;
 /**
  * generator:xxx 标签解析
  * 
- * @author yangchao
+ * @author imadcn
  * @since 1.2.0
  */
 public class GeneratorBeanDefinitionParser extends BaseBeanDefinitionParser {

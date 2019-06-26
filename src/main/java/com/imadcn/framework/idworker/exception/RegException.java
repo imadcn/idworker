@@ -3,7 +3,7 @@ package com.imadcn.framework.idworker.exception;
 /**
  * 注册中心异常.
  * 
- * @author yangchao
+ * @author imadcn
  * @since 1.0.0
  */
 public final class RegException extends RuntimeException {

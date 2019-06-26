@@ -13,7 +13,7 @@ import com.imadcn.framework.idworker.register.zookeeper.ZookeeperWorkerRegister;
 /**
  * Snowflake算法生成工具
  * 
- * @author yangchao
+ * @author imadcn
  * @since 1.0.0
  */
 public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {

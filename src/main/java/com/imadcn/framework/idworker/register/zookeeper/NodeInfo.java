@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * 机器节点信息
  * 
- * @author yangchao
+ * @author imadcn
  * @since 1.0.0
  */
 public class NodeInfo implements Serializable {

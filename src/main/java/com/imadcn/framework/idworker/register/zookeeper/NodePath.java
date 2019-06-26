@@ -3,7 +3,7 @@ package com.imadcn.framework.idworker.register.zookeeper;
 /**
  * 机器节点Path
  * 
- * @author yangchao
+ * @author imadcn
  * @since 1.0.0
  */
 public class NodePath {
