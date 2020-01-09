@@ -33,6 +33,7 @@
     				<xsd:attribute name="strategy" type="xsd:string" default="snowflake" />
     				<xsd:attribute name="registry-center-ref" type="xsd:string" />
     				<xsd:attribute name="registry-file" type="xsd:string" />
+    				<xsd:attribute name="durable" type="xsd:boolean" default="false" />
     			</xsd:extension>
     		</xsd:complexContent>
     	</xsd:complexType>

@@ -33,4 +33,10 @@ public final class GeneratorBeanDefinitionTag extends BaseBeanDefinitionTag {
 	 * @since 1.3.0
 	 */
 	public static final String REGISTRY_FILE = "registry-file";
+	
+	/**
+	 * ZK节点是否持久化存储
+	 * @since 1.4.0
+	 */
+	public static final String DURABLE = "durable";
 }

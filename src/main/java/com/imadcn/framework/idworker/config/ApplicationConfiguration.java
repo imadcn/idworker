@@ -25,10 +25,15 @@ public class ApplicationConfiguration {
 	@Deprecated
 	private boolean lowConcurrency = false;
 	/**
-	 * 节点信息本地缓存文件
+	 * zk节点信息本地缓存文件路径
 	 * @since 1.3.0
 	 */
 	private String registryFile;
+	/**
+	 * zk节点是否持久化存储
+	 * @since 1.4.0
+	 */
+	private boolean durable;
 
 	public String getGroup() {
 		return group;
@@ -64,4 +69,11 @@ public class ApplicationConfiguration {
 		this.registryFile = registryFile;
 	}
 
+	public boolean isDurable() {
+		return durable;
+	}
+
+	public void setDurable(boolean durable) {
+		this.durable = durable;
+	}
 }

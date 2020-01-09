@@ -58,10 +58,15 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 	 * zk节点信息
 	 */
 	private final NodePath nodePath;
+	/**
+	 * zk节点是否持久化存储
+	 */
+	private boolean durable;
 
 	public ZookeeperWorkerRegister(CoordinatorRegistryCenter regCenter, ApplicationConfiguration applicationConfiguration) {
 		this.regCenter = regCenter;
 		this.nodePath = new NodePath(applicationConfiguration.getGroup());
+		this.durable = applicationConfiguration.isDurable();
 		if (StringUtils.isEmpty(applicationConfiguration.getRegistryFile())) {
 			this.registryFile = getDefaultFilePath(nodePath.getGroupName());
 		} else {
@@ -239,7 +244,11 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 	 * @param nodeInfo
 	 */
 	private void saveZookeeperNodeInfo(String key, NodeInfo nodeInfo) {
-		regCenter.persist(key, jsonizeNodeInfo(nodeInfo));
+		if (durable) {
+			regCenter.persist(key, jsonizeNodeInfo(nodeInfo));
+		} else {
+			regCenter.persistEphemeral(key, jsonizeNodeInfo(nodeInfo));
+		}
 	}
 
 	/**
@@ -251,11 +260,14 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
 	private void updateZookeeperNodeInfo(String key, NodeInfo nodeInfo) {
 		try {
 			nodeInfo.setUpdateTime(new Date());
-			regCenter.persist(key, jsonizeNodeInfo(nodeInfo));
+			if (durable) {
+				regCenter.persist(key, jsonizeNodeInfo(nodeInfo));
+			} else {
+				regCenter.persistEphemeral(key, jsonizeNodeInfo(nodeInfo));
+			}
 		} catch (Exception e) {
 			logger.debug("update zookeeper node info error, {}", e);
 		}
-
 	}
 
 	/**
