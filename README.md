@@ -78,7 +78,7 @@ public void id() {
 |registry-center-ref|String|否| |1.0.0+|注册中心SpringBeanRef，当生成策略为snowflake时，必填|
 |group|String|否|default|1.0.0+|分组名，可以为不同业务分配分组，独立注册|
 |registry-file|String|否|./tmp/idworker/GROUPNAME.cache|1.3.0+|注册信息缓存文件地址，默认在程序所在目录 ./tmp/idworker/GROUPNAME.cache|
-|durable|String|否|false|1.4.0+|ID注册信息是否持久化存储|
+|durable|String|否|false|1.4.0+|ID注册信息是否持久化存储(持久化存储会依赖于本地缓存文件，容器环境建议使用非持久化)|
 
 #### <generator:snowflake /> 生成策略 : snowflake模式
 
@@ -88,7 +88,7 @@ public void id() {
 |registry-center-ref|String|是| |1.2.0+|注册中心SpringBeanRef|
 |group|String|否|default|1.2.0+|分组名，可以为不同业务分配分组，独立注册|
 |registry-file|String|否|./tmp/idworker/GROUPNAME.cache|1.3.0+|注册信息缓存文件地址，默认在程序所在目录 ./tmp/idworker/GROUPNAME.cache|
-|durable|String|否|false|1.4.0+|ID注册信息是否持久化存储|
+|durable|String|否|false|1.4.0+|ID注册信息是否持久化存储(持久化存储会依赖于本地缓存文件，容器环境建议使用非持久化)|
 
 #### <generator:compress-uuid /> 生成策略 : 64进制UUID模式
 
