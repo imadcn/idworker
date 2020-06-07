@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.imadcn.framework</groupId>
 	<artifactId>idworker</artifactId>
-	<version>1.4.0</version>
+	<version>${revision}</version>
 	<packaging>jar</packaging>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>zookeeper/snowflake based id generator tools</description>
@@ -31,24 +31,25 @@
 	</scm>
 
 	<properties>
+        <revision>1.5.0-SNAPSHOT</revision>
+    
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
-		<maven-jar-plugin.version>2.6</maven-jar-plugin.version>
-		<maven-source-plugin.version>2.4</maven-source-plugin.version>
-		<maven-javadoc-plugin.version>2.10.3</maven-javadoc-plugin.version>
+		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+		<maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
+		<maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+		<maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-
-		<nexus-staging-maven-plugin.version>1.6.7</nexus-staging-maven-plugin.version>
+		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 		<maven-release-plugin.version>2.5.3</maven-release-plugin.version>
 		<cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
-		<coveralls-maven-plugin.version>4.1.0</coveralls-maven-plugin.version>
+		<coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
 
 		<dep.springframework.version>4.3.24.RELEASE</dep.springframework.version>
-		<dep.curator.version>2.13.0</dep.curator.version>
+		<dep.curator.version>4.3.0</dep.curator.version>
 		<dep.fastjson.version>1.2.58</dep.fastjson.version>
 		<dep.junit.version>4.12</dep.junit.version>
 		<dep.slf4j.version>1.7.26</dep.slf4j.version>

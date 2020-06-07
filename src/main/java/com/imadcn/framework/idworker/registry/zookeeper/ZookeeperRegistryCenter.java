@@ -142,9 +142,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 	public String getDirectly(final String key) {
 		try {
 			return new String(client.getData().forPath(key), StandardCharsets.UTF_8);
-			// CHECKSTYLE:OFF
 		} catch (final Exception ex) {
-			// CHECKSTYLE:ON
 			RegExceptionHandler.handleException(ex);
 			return null;
 		}
@@ -161,9 +159,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 				}
 			});
 			return result;
-			// CHECKSTYLE:OFF
 		} catch (final Exception ex) {
-			// CHECKSTYLE:ON
 			RegExceptionHandler.handleException(ex);
 			return Collections.emptyList();
 		}
@@ -176,9 +172,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 			if (null != stat) {
 				return stat.getNumChildren();
 			}
-			// CHECKSTYLE:OFF
 		} catch (final Exception ex) {
-			// CHECKSTYLE:ON
 			RegExceptionHandler.handleException(ex);
 		}
 		return 0;
@@ -188,9 +182,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 	public boolean isExisted(final String key) {
 		try {
 			return null != client.checkExists().forPath(key);
-			// CHECKSTYLE:OFF
 		} catch (final Exception ex) {
-			// CHECKSTYLE:ON
 			RegExceptionHandler.handleException(ex);
 			return false;
 		}
@@ -204,9 +196,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 			} else {
 				update(key, value);
 			}
-			// CHECKSTYLE:OFF
 		} catch (final Exception ex) {
-			// CHECKSTYLE:ON
 			RegExceptionHandler.handleException(ex);
 		}
 	}
@@ -214,10 +204,9 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 	@Override
 	public void update(final String key, final String value) {
 		try {
-			client.inTransaction().check().forPath(key).and().setData().forPath(key, value.getBytes(StandardCharsets.UTF_8)).and().commit();
-			// CHECKSTYLE:OFF
+		    client.transactionOp().setData().forPath(key, value.getBytes(StandardCharsets.UTF_8));
+			// client.inTransaction().check().forPath(key).and().setData().forPath(key, value.getBytes(StandardCharsets.UTF_8)).and().commit();
 		} catch (final Exception ex) {
-			// CHECKSTYLE:ON
 			RegExceptionHandler.handleException(ex);
 		}
 	}
@@ -229,9 +218,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 				client.delete().deletingChildrenIfNeeded().forPath(key);
 			}
 			client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath(key, value.getBytes(StandardCharsets.UTF_8));
-			// CHECKSTYLE:OFF
 		} catch (final Exception ex) {
-			// CHECKSTYLE:ON
 			RegExceptionHandler.handleException(ex);
 		}
 	}
@@ -240,9 +227,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 	public String persistSequential(final String key, final String value) {
 		try {
 			return client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT_SEQUENTIAL).forPath(key, value.getBytes(StandardCharsets.UTF_8));
-			// CHECKSTYLE:OFF
 		} catch (final Exception ex) {
-			// CHECKSTYLE:ON
 			RegExceptionHandler.handleException(ex);
 		}
 		return null;
@@ -252,9 +237,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 	public void persistEphemeralSequential(final String key) {
 		try {
 			client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL_SEQUENTIAL).forPath(key);
-			// CHECKSTYLE:OFF
 		} catch (final Exception ex) {
-			// CHECKSTYLE:ON
 			RegExceptionHandler.handleException(ex);
 		}
 	}
@@ -263,9 +246,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 	public void remove(final String key) {
 		try {
 			client.delete().deletingChildrenIfNeeded().forPath(key);
-			// CHECKSTYLE:OFF
 		} catch (final Exception ex) {
-			// CHECKSTYLE:ON
 			RegExceptionHandler.handleException(ex);
 		}
 	}
@@ -276,9 +257,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 		try {
 			persist(key, "");
 			result = client.checkExists().forPath(key).getMtime();
-			// CHECKSTYLE:OFF
 		} catch (final Exception ex) {
-			// CHECKSTYLE:ON
 			RegExceptionHandler.handleException(ex);
 		}
 		Preconditions.checkState(0L != result, "Cannot get registry center time.");
@@ -298,9 +277,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
 		TreeCache cache = new TreeCache(client, cachePath);
 		try {
 			cache.start();
-			// CHECKSTYLE:OFF
 		} catch (final Exception ex) {
-			// CHECKSTYLE:ON
 			RegExceptionHandler.handleException(ex);
 		}
 		caches.put(cachePath + "/", cache);
