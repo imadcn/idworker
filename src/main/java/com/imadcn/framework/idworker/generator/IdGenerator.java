@@ -8,36 +8,35 @@ package com.imadcn.framework.idworker.generator;
  */
 public interface IdGenerator {
 
-	/**
-	 * 批量获取ID
-	 * 
-	 * @param size
-	 *            获取大小，最多10万个
-	 * @return ID
-	 */
-	long[] nextId(int size);
+    /**
+     * 批量获取ID
+     * 
+     * @param size 获取大小，最多10万个
+     * @return ID
+     */
+    long[] nextId(int size);
 
-	/**
-	 * 获取ID
-	 * 
-	 * @return ID
-	 */
-	long nextId();
+    /**
+     * 获取ID
+     * 
+     * @return ID
+     */
+    long nextId();
 
-	/**
-	 * 字符串格式的ID
-	 * 
-	 * @since 1.2.0
-	 * @return ID
-	 */
-	String nextStringId();
+    /**
+     * 字符串格式的ID
+     * 
+     * @since 1.2.0
+     * @return ID
+     */
+    String nextStringId();
 
-	/**
-	 * 固定19位长度，字符串格式的ID
-	 * 
-	 * @since 1.2.0
-	 * @return ID
-	 */
-	String nextFixedStringId();
+    /**
+     * 固定19位长度，字符串格式的ID
+     * 
+     * @since 1.2.0
+     * @return ID
+     */
+    String nextFixedStringId();
 
 }

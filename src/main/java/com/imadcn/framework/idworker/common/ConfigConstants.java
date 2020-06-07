@@ -17,16 +17,17 @@ package com.imadcn.framework.idworker.common;
 
 /**
  * 配置常量
+ * 
  * @author imadcn
  * @since 1.3.0
  */
 public class ConfigConstants {
 
-	public static final String SNOWFLAKE = "snowflake";
-	
-	public static final String COMPRESS_UUID = "compress-uuid";
-	
-	public static final String REGISTRY = "registry";
-	
-	public static final String GENERATOR = "generator";
+    public static final String SNOWFLAKE = "snowflake";
+
+    public static final String COMPRESS_UUID = "compress-uuid";
+
+    public static final String REGISTRY = "registry";
+
+    public static final String GENERATOR = "generator";
 }

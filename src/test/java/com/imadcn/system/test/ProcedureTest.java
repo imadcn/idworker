@@ -22,32 +22,33 @@ import com.imadcn.framework.idworker.register.zookeeper.ZookeeperWorkerRegister;
 import com.imadcn.framework.idworker.registry.zookeeper.ZookeeperRegistryCenter;
 
 public class ProcedureTest {
-	
-	public static void main(String[] args) {
-		try {
-			ZookeeperConfiguration configuration = new ZookeeperConfiguration();
-			configuration.setServerLists("127.0.0.1:2181");
-			configuration.setNamespace("manual_idworker");
-			
-			ZookeeperRegistryCenter registryCenter = new ZookeeperRegistryCenter(configuration);
-			
-			ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
-			applicationConfiguration.setGroup("manual_group");
 
-			ZookeeperWorkerRegister workerRegister = new ZookeeperWorkerRegister(registryCenter, applicationConfiguration);
-			
-			SnowflakeGenerator generator = new SnowflakeGenerator(workerRegister);
-			
-			generator.init();
-			System.out.println(generator.nextId());
-			generator.close();
-			
-			generator.init();
-			System.out.println(generator.nextId());
-			generator.close();
-			
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-	}
+    public static void main(String[] args) {
+        try {
+            ZookeeperConfiguration configuration = new ZookeeperConfiguration();
+            configuration.setServerLists("127.0.0.1:2181");
+            configuration.setNamespace("manual_idworker");
+
+            ZookeeperRegistryCenter registryCenter = new ZookeeperRegistryCenter(configuration);
+
+            ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
+            applicationConfiguration.setGroup("manual_group");
+
+            ZookeeperWorkerRegister workerRegister = new ZookeeperWorkerRegister(registryCenter,
+                    applicationConfiguration);
+
+            SnowflakeGenerator generator = new SnowflakeGenerator(workerRegister);
+
+            generator.init();
+            System.out.println(generator.nextId());
+            generator.close();
+
+            generator.init();
+            System.out.println(generator.nextId());
+            generator.close();
+
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
 }

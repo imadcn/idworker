@@ -8,54 +8,54 @@ package com.imadcn.framework.idworker.register.zookeeper;
  */
 public class NodePath {
 
-	private static final String WORKER_NODE = "worker";
+    private static final String WORKER_NODE = "worker";
 
-	/**
-	 * workerId 分组
-	 */
-	private String groupName;
+    /**
+     * workerId 分组
+     */
+    private String groupName;
 
-	/**
-	 * 机器编号
-	 */
-	private long workerId;
+    /**
+     * 机器编号
+     */
+    private long workerId;
 
-	private long sessionId = -1L;
+    private long sessionId = -1L;
 
-	public NodePath(String groupName) {
-		this.groupName = groupName;
-	}
+    public NodePath(String groupName) {
+        this.groupName = groupName;
+    }
 
-	public String getGroupPath() {
-		return String.format("/%s", groupName);
-	}
+    public String getGroupPath() {
+        return String.format("/%s", groupName);
+    }
 
-	public String getWorkerPath() {
-		return String.format("/%s/%s", groupName, WORKER_NODE);
-	}
+    public String getWorkerPath() {
+        return String.format("/%s/%s", groupName, WORKER_NODE);
+    }
 
-	public String getWorkerIdPath() {
-		return String.format("/%s/%s/%s", groupName, WORKER_NODE, workerId);
-	}
+    public String getWorkerIdPath() {
+        return String.format("/%s/%s/%s", groupName, WORKER_NODE, workerId);
+    }
 
-	public String getGroupName() {
-		return groupName;
-	}
+    public String getGroupName() {
+        return groupName;
+    }
 
-	public long getWorkerId() {
-		return workerId;
-	}
+    public long getWorkerId() {
+        return workerId;
+    }
 
-	public void setWorkerId(long workerId) {
-		this.workerId = workerId;
-	}
+    public void setWorkerId(long workerId) {
+        this.workerId = workerId;
+    }
 
-	public long getSessionId() {
-		return sessionId;
-	}
+    public long getSessionId() {
+        return sessionId;
+    }
 
-	public void setSessionId(long sessionId) {
-		this.sessionId = sessionId;
-	}
+    public void setSessionId(long sessionId) {
+        this.sessionId = sessionId;
+    }
 
 }

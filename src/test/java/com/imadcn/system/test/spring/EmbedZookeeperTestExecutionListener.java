@@ -27,31 +27,32 @@ import org.springframework.test.context.support.AbstractTestExecutionListener;
 import com.imadcn.framework.idworker.exception.RegExceptionHandler;
 
 public final class EmbedZookeeperTestExecutionListener extends AbstractTestExecutionListener {
-    
+
     private static volatile TestingServer testingServer;
-    
+
     @Override
     public void beforeTestClass(final TestContext testContext) throws Exception {
         startEmbedTestingServer();
     }
-    
+
     private static void startEmbedTestingServer() {
         if (null != testingServer) {
             return;
         }
         try {
-            testingServer = new TestingServer(3181, new File(String.format("target/test_zk_data/%s/", System.nanoTime())));
+            testingServer = new TestingServer(3181,
+                    new File(String.format("target/test_zk_data/%s/", System.nanoTime())));
             // CHECKSTYLE:OFF
         } catch (final Exception ex) {
             // CHECKSTYLE:ON
             RegExceptionHandler.handleException(ex);
         } finally {
             Runtime.getRuntime().addShutdownHook(new Thread() {
-                
+
                 @Override
                 public void run() {
                     try {
-                    	EmbedZookeeperTestExecutionListener.sleep(2000L);
+                        EmbedZookeeperTestExecutionListener.sleep(2000L);
                         testingServer.close();
                         testingServer = null;
                     } catch (final IOException ex) {
@@ -61,7 +62,7 @@ public final class EmbedZookeeperTestExecutionListener extends AbstractTestExecu
             });
         }
     }
-    
+
     public static void sleep(final long millis) {
         try {
             Thread.sleep(millis);

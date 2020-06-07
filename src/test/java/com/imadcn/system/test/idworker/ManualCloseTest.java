@@ -10,14 +10,14 @@ import com.imadcn.system.test.spring.AbstractZookeeperJUnit4SpringContextTests;
 @ContextConfiguration(locations = "classpath:META-INF/idworker-ctx-manual.xml")
 public final class ManualCloseTest extends AbstractZookeeperJUnit4SpringContextTests {
 
-	@Autowired
-	private SnowflakeGenerator idGenerator;
+    @Autowired
+    private SnowflakeGenerator idGenerator;
 
-	@Test
-	public void testClose() throws Exception {
-		Object object = idGenerator.nextId();
-		print(object);
-		idGenerator.close();
-	}
+    @Test
+    public void testClose() throws Exception {
+        Object object = idGenerator.nextId();
+        print(object);
+        idGenerator.close();
+    }
 
 }

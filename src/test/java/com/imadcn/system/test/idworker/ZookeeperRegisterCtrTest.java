@@ -25,12 +25,12 @@ import com.imadcn.system.test.spring.AbstractZookeeperJUnit4SpringContextTests;
 @ContextConfiguration(locations = "classpath:META-INF/idworker-reg-ctr.xml")
 public final class ZookeeperRegisterCtrTest extends AbstractZookeeperJUnit4SpringContextTests {
 
-	@Autowired
-	private ZookeeperRegistryCenter regCtr;
+    @Autowired
+    private ZookeeperRegistryCenter regCtr;
 
-	@Test
-	public void testSequential() {
-		String seq = regCtr.persistSequential("/idworker/sequential/t_seq_", "SEQUENCE");
-		print(seq);
-	}
+    @Test
+    public void testSequential() {
+        String seq = regCtr.persistSequential("/idworker/sequential/t_seq_", "SEQUENCE");
+        print(seq);
+    }
 }

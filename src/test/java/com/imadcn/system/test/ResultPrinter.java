@@ -22,11 +22,11 @@ import com.alibaba.fastjson.JSON;
 
 public class ResultPrinter {
 
-	protected Logger logger = LoggerFactory.getLogger(getClass());
+    protected Logger logger = LoggerFactory.getLogger(getClass());
 
-	protected void print(Object object) {
-		String json = JSON.toJSONString(object);
-		System.out.println(json);
-		logger.info(json);
-	}
+    protected void print(Object object) {
+        String json = JSON.toJSONString(object);
+        System.out.println(json);
+        logger.info(json);
+    }
 }

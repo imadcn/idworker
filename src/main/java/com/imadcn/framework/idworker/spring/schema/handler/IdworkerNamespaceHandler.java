@@ -13,10 +13,12 @@ import com.imadcn.framework.idworker.spring.schema.parser.RegistryBeanDefinition
  */
 public class IdworkerNamespaceHandler extends NamespaceHandlerSupport {
 
-	@Override
-	public void init() {
-		registerBeanDefinitionParser(ConfigConstants.REGISTRY, new RegistryBeanDefinitionParser(ConfigConstants.REGISTRY));
-		registerBeanDefinitionParser(ConfigConstants.GENERATOR, new RegistryBeanDefinitionParser(ConfigConstants.GENERATOR));
-	}
+    @Override
+    public void init() {
+        registerBeanDefinitionParser(ConfigConstants.REGISTRY,
+                new RegistryBeanDefinitionParser(ConfigConstants.REGISTRY));
+        registerBeanDefinitionParser(ConfigConstants.GENERATOR,
+                new RegistryBeanDefinitionParser(ConfigConstants.GENERATOR));
+    }
 
 }

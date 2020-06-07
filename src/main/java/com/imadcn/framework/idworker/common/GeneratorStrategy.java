@@ -25,51 +25,50 @@ import com.imadcn.framework.idworker.algorithm.Snowflake;
  * @since 1.2.0
  */
 public enum GeneratorStrategy {
-	/**
-	 * snowflake算法 {@link Snowflake}
-	 */
-	SNOWFLAKE("snowflake"),
-	/**
-	 * 64进制UUID算法 {@link CompressUUID}
-	 */
-	COMPRESS_UUID("compress_uuid"),;
+    /**
+     * snowflake算法 {@link Snowflake}
+     */
+    SNOWFLAKE("snowflake"),
+    /**
+     * 64进制UUID算法 {@link CompressUUID}
+     */
+    COMPRESS_UUID("compress_uuid"),;
 
-	/**
-	 * 策略Code
-	 */
-	private String code;
+    /**
+     * 策略Code
+     */
+    private String code;
 
-	private GeneratorStrategy(String code) {
-		this.code = code;
-	}
+    private GeneratorStrategy(String code) {
+        this.code = code;
+    }
 
-	/**
-	 * 获取策略CODE
-	 * 
-	 * @return 策略CODE
-	 */
-	public String getCode() {
-		return code;
-	}
+    /**
+     * 获取策略CODE
+     * 
+     * @return 策略CODE
+     */
+    public String getCode() {
+        return code;
+    }
 
-	/**
-	 * 根据code获取生成策略enum
-	 * 
-	 * @param code
-	 *            策略Code
-	 * @return 生成策略
-	 */
-	public static GeneratorStrategy getByCode(String code) {
-		if (code != null) {
-			GeneratorStrategy[] strategyValues = values();
-			if (strategyValues != null) {
-				for (GeneratorStrategy strategy : strategyValues) {
-					if (code.equals(strategy.getCode())) {
-						return strategy;
-					}
-				}
-			}
-		}
-		return null;
-	}
+    /**
+     * 根据code获取生成策略enum
+     * 
+     * @param code 策略Code
+     * @return 生成策略
+     */
+    public static GeneratorStrategy getByCode(String code) {
+        if (code != null) {
+            GeneratorStrategy[] strategyValues = values();
+            if (strategyValues != null) {
+                for (GeneratorStrategy strategy : strategyValues) {
+                    if (code.equals(strategy.getCode())) {
+                        return strategy;
+                    }
+                }
+            }
+        }
+        return null;
+    }
 }

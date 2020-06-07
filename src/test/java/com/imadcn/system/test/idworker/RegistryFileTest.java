@@ -25,14 +25,13 @@ import com.imadcn.system.test.spring.AbstractZookeeperJUnit4SpringContextTests;
 @ContextConfiguration(locations = "classpath:META-INF/idworker-ctx-registry-file.xml")
 public final class RegistryFileTest extends AbstractZookeeperJUnit4SpringContextTests {
 
-	@Autowired
-	private SnowflakeGenerator snowflakeGenerator;
-	
-	
-	@Test
-	public void testSnowflakeId() throws InterruptedException {
-		for (int i = 0; i < 100; i++) {
-			print(snowflakeGenerator.nextFixedStringId());
-		}
-	}
+    @Autowired
+    private SnowflakeGenerator snowflakeGenerator;
+
+    @Test
+    public void testSnowflakeId() throws InterruptedException {
+        for (int i = 0; i < 100; i++) {
+            print(snowflakeGenerator.nextFixedStringId());
+        }
+    }
 }

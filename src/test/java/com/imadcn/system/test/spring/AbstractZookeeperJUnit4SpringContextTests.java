@@ -9,12 +9,12 @@ import com.alibaba.fastjson.JSON;
 
 @TestExecutionListeners(EmbedZookeeperTestExecutionListener.class)
 public abstract class AbstractZookeeperJUnit4SpringContextTests extends AbstractJUnit4SpringContextTests {
-	
-	protected Logger logger = LoggerFactory.getLogger(getClass());
 
-	protected void print(Object object) {
-		String json = JSON.toJSONString(object);
-		System.out.println(json);
-		logger.info(json);
-	}
+    protected Logger logger = LoggerFactory.getLogger(getClass());
+
+    protected void print(Object object) {
+        String json = JSON.toJSONString(object);
+        System.out.println(json);
+        logger.info(json);
+    }
 }

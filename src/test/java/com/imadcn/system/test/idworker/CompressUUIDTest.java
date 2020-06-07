@@ -22,11 +22,11 @@ import com.imadcn.system.test.ResultPrinter;
 
 public class CompressUUIDTest extends ResultPrinter {
 
-	@Test
-	public void testCompressUuid() {
-		for (int i = 0; i < 5; i++) {
-			Object o = CompressUUID.uuid22();
-			print(o);
-		}
-	}
+    @Test
+    public void testCompressUuid() {
+        for (int i = 0; i < 5; i++) {
+            Object o = CompressUUID.uuid22();
+            print(o);
+        }
+    }
 }

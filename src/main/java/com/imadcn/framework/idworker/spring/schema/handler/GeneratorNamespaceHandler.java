@@ -13,10 +13,12 @@ import com.imadcn.framework.idworker.spring.schema.parser.GeneratorBeanDefinitio
  */
 public class GeneratorNamespaceHandler extends NamespaceHandlerSupport {
 
-	@Override
-	public void init() {
-		registerBeanDefinitionParser(ConfigConstants.SNOWFLAKE, new GeneratorBeanDefinitionParser(ConfigConstants.SNOWFLAKE));
-		registerBeanDefinitionParser(ConfigConstants.COMPRESS_UUID, new GeneratorBeanDefinitionParser(ConfigConstants.COMPRESS_UUID));
-	}
+    @Override
+    public void init() {
+        registerBeanDefinitionParser(ConfigConstants.SNOWFLAKE,
+                new GeneratorBeanDefinitionParser(ConfigConstants.SNOWFLAKE));
+        registerBeanDefinitionParser(ConfigConstants.COMPRESS_UUID,
+                new GeneratorBeanDefinitionParser(ConfigConstants.COMPRESS_UUID));
+    }
 
 }

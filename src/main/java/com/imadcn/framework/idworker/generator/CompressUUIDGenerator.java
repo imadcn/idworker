@@ -25,24 +25,25 @@ import com.imadcn.framework.idworker.algorithm.CompressUUID;
  */
 public class CompressUUIDGenerator implements IdGenerator {
 
-	@Override
-	public long[] nextId(int size) {
-		throw new UnsupportedOperationException("unsupported operation[public long[] nextId(int size)] in CompressUUIDGenerator");
-	}
+    @Override
+    public long[] nextId(int size) {
+        throw new UnsupportedOperationException(
+                "unsupported operation[public long[] nextId(int size)] in CompressUUIDGenerator");
+    }
 
-	@Override
-	public long nextId() {
-		throw new UnsupportedOperationException("unsupported operation[public long nextId()] in CompressUUIDGenerator");
-	}
+    @Override
+    public long nextId() {
+        throw new UnsupportedOperationException("unsupported operation[public long nextId()] in CompressUUIDGenerator");
+    }
 
-	@Override
-	public String nextStringId() {
-		return CompressUUID.uuid22();
-	}
+    @Override
+    public String nextStringId() {
+        return CompressUUID.uuid22();
+    }
 
-	@Override
-	public String nextFixedStringId() {
-		return nextStringId();
-	}
+    @Override
+    public String nextFixedStringId() {
+        return nextStringId();
+    }
 
 }

@@ -29,62 +29,69 @@ import com.imadcn.framework.idworker.spring.common.GeneratorBeanDefinitionTag;
 
 /**
  * Id生成策略解析
+ * 
  * @author imadcn
  * @since 1.2.0
  */
 public abstract class GeneratorRegisteryBuilder extends BaseBeanDefinitionParser {
 
-	/**
-	 * snowflake策略：zookeeper配置(idworker:registry)
-	 * @param element element
-	 * @param parserContext parserContext
-	 * @return AbstractBeanDefinition
-	 */
-	public static AbstractBeanDefinition buildWorkerNodeRegisterBeanDefinition(final Element element, final ParserContext parserContext) {
-		 BeanDefinitionBuilder result = BeanDefinitionBuilder.rootBeanDefinition(ZookeeperWorkerRegister.class);
-		 String registryCenterRef = element.getAttribute(GeneratorBeanDefinitionTag.REGISTRY_CENTER_REF);
-		 if (registryCenterRef == null || registryCenterRef.isEmpty()) {
-			 throw new IllegalArgumentException("no attribute [registry-center-ref] found");
-		 }
-		 result.addConstructorArgReference(registryCenterRef);
-		 result.addConstructorArgValue(buildApplicationConfigurationBeanDefinition(element, parserContext));
-		 return result.getBeanDefinition();
-	} 
-    
     /**
-     * snowflake策略：参数(idworker:generator / generator:snowflake)
-     * @param element element
+     * snowflake策略：zookeeper配置(idworker:registry)
+     * 
+     * @param element       element
      * @param parserContext parserContext
      * @return AbstractBeanDefinition
      */
-    public static AbstractBeanDefinition buildApplicationConfigurationBeanDefinition(final Element element, final ParserContext parserContext) {
-		BeanDefinitionBuilder configuration = BeanDefinitionBuilder.rootBeanDefinition(ApplicationConfiguration.class);
+    public static AbstractBeanDefinition buildWorkerNodeRegisterBeanDefinition(final Element element,
+            final ParserContext parserContext) {
+        BeanDefinitionBuilder result = BeanDefinitionBuilder.rootBeanDefinition(ZookeeperWorkerRegister.class);
+        String registryCenterRef = element.getAttribute(GeneratorBeanDefinitionTag.REGISTRY_CENTER_REF);
+        if (registryCenterRef == null || registryCenterRef.isEmpty()) {
+            throw new IllegalArgumentException("no attribute [registry-center-ref] found");
+        }
+        result.addConstructorArgReference(registryCenterRef);
+        result.addConstructorArgValue(buildApplicationConfigurationBeanDefinition(element, parserContext));
+        return result.getBeanDefinition();
+    }
+
+    /**
+     * snowflake策略：参数(idworker:generator / generator:snowflake)
+     * 
+     * @param element       element
+     * @param parserContext parserContext
+     * @return AbstractBeanDefinition
+     */
+    public static AbstractBeanDefinition buildApplicationConfigurationBeanDefinition(final Element element,
+            final ParserContext parserContext) {
+        BeanDefinitionBuilder configuration = BeanDefinitionBuilder.rootBeanDefinition(ApplicationConfiguration.class);
         addPropertyValueIfNotEmpty(GeneratorBeanDefinitionTag.GROUOP, "group", element, configuration);
         addPropertyValueIfNotEmpty(GeneratorBeanDefinitionTag.STRATEGY, "strategy", element, configuration);
         addPropertyValueIfNotEmpty(GeneratorBeanDefinitionTag.REGISTRY_FILE, "registryFile", element, configuration);
         addPropertyValueIfNotEmpty(GeneratorBeanDefinitionTag.DURABLE, "durable", element, configuration);
-        // addPropertyValueIfNotEmpty(GeneratorBeanDefinitionTag.LOW_CONCURRENCY, "lowConcurrency", element, configuration);
+        // addPropertyValueIfNotEmpty(GeneratorBeanDefinitionTag.LOW_CONCURRENCY,
+        // "lowConcurrency", element, configuration);
         return configuration.getBeanDefinition();
     }
-    
+
     /**
-     * 获取ID生成策略 Class 
+     * 获取ID生成策略 Class
+     * 
      * @param element element
-     * @return ID生成策略 Class 
+     * @return ID生成策略 Class
      */
     public static Class<?> getGeneratorClass(final Element element) {
-    	String strategyCode = getAttributeValue(element, GeneratorBeanDefinitionTag.STRATEGY);
-    	GeneratorStrategy strategy = GeneratorStrategy.getByCode(strategyCode);
-    	if (strategy == null) {
-    		throw new IllegalArgumentException("unsupported generator strategy.");
-    	}
-    	switch (strategy) {
-    	case SNOWFLAKE:
-    		return SnowflakeGenerator.class;
-    	case COMPRESS_UUID:
-    		return CompressUUIDGenerator.class;
-    	default:
-    		return SnowflakeGenerator.class;
-    	}
+        String strategyCode = getAttributeValue(element, GeneratorBeanDefinitionTag.STRATEGY);
+        GeneratorStrategy strategy = GeneratorStrategy.getByCode(strategyCode);
+        if (strategy == null) {
+            throw new IllegalArgumentException("unsupported generator strategy.");
+        }
+        switch (strategy) {
+            case SNOWFLAKE:
+                return SnowflakeGenerator.class;
+            case COMPRESS_UUID:
+                return CompressUUIDGenerator.class;
+            default:
+                return SnowflakeGenerator.class;
+        }
     }
 }

@@ -20,20 +20,20 @@ import org.junit.Test;
 import com.imadcn.framework.idworker.exception.RegException;
 
 public class RegExceptionTest {
-	
-	@Test
-	public void test() {
-		try {
-			throw new RegException(new RuntimeException("test 1"));
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		
-		try {
-			throw new RegException("error message %s-%s", "s1", "s2");
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-	}
+
+    @Test
+    public void test() {
+        try {
+            throw new RegException(new RuntimeException("test 1"));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            throw new RegException("error message %s-%s", "s1", "s2");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
 }

@@ -20,26 +20,29 @@ import java.net.UnknownHostException;
 
 /**
  * Host Utils
+ * 
  * @author imadcn
  * @since 1.3.0
  */
 public class HostUtils {
 
-	/**
-	 * 获取本地IP
-	 * @return 本地IP
-	 * @throws UnknownHostException UnknownHostException
-	 */
-	public static String getLocalIP() throws UnknownHostException {
-		return InetAddress.getLocalHost().getHostAddress();
-	}
-	
-	/**
-	 * 获取本地主机名
-	 * @return 本地主机名
-	 * @throws UnknownHostException UnknownHostException
-	 */
-	public static String getLocalHostName() throws UnknownHostException {
-		return InetAddress.getLocalHost().getHostName();
-	}
+    /**
+     * 获取本地IP
+     * 
+     * @return 本地IP
+     * @throws UnknownHostException UnknownHostException
+     */
+    public static String getLocalIP() throws UnknownHostException {
+        return InetAddress.getLocalHost().getHostAddress();
+    }
+
+    /**
+     * 获取本地主机名
+     * 
+     * @return 本地主机名
+     * @throws UnknownHostException UnknownHostException
+     */
+    public static String getLocalHostName() throws UnknownHostException {
+        return InetAddress.getLocalHost().getHostName();
+    }
 }
