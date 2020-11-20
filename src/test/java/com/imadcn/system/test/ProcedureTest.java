@@ -18,6 +18,8 @@ package com.imadcn.system.test;
 import com.imadcn.framework.idworker.config.ApplicationConfiguration;
 import com.imadcn.framework.idworker.config.ZookeeperConfiguration;
 import com.imadcn.framework.idworker.generator.SnowflakeGenerator;
+import com.imadcn.framework.idworker.jackson.JSON;
+import com.imadcn.framework.idworker.jackson.JacksonConfig;
 import com.imadcn.framework.idworker.register.zookeeper.ZookeeperWorkerRegister;
 import com.imadcn.framework.idworker.registry.zookeeper.ZookeeperRegistryCenter;
 
@@ -35,7 +37,7 @@ public class ProcedureTest {
             applicationConfiguration.setGroup("manual_group");
 
             ZookeeperWorkerRegister workerRegister = new ZookeeperWorkerRegister(registryCenter,
-                    applicationConfiguration);
+                    applicationConfiguration, new JSON(new JacksonConfig().objectMapper()));
 
             SnowflakeGenerator generator = new SnowflakeGenerator(workerRegister);
 

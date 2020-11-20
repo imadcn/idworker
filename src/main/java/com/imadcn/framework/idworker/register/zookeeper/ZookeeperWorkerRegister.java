@@ -1,5 +1,20 @@
 package com.imadcn.framework.idworker.register.zookeeper;
 
+import com.imadcn.framework.idworker.config.ApplicationConfiguration;
+import com.imadcn.framework.idworker.exception.RegException;
+import com.imadcn.framework.idworker.jackson.JSON;
+import com.imadcn.framework.idworker.register.WorkerRegister;
+import com.imadcn.framework.idworker.registry.CoordinatorRegistryCenter;
+import com.imadcn.framework.idworker.util.HostUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.imps.CuratorFrameworkState;
+import org.apache.curator.framework.recipes.locks.InterProcessMutex;
+import org.apache.curator.framework.state.ConnectionStateListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -11,23 +26,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.imps.CuratorFrameworkState;
-import org.apache.curator.framework.recipes.locks.InterProcessMutex;
-import org.apache.curator.framework.state.ConnectionStateListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.imadcn.framework.idworker.config.ApplicationConfiguration;
-import com.imadcn.framework.idworker.exception.RegException;
-import com.imadcn.framework.idworker.register.WorkerRegister;
-import com.imadcn.framework.idworker.registry.CoordinatorRegistryCenter;
-import com.imadcn.framework.idworker.util.HostUtils;
 
 /**
  * 机器信息注册
@@ -62,12 +60,17 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
      * zk节点是否持久化存储
      */
     private boolean durable;
+    /**
+     * JSON对象
+     */
+    private final JSON json;
 
     public ZookeeperWorkerRegister(CoordinatorRegistryCenter regCenter,
-            ApplicationConfiguration applicationConfiguration) {
+                                   ApplicationConfiguration applicationConfiguration, com.imadcn.framework.idworker.jackson.JSON json) {
         this.regCenter = regCenter;
         this.nodePath = new NodePath(applicationConfiguration.getGroup());
         this.durable = applicationConfiguration.isDurable();
+        this.json = json;
         if (StringUtils.isEmpty(applicationConfiguration.getRegistryFile())) {
             this.registryFile = getDefaultFilePath(nodePath.getGroupName());
         } else {
@@ -326,7 +329,7 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
      * @return 节点信息
      */
     private NodeInfo createNodeInfoFromJsonStr(String jsonStr) {
-        NodeInfo nodeInfo = JSON.parseObject(jsonStr, NodeInfo.class);
+        NodeInfo nodeInfo = json.strToObj(jsonStr, NodeInfo.class);
         return nodeInfo;
     }
 
@@ -337,8 +340,7 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
      * @return json字符串
      */
     private String jsonizeNodeInfo(NodeInfo nodeInfo) {
-        String dateFormat = "yyyy-MM-dd HH:mm:ss";
-        return JSON.toJSONStringWithDateFormat(nodeInfo, dateFormat, SerializerFeature.WriteDateUseDateFormat);
+        return json.objToStr(nodeInfo);
     }
 
     /**

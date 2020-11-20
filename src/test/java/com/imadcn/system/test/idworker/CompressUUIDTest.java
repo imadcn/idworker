@@ -15,10 +15,9 @@
  */
 package com.imadcn.system.test.idworker;
 
-import org.junit.Test;
-
 import com.imadcn.framework.idworker.algorithm.CompressUUID;
 import com.imadcn.system.test.ResultPrinter;
+import org.junit.Test;
 
 public class CompressUUIDTest extends ResultPrinter {
 
@@ -29,4 +28,5 @@ public class CompressUUIDTest extends ResultPrinter {
             print(o);
         }
     }
+
 }
