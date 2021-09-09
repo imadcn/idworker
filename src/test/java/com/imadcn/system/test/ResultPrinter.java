@@ -29,4 +29,9 @@ public class ResultPrinter {
         System.out.println(json);
         logger.info(json);
     }
+    
+    protected void rawPrint(Object object) {
+        System.out.println(object);
+        logger.info("", object);
+    } 
 }

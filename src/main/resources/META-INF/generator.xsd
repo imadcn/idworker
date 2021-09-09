@@ -16,6 +16,7 @@
     				<xsd:attribute name="group" type="xsd:string" default="default" />
     				<xsd:attribute name="registry-file" type="xsd:string" default=""/>
     				<xsd:attribute name="durable" type="xsd:boolean" default="false" />
+                    <xsd:attribute name="serialize" type="xsd:string" default="fastjson" />
     			</xsd:extension>
     		</xsd:complexContent>
     	</xsd:complexType>

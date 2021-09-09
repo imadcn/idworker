@@ -16,17 +16,19 @@ import org.apache.commons.io.FileUtils;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
-import org.apache.curator.framework.state.ConnectionStateListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.imadcn.framework.idworker.common.SerializeStrategy;
 import com.imadcn.framework.idworker.config.ApplicationConfiguration;
+import com.imadcn.framework.idworker.exception.ConfigException;
 import com.imadcn.framework.idworker.exception.RegException;
 import com.imadcn.framework.idworker.register.WorkerRegister;
 import com.imadcn.framework.idworker.registry.CoordinatorRegistryCenter;
+import com.imadcn.framework.idworker.serialize.json.FastJsonSerializer;
+import com.imadcn.framework.idworker.serialize.json.JacksonSerializer;
+import com.imadcn.framework.idworker.serialize.json.JsonSerializer;
 import com.imadcn.framework.idworker.util.HostUtils;
 
 /**
@@ -62,12 +64,25 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
      * zk节点是否持久化存储
      */
     private boolean durable;
+    /**
+     * Json序列化
+     */
+    private JsonSerializer<NodeInfo> jsonSerializer;
 
     public ZookeeperWorkerRegister(CoordinatorRegistryCenter regCenter,
             ApplicationConfiguration applicationConfiguration) {
         this.regCenter = regCenter;
         this.nodePath = new NodePath(applicationConfiguration.getGroup());
         this.durable = applicationConfiguration.isDurable();
+        
+        if (SerializeStrategy.SERIALIZE_JSON_FASTJSON.equals(applicationConfiguration.getSerialize())) {
+            this.jsonSerializer = new FastJsonSerializer<>();
+        } else if (SerializeStrategy.SERIALIZE_JSON_JACKSON.equals(applicationConfiguration.getSerialize())) {
+            this.jsonSerializer = new JacksonSerializer<>();
+        } else {
+            throw new ConfigException("unsupported serialize strategy: %s, use: [fastjson / jackson]", applicationConfiguration.getSerialize());
+        }
+        
         if (StringUtils.isEmpty(applicationConfiguration.getRegistryFile())) {
             this.registryFile = getDefaultFilePath(nodePath.getGroupName());
         } else {
@@ -138,18 +153,6 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
                 logger.error("", ignored);
             }
         }
-    }
-
-    /**
-     * 添加连接监听
-     * 
-     * @param listener zk状态监听listener
-     */
-    @Deprecated
-    public void addConnectionListener(ConnectionStateListener listener) {
-        // CuratorFramework client = (CuratorFramework)
-        // regCenter.getRawClient();
-        // client.getConnectionStateListenable().addListener(listener);
     }
 
     /**
@@ -238,7 +241,7 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
      * @param key
      * @param nodeInfo
      */
-    private void saveZookeeperNodeInfo(String key, NodeInfo nodeInfo) {
+    private void saveZookeeperNodeInfo(String key, NodeInfo nodeInfo) throws Exception {
         if (durable) {
             regCenter.persist(key, jsonizeNodeInfo(nodeInfo));
         } else {
@@ -270,7 +273,7 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
      * 
      * @param nodeInfo 机器节点信息
      */
-    private void saveLocalNodeInfo(NodeInfo nodeInfo) {
+    private void saveLocalNodeInfo(NodeInfo nodeInfo) throws Exception {
         try {
             File nodeInfoFile = new File(registryFile);
             String nodeInfoJson = jsonizeNodeInfo(nodeInfo);
@@ -324,10 +327,10 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
      * 
      * @param jsonStr 节点信息JSON字符串
      * @return 节点信息
+     * @throws Exception 
      */
-    private NodeInfo createNodeInfoFromJsonStr(String jsonStr) {
-        NodeInfo nodeInfo = JSON.parseObject(jsonStr, NodeInfo.class);
-        return nodeInfo;
+    private NodeInfo createNodeInfoFromJsonStr(String jsonStr) throws Exception {
+        return jsonSerializer.parseObject(jsonStr, NodeInfo.class);
     }
 
     /**
@@ -335,10 +338,10 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
      * 
      * @param nodeInfo 节点信息
      * @return json字符串
+     * @throws Exception 
      */
-    private String jsonizeNodeInfo(NodeInfo nodeInfo) {
-        String dateFormat = "yyyy-MM-dd HH:mm:ss";
-        return JSON.toJSONStringWithDateFormat(nodeInfo, dateFormat, SerializerFeature.WriteDateUseDateFormat);
+    private String jsonizeNodeInfo(NodeInfo nodeInfo) throws Exception {
+        return jsonSerializer.toJsonString(nodeInfo);
     }
 
     /**
@@ -363,4 +366,9 @@ public class ZookeeperWorkerRegister implements WorkerRegister {
     private String genNodeId() {
         return UUID.randomUUID().toString().replace("-", "").toLowerCase();
     }
+
+    public void setJsonSerializer(JsonSerializer<NodeInfo> jsonSerializer) {
+        this.jsonSerializer = jsonSerializer;
+    }
+    
 }

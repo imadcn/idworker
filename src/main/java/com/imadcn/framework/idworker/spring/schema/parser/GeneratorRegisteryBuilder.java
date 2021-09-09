@@ -68,6 +68,7 @@ public abstract class GeneratorRegisteryBuilder extends BaseBeanDefinitionParser
         addPropertyValueIfNotEmpty(GeneratorBeanDefinitionTag.STRATEGY, "strategy", element, configuration);
         addPropertyValueIfNotEmpty(GeneratorBeanDefinitionTag.REGISTRY_FILE, "registryFile", element, configuration);
         addPropertyValueIfNotEmpty(GeneratorBeanDefinitionTag.DURABLE, "durable", element, configuration);
+        addPropertyValueIfNotEmpty(GeneratorBeanDefinitionTag.SERIALIZE, "serialize", element, configuration);
         // addPropertyValueIfNotEmpty(GeneratorBeanDefinitionTag.LOW_CONCURRENCY,
         // "lowConcurrency", element, configuration);
         return configuration.getBeanDefinition();

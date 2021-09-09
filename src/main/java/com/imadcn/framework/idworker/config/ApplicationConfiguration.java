@@ -38,6 +38,13 @@ public class ApplicationConfiguration {
      */
     private boolean durable;
 
+    /**
+     * 序列化工具
+     * 
+     * @since
+     */
+    private String serialize;
+    
     public String getGroup() {
         return group;
     }
@@ -79,4 +86,13 @@ public class ApplicationConfiguration {
     public void setDurable(boolean durable) {
         this.durable = durable;
     }
+
+    public String getSerialize() {
+        return serialize;
+    }
+
+    public void setSerialize(String serialize) {
+        this.serialize = serialize;
+    }
+
 }

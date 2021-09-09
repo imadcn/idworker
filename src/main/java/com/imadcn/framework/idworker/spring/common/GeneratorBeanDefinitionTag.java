@@ -43,4 +43,11 @@ public final class GeneratorBeanDefinitionTag extends BaseBeanDefinitionTag {
      * @since 1.4.0
      */
     public static final String DURABLE = "durable";
+    
+    /**
+     * 序列化方式
+     * 
+     * @since 1.6.0
+     */
+    public static final String SERIALIZE = "serialize";
 }

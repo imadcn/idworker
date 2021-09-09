@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:idworker="http://code.imadcn.com/schema/idworker"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.imadcn.com/schema/idworker
+        http://code.imadcn.com/schema/idworker/idworker.xsd">
+        
+    <import resource="base.xml"/>
+    
+    <idworker:registry id="zkRegistryCenter" server-lists="${zk.servers}" base-sleep-time-milliseconds="${zk.baseSleepTimeMilliseconds}" 
+    	max-sleep-time-milliseconds="${zk.maxSleepTimeMilliseconds}" max-retries="${zk.maxRetries}" session-timeout-milliseconds="${zk.sessionTimeoutMilliseconds}" 
+    	connection-timeout-milliseconds="${zk.connectionTimeoutMilliseconds}" namespace="${zk.namespace}"/>
+    <idworker:generator id="snowflakeGenerator" registry-center-ref="zkRegistryCenter" group="${idworker.group}" durable="true" serialize="fastjson"/>
+</beans>
