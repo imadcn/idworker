@@ -23,6 +23,7 @@ public class JsonSerializerTest extends ResultPrinter {
 
         NodeInfo fromJson = fastJsonSerializer.parseObject(json, NodeInfo.class);
         print(fromJson);
+        System.out.println(fromJson);
     }
 
     @Test
@@ -32,6 +33,7 @@ public class JsonSerializerTest extends ResultPrinter {
 
         NodeInfo fromJson = jacksonSerializer.parseObject(json, NodeInfo.class);
         print(fromJson);
+        System.out.println(fromJson.toString());
     }
 
     @Test
@@ -40,6 +42,7 @@ public class JsonSerializerTest extends ResultPrinter {
         NodeInfo jsonNodeInfo = jacksonSerializer.parseObject(json, NodeInfo.class);
 
         rawPrint(equals(nodeInfo, jsonNodeInfo));
+        System.out.println(jsonNodeInfo);
     }
 
     @Test
@@ -48,6 +51,7 @@ public class JsonSerializerTest extends ResultPrinter {
         NodeInfo jsonNodeInfo = fastJsonSerializer.parseObject(json, NodeInfo.class);
 
         rawPrint(equals(nodeInfo, jsonNodeInfo));
+        System.out.println(jsonNodeInfo.toString());
     }
 
     @Before
