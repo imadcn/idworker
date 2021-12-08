@@ -50,4 +50,12 @@ public final class GeneratorBeanDefinitionTag extends BaseBeanDefinitionTag {
      * @since 1.6.0
      */
     public static final String SERIALIZE = "serialize";
+    
+    
+    /**
+     * 是否使用本地缓存（如果不依赖本地缓存，那么每次都会申请一个新的workerId）
+     * 
+     * @since 1.6.0
+     */
+    public static final String CACHEABLE = "cachable";
 }
