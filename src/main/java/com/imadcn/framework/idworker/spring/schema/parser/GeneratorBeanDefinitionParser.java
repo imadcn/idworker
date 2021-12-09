@@ -51,5 +51,4 @@ public class GeneratorBeanDefinitionParser extends BaseBeanDefinitionParser {
         }
         return result.getBeanDefinition();
     }
-
 }
