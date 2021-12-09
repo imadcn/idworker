@@ -44,15 +44,16 @@ public class ApplicationConfiguration {
      * @since 1.6.0
      */
     private String serialize;
-    
+
     /**
      * 是否使用本地缓存（如果不依赖本地缓存，那么每次都会申请一个新的workerId）
-     * <p> 需要注意的是，如果不依赖本地缓存，且开启了节点持久化存储。会在一定次数以后耗尽可用节点信息。
+     * <p>
+     * 需要注意的是，如果不依赖本地缓存，且开启了节点持久化存储。会在一定次数以后耗尽可用节点信息。
      * 
      * @since 1.6.0
      */
     private boolean cachable = true;
-    
+
     public String getGroup() {
         return group;
     }

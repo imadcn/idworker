@@ -37,7 +37,7 @@ public interface RegistryCenter {
     /**
      * 持久化注册数据.
      * 
-     * @param key   键
+     * @param key 键
      * @param value 值
      */
     void persist(String key, String value);
@@ -45,7 +45,7 @@ public interface RegistryCenter {
     /**
      * 更新注册数据.
      * 
-     * @param key   键
+     * @param key 键
      * @param value 值
      */
     void update(String key, String value);

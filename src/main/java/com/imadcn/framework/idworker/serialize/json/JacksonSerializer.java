@@ -6,13 +6,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * jackson serializer
+ * 
  * @author imadcn
  * @since 1.6.0
  */
 public class JacksonSerializer<T> extends JsonSerializer<T> {
-    
+
     private ObjectMapper objectMapper;
-    
+
     public JacksonSerializer() {
         objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(new SimpleDateFormat(DEFAULT_DATE_FORMAT));

@@ -24,7 +24,7 @@ import com.imadcn.framework.idworker.util.HostUtils;
  * @since 1.6.0
  */
 public abstract class AbstractWorkerRegister implements WorkerRegister {
-    
+
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
@@ -55,18 +55,18 @@ public abstract class AbstractWorkerRegister implements WorkerRegister {
      * Json序列化
      */
     private JsonSerializer<NodeInfo> jsonSerializer;
-    
+
     /**
      * 是否使用本地缓存（如果不依赖本地缓存，那么每次都会申请一个新的workerId）
      */
     private boolean cachable;
-    
+
     /**
      * 检查节点信息
      * 
      * @param localNodeInfo 本地缓存节点信息
-     * @param zkNodeInfo    zookeeper节点信息
-     * @return
+     * @param zkNodeInfo zookeeper节点信息
+     * @return 节点信息相同返回true，否则返回false
      */
     protected boolean checkNodeInfo(NodeInfo localNodeInfo, NodeInfo zkNodeInfo) {
         try {
@@ -89,11 +89,12 @@ public abstract class AbstractWorkerRegister implements WorkerRegister {
             return false;
         }
     }
-    
+
     /**
      * 缓存机器节点信息至本地
      * 
      * @param nodeInfo 机器节点信息
+     * @throws Exception 系统异常
      */
     protected void saveLocalNodeInfo(NodeInfo nodeInfo) throws Exception {
         try {
@@ -128,9 +129,9 @@ public abstract class AbstractWorkerRegister implements WorkerRegister {
      * 初始化节点信息
      * 
      * @param groupName 分组名
-     * @param workerId  机器号
+     * @param workerId 机器号
      * @return 节点信息
-     * @throws UnknownHostException
+     * @throws UnknownHostException 未知HOST异常
      */
     protected NodeInfo createNodeInfo(String groupName, Integer workerId) throws UnknownHostException {
         NodeInfo nodeInfo = new NodeInfo();
@@ -149,7 +150,7 @@ public abstract class AbstractWorkerRegister implements WorkerRegister {
      * 
      * @param jsonStr 节点信息JSON字符串
      * @return 节点信息
-     * @throws Exception 
+     * @throws Exception 系统异常
      */
     protected NodeInfo createNodeInfoFromJsonStr(String jsonStr) throws Exception {
         return getJsonSerializer().parseObject(jsonStr, NodeInfo.class);
@@ -160,7 +161,7 @@ public abstract class AbstractWorkerRegister implements WorkerRegister {
      * 
      * @param nodeInfo 节点信息
      * @return json字符串
-     * @throws Exception 
+     * @throws Exception 系统异常
      */
     protected String jsonizeNodeInfo(NodeInfo nodeInfo) throws Exception {
         return getJsonSerializer().toJsonString(nodeInfo);
@@ -188,13 +189,13 @@ public abstract class AbstractWorkerRegister implements WorkerRegister {
     protected String genNodeId() {
         return UUID.randomUUID().toString().replace("-", "").toLowerCase();
     }
-    
+
     /**
      * 获取节点ZK Path Key
      * 
      * @param nodePath 节点路径信息
      * @param workerId 节点机器ID
-     * @return
+     * @return 节点PATH的KEY
      */
     protected String getNodePathKey(NodePath nodePath, Integer workerId) {
         StringBuilder builder = new StringBuilder();
@@ -202,7 +203,6 @@ public abstract class AbstractWorkerRegister implements WorkerRegister {
         builder.append(workerId);
         return builder.toString();
     }
-    
 
     public CoordinatorRegistryCenter getRegCenter() {
         return regCenter;

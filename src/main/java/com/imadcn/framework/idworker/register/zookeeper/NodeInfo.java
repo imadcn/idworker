@@ -104,7 +104,7 @@ public class NodeInfo implements Serializable {
     @Override
     public String toString() {
         return "NodeInfo [nodeId=" + nodeId + ", groupName=" + groupName + ", workerId=" + workerId + ", ip=" + ip
-                + ", hostName=" + hostName + ", updateTime=" + updateTime + ", createTime=" + createTime + "]";
+            + ", hostName=" + hostName + ", updateTime=" + updateTime + ", createTime=" + createTime + "]";
     }
 
 }

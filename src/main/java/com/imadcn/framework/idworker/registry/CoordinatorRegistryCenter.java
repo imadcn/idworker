@@ -37,7 +37,7 @@ public interface CoordinatorRegistryCenter extends RegistryCenter {
     /**
      * 持久化临时注册数据.
      * 
-     * @param key   键
+     * @param key 键
      * @param value 值
      */
     void persistEphemeral(String key, String value);
@@ -45,7 +45,7 @@ public interface CoordinatorRegistryCenter extends RegistryCenter {
     /**
      * 持久化顺序注册数据.
      *
-     * @param key   键
+     * @param key 键
      * @param value 值
      * @return 包含10位顺序数字的znode名称
      */

@@ -16,9 +16,9 @@ public class IdworkerNamespaceHandler extends NamespaceHandlerSupport {
     @Override
     public void init() {
         registerBeanDefinitionParser(ConfigConstants.REGISTRY,
-                new RegistryBeanDefinitionParser(ConfigConstants.REGISTRY));
+            new RegistryBeanDefinitionParser(ConfigConstants.REGISTRY));
         registerBeanDefinitionParser(ConfigConstants.GENERATOR,
-                new RegistryBeanDefinitionParser(ConfigConstants.GENERATOR));
+            new RegistryBeanDefinitionParser(ConfigConstants.GENERATOR));
     }
 
 }

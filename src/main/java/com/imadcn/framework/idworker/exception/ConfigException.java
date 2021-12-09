@@ -2,6 +2,7 @@ package com.imadcn.framework.idworker.exception;
 
 /**
  * configuration error exception
+ * 
  * @author imadcn
  * @since 1.6.0
  */

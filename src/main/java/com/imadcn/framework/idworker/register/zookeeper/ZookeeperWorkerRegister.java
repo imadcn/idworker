@@ -30,22 +30,23 @@ import com.imadcn.framework.idworker.serialize.json.JacksonSerializer;
 public class ZookeeperWorkerRegister extends AbstractWorkerRegister {
 
     public ZookeeperWorkerRegister(CoordinatorRegistryCenter regCenter,
-            ApplicationConfiguration applicationConfiguration) {
+        ApplicationConfiguration applicationConfiguration) {
         setRegCenter(regCenter);
         setNodePath(new NodePath(applicationConfiguration.getGroup()));
         setDurable(applicationConfiguration.isDurable());
         setCachable(applicationConfiguration.isCachable());
-        
+
         if (!isCachable() && isDurable()) {
             logger.warn("「durable」&& 「NONE cachable」 may become a waste");
         }
-        
+
         if (SerializeStrategy.SERIALIZE_JSON_FASTJSON.equals(applicationConfiguration.getSerialize())) {
-           setJsonSerializer(new FastJsonSerializer<>());
+            setJsonSerializer(new FastJsonSerializer<>());
         } else if (SerializeStrategy.SERIALIZE_JSON_JACKSON.equals(applicationConfiguration.getSerialize())) {
             setJsonSerializer(new JacksonSerializer<>());
         } else {
-            throw new ConfigException("unsupported serialize strategy: %s, use: [fastjson / jackson]", applicationConfiguration.getSerialize());
+            throw new ConfigException("unsupported serialize strategy: %s, use: [fastjson / jackson]",
+                applicationConfiguration.getSerialize());
         }
         if (StringUtils.isEmpty(applicationConfiguration.getRegistryFile())) {
             setRegistryFile(getDefaultFilePath(getNodePath().getGroupName()));
@@ -73,10 +74,11 @@ public class ZookeeperWorkerRegister extends AbstractWorkerRegister {
                 }
                 NodeInfo localNodeInfo = getLocalNodeInfo();
                 List<String> children = getRegCenter().getChildrenKeys(getNodePath().getWorkerPath());
-                /* 有本地缓存的节点信息，同时ZK也有这条数据
-                 * 2021.12 新增判断是否依赖本地缓存，如果不依赖本地缓存，则每次都会申请新的id
+                /*
+                 * 有本地缓存的节点信息，同时ZK也有这条数据 2021.12 新增判断是否依赖本地缓存，如果不依赖本地缓存，则每次都会申请新的id
                  */
-                if (isCachable() && localNodeInfo != null && children.contains(String.valueOf(localNodeInfo.getWorkerId()))) {
+                if (isCachable() && localNodeInfo != null
+                    && children.contains(String.valueOf(localNodeInfo.getWorkerId()))) {
                     String key = getNodePathKey(getNodePath(), localNodeInfo.getWorkerId());
                     String zkNodeInfoJson = getRegCenter().get(key);
                     NodeInfo zkNodeInfo = createNodeInfoFromJsonStr(zkNodeInfoJson);
@@ -138,7 +140,7 @@ public class ZookeeperWorkerRegister extends AbstractWorkerRegister {
     /**
      * 更新节点信息Task
      * 
-     * @param key      zk path
+     * @param key zk path
      * @param nodeInfo 节点信息
      */
     private void executeUploadNodeInfoTask(final String key, final NodeInfo nodeInfo) {

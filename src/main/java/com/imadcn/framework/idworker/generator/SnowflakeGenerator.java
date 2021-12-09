@@ -47,9 +47,9 @@ public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
     public synchronized void init() {
         if (!initialized) {
             // 持久化节点+本地缓存，不再使用状态监听
-//			listener = new ZookeeperConnectionStateListener(this);
-//			// 添加监听
-//			register.addConnectionListener(listener);
+            // listener = new ZookeeperConnectionStateListener(this);
+            // // 添加监听
+            // register.addConnectionListener(listener);
             // 连接与注册workerId
             connect();
             initialized = true;

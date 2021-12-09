@@ -42,7 +42,7 @@ public class GeneratorBeanDefinitionParser extends BaseBeanDefinitionParser {
         // snowflake 生成策略
         if (generatorClass.isAssignableFrom(SnowflakeGenerator.class)) {
             result.addConstructorArgValue(
-                    GeneratorRegisteryBuilder.buildWorkerNodeRegisterBeanDefinition(element, parserContext));
+                GeneratorRegisteryBuilder.buildWorkerNodeRegisterBeanDefinition(element, parserContext));
             // 去掉低并发模式配置解析
             // result.addPropertyValue(PropertyConstants.LOW_CONCURRENCY,
             // getAttributeValue(element,

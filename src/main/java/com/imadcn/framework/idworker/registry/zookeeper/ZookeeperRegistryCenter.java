@@ -56,10 +56,10 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
             return;
         }
         logger.debug("init zookeeper registry, connect to servers : {}", zkConfig.getServerLists());
-        CuratorFrameworkFactory.Builder builder = CuratorFrameworkFactory.builder()
-                .connectString(zkConfig.getServerLists())
+        CuratorFrameworkFactory.Builder builder
+            = CuratorFrameworkFactory.builder().connectString(zkConfig.getServerLists())
                 .retryPolicy(new ExponentialBackoffRetry(zkConfig.getBaseSleepTimeMilliseconds(),
-                        zkConfig.getMaxRetries(), zkConfig.getMaxSleepTimeMilliseconds()))
+                    zkConfig.getMaxRetries(), zkConfig.getMaxSleepTimeMilliseconds()))
                 .namespace(zkConfig.getNamespace());
         if (0 != zkConfig.getSessionTimeoutMilliseconds()) {
             builder.sessionTimeoutMs(zkConfig.getSessionTimeoutMilliseconds());
@@ -69,24 +69,24 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
         }
         if (zkConfig.getDigest() != null && !zkConfig.getDigest().isEmpty()) {
             builder.authorization("digest", zkConfig.getDigest().getBytes(StandardCharsets.UTF_8))
-                    .aclProvider(new ACLProvider() {
+                .aclProvider(new ACLProvider() {
 
-                        @Override
-                        public List<ACL> getDefaultAcl() {
-                            return ZooDefs.Ids.CREATOR_ALL_ACL;
-                        }
+                    @Override
+                    public List<ACL> getDefaultAcl() {
+                        return ZooDefs.Ids.CREATOR_ALL_ACL;
+                    }
 
-                        @Override
-                        public List<ACL> getAclForPath(final String path) {
-                            return ZooDefs.Ids.CREATOR_ALL_ACL;
-                        }
-                    });
+                    @Override
+                    public List<ACL> getAclForPath(final String path) {
+                        return ZooDefs.Ids.CREATOR_ALL_ACL;
+                    }
+                });
         }
         client = builder.build();
         client.start();
         try {
             if (!client.blockUntilConnected(zkConfig.getMaxSleepTimeMilliseconds() * zkConfig.getMaxRetries(),
-                    TimeUnit.MILLISECONDS)) {
+                TimeUnit.MILLISECONDS)) {
                 client.close();
                 throw new KeeperException.OperationTimeoutException();
             }
@@ -110,8 +110,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
     }
 
     /**
-     * TODO 等待500ms, cache先关闭再关闭client, 否则会抛异常 因为异步处理,
-     * 可能会导致client先关闭而cache还未关闭结束. 等待Curator新版本解决这个bug.
+     * TODO 等待500ms, cache先关闭再关闭client, 否则会抛异常 因为异步处理, 可能会导致client先关闭而cache还未关闭结束. 等待Curator新版本解决这个bug.
      * BUG地址：https://issues.apache.org/jira/browse/CURATOR-157
      */
     private void waitForCacheClose() {
@@ -199,7 +198,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
         try {
             if (!isExisted(key)) {
                 client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(key,
-                        value.getBytes(StandardCharsets.UTF_8));
+                    value.getBytes(StandardCharsets.UTF_8));
             } else {
                 update(key, value);
             }
@@ -226,7 +225,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
                 client.delete().deletingChildrenIfNeeded().forPath(key);
             }
             client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath(key,
-                    value.getBytes(StandardCharsets.UTF_8));
+                value.getBytes(StandardCharsets.UTF_8));
         } catch (final Exception ex) {
             RegExceptionHandler.handleException(ex);
         }
@@ -236,7 +235,7 @@ public class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
     public String persistSequential(final String key, final String value) {
         try {
             return client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT_SEQUENTIAL).forPath(key,
-                    value.getBytes(StandardCharsets.UTF_8));
+                value.getBytes(StandardCharsets.UTF_8));
         } catch (final Exception ex) {
             RegExceptionHandler.handleException(ex);
         }

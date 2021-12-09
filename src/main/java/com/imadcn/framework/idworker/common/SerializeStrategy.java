@@ -9,6 +9,6 @@ package com.imadcn.framework.idworker.common;
 public class SerializeStrategy {
 
     public static final String SERIALIZE_JSON_FASTJSON = "fastjson";
-    
+
     public static final String SERIALIZE_JSON_JACKSON = "jackson";
 }

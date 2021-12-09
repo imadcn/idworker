@@ -5,6 +5,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 
 /**
  * fastjson serializer
+ * 
  * @author imadcn
  * @since 1.6.0
  */

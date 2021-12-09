@@ -16,9 +16,9 @@ public class GeneratorNamespaceHandler extends NamespaceHandlerSupport {
     @Override
     public void init() {
         registerBeanDefinitionParser(ConfigConstants.SNOWFLAKE,
-                new GeneratorBeanDefinitionParser(ConfigConstants.SNOWFLAKE));
+            new GeneratorBeanDefinitionParser(ConfigConstants.SNOWFLAKE));
         registerBeanDefinitionParser(ConfigConstants.COMPRESS_UUID,
-                new GeneratorBeanDefinitionParser(ConfigConstants.COMPRESS_UUID));
+            new GeneratorBeanDefinitionParser(ConfigConstants.COMPRESS_UUID));
     }
 
 }
