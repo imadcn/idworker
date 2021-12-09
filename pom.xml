@@ -32,7 +32,7 @@
     </scm>
 
     <properties>
-        <revision>1.6.0-SNAPSHOT</revision>
+        <revision>1.6.0.RC</revision>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
