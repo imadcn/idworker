@@ -51,10 +51,10 @@
         <dep.springframework.version>4.3.30.RELEASE</dep.springframework.version>
         <dep.curator.version>4.3.0</dep.curator.version>
         <dep.fastjson.version>1.2.78</dep.fastjson.version>
-        <dep.jackson.version>2.12.5</dep.jackson.version>
+        <dep.jackson.version>2.13.0</dep.jackson.version>
         <dep.junit.version>4.13.2</dep.junit.version>
         <dep.slf4j.version>1.7.32</dep.slf4j.version>
-        <dep.logback.version>1.2.5</dep.logback.version>
+        <dep.logback.version>1.2.7</dep.logback.version>
         <dep.commons-io.version>2.11.0</dep.commons-io.version>
     </properties>
 
