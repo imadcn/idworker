@@ -17,5 +17,5 @@
     	max-sleep-time-milliseconds="${zk.maxSleepTimeMilliseconds}" max-retries="${zk.maxRetries}" session-timeout-milliseconds="${zk.sessionTimeoutMilliseconds}" 
     	connection-timeout-milliseconds="${zk.connectionTimeoutMilliseconds}" namespace="${zk.namespace}"/>
     <idworker:generator id="snowflake-id-gen" group="test_group" registry-center-ref="zkRegistryCenter" strategy="snowflake" registry-file=".\\tmp\\registry\\custom-tg.cache"
-        cachable="false" durable="false" />
+        cacheable="false" durable="false" />
 </beans>

@@ -56,5 +56,5 @@ public final class GeneratorBeanDefinitionTag extends BaseBeanDefinitionTag {
      * 
      * @since 1.6.0
      */
-    public static final String CACHABLE = "cachable";
+    public static final String CACHEABLE = "cacheable";
 }

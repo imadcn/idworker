@@ -34,7 +34,7 @@ public class ZookeeperWorkerRegister extends AbstractWorkerRegister {
         setRegCenter(regCenter);
         setNodePath(new NodePath(applicationConfiguration.getGroup()));
         setDurable(applicationConfiguration.isDurable());
-        setCachable(applicationConfiguration.isCachable());
+        setCachable(applicationConfiguration.isCacheable());
 
         if (!isCachable() && isDurable()) {
             logger.warn("「durable」&& 「NONE cachable」 may become a waste");

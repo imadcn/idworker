@@ -35,7 +35,7 @@
     				<xsd:attribute name="registry-file" type="xsd:string" />
     				<xsd:attribute name="durable" type="xsd:boolean" default="false" />
                     <xsd:attribute name="serialize" type="xsd:string" default="fastjson" />
-                    <xsd:attribute name="cachable" type="xsd:string" default="false" />
+                    <xsd:attribute name="cacheable" type="xsd:string" default="false" />
     			</xsd:extension>
     		</xsd:complexContent>
     	</xsd:complexType>

@@ -52,7 +52,7 @@ public class ApplicationConfiguration {
      * 
      * @since 1.6.0
      */
-    private boolean cachable = true;
+    private boolean cacheable = true;
 
     public String getGroup() {
         return group;
@@ -104,12 +104,12 @@ public class ApplicationConfiguration {
         this.serialize = serialize;
     }
 
-    public boolean isCachable() {
-        return cachable;
+    public boolean isCacheable() {
+        return cacheable;
     }
 
-    public void setCachable(boolean cachable) {
-        this.cachable = cachable;
+    public void setCacheable(boolean cacheable) {
+        this.cacheable = cacheable;
     }
 
 }

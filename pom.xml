@@ -32,7 +32,7 @@
     </scm>
 
     <properties>
-        <revision>1.6.0.RC</revision>
+        <revision>1.6.0</revision>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -107,6 +107,7 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${dep.fastjson.version}</version>
+            <scope>provided</scope>
             <optional>true</optional>
         </dependency>
         <!-- jackson -->
@@ -115,6 +116,13 @@
             <artifactId>jackson-databind</artifactId>
             <version>${dep.jackson.version}</version>
             <optional>true</optional>
+        </dependency>
+        
+        <!-- commons -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${dep.commons-io.version}</version>
         </dependency>
 
         <!-- log -->
@@ -155,11 +163,6 @@
             <artifactId>junit</artifactId>
             <version>${dep.junit.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>${dep.commons-io.version}</version>
         </dependency>
     </dependencies>
 
