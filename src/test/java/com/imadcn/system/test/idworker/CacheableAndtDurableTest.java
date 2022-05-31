@@ -19,8 +19,8 @@ import org.springframework.test.context.ContextConfiguration;
 import com.imadcn.framework.idworker.generator.SnowflakeGenerator;
 import com.imadcn.system.test.spring.AbstractZookeeperJUnit4SpringContextTests;
 
-@ContextConfiguration(locations = "classpath:META-INF/idworker-ctx-not-cachable-but-durable.xml")
-public final class NotCachableButDurableTest extends AbstractZookeeperJUnit4SpringContextTests {
+@ContextConfiguration(locations = "classpath:META-INF/idworker-ctx-cacheable-and-durable.xml")
+public final class CacheableAndtDurableTest extends AbstractZookeeperJUnit4SpringContextTests {
 
     @Autowired
     private SnowflakeGenerator snowflakeGenerator;
