@@ -1,6 +1,7 @@
 package com.imadcn.framework.idworker.register;
 
 import java.io.Closeable;
+import java.io.IOException;
 
 /**
  * ID生成注册Connector
@@ -14,6 +15,11 @@ public interface GeneratorConnector extends Closeable {
      * 初始化数据
      */
     void init();
+    
+    /**
+     * 销毁数据
+     */
+    void destroy() throws IOException ;
 
     /**
      * 连接

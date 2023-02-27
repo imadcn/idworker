@@ -114,6 +114,11 @@ public class SnowflakeGenerator implements IdGenerator, GeneratorConnector {
         reset();
         register.logout();
     }
+    
+    @Override
+    public void destroy() throws IOException {
+        close();
+    }
 
     @Override
     public boolean isWorking() {

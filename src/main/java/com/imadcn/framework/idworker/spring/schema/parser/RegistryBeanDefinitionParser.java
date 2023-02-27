@@ -44,6 +44,7 @@ public class RegistryBeanDefinitionParser extends BaseBeanDefinitionParser {
                 // getAttributeValue(element,
                 // GeneratorBeanDefinitionTag.LOW_CONCURRENCY));
                 result.setInitMethodName("init");
+                result.setDestroyMethodName("destroy");
             }
             return result.getBeanDefinition();
         }
