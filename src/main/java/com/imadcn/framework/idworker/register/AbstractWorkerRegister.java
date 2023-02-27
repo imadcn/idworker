@@ -70,13 +70,14 @@ public abstract class AbstractWorkerRegister implements WorkerRegister {
      */
     protected boolean checkNodeInfo(NodeInfo localNodeInfo, NodeInfo zkNodeInfo) {
         try {
-            // NodeId、IP、HostName、GroupName 相等（本地缓存==ZK数据）
+            // NodeId、HostName、GroupName 相等（本地缓存==ZK数据）
             if (!zkNodeInfo.getNodeId().equals(localNodeInfo.getNodeId())) {
                 return false;
             }
-            if (!zkNodeInfo.getIp().equals(localNodeInfo.getIp())) {
-                return false;
-            }
+            // remove ip check, temporary
+//            if (!zkNodeInfo.getIp().equals(localNodeInfo.getIp())) {
+//                return false;
+//            }
             if (!zkNodeInfo.getHostName().equals(localNodeInfo.getHostName())) {
                 return false;
             }
