@@ -54,7 +54,7 @@
         <dep.jackson.version>2.13.4.2</dep.jackson.version>
         <dep.junit.version>4.13.2</dep.junit.version>
         <dep.slf4j.version>1.7.32</dep.slf4j.version>
-        <dep.logback.version>1.2.7</dep.logback.version>
+        <dep.logback.version>1.2.13</dep.logback.version>
         <dep.commons-io.version>2.11.0</dep.commons-io.version>
     </properties>
 
