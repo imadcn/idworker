@@ -48,7 +48,7 @@
         <cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
         <coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
 
-        <dep.springframework.version>4.3.30.RELEASE</dep.springframework.version>
+        <dep.springframework.version>5.2.22.RELEASE</dep.springframework.version>
         <dep.curator.version>4.3.0</dep.curator.version>
         <dep.fastjson.version>1.2.83</dep.fastjson.version>
         <dep.jackson.version>2.13.4.2</dep.jackson.version>
